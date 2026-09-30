@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 @Table
 public class Servico {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_servico;
     @ManyToOne
     @JoinColumn(name = "fk_clinica")

@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table
 public class Contato {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_contato;
     private String telefone;
     private String celular;

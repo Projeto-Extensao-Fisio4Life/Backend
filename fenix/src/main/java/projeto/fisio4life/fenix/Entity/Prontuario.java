@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class Prontuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_prontuario;
     @OneToOne
     @JoinColumn(name = "fk_paciente")

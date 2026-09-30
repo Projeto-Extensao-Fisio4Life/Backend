@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table
 public class Endereco {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_endereco;
     private String logradouro;
     private Integer numero;

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Table
 public class Fisioterapeuta {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_fisioterapeuta;
     @OneToOne
     @JoinColumn(name = "fk_usuario")

@@ -10,7 +10,7 @@ import java.util.Date;
 @Table
 public class Agendamento {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_agendamento;
     @ManyToOne
     private Clinica clinica;

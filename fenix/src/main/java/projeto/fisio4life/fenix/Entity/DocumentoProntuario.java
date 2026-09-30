@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "documento_prontuario")
 public class DocumentoProntuario {
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_documento;
     @ManyToOne
     @JoinColumn(name = "fk_prontuario")

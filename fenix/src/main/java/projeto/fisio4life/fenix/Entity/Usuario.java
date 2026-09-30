@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Table
 public class Usuario {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_usuario;
     @ManyToOne
     @JoinColumn(name = "fk_endereco")
@@ -22,7 +22,7 @@ public class Usuario {
     private String nome;
     private String senha;
     private String tipo_usuario;
-        private LocalDateTime data_cadastro;
+    private LocalDateTime data_cadastro;
     private Integer status_usuario;
 
     public Usuario() {

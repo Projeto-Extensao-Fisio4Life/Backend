@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "pacote_paciente")
 public class PacotePaciente {
-    @Id@GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_pacote_paciente;
     @ManyToOne
     @JoinColumn(name = "fk_servico")
