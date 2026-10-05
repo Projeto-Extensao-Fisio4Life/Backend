@@ -1,7 +1,7 @@
 package projeto.fisio4life.fenix.Entity;
 
 import jakarta.persistence.*;
-
+@Entity
 @Table
 public class Fisioterapeuta {
     @Id

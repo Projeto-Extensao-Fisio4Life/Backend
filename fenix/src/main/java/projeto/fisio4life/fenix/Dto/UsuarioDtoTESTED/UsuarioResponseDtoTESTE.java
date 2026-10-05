@@ -5,7 +5,7 @@ import projeto.fisio4life.fenix.Entity.Endereco;
 
 import java.time.LocalDateTime;
 
-public class UsuarioResponseDto {
+public class UsuarioResponseDtoTESTE {
     private Integer id_usuario;
     private Endereco endereco;
     private Contato contato;
@@ -14,10 +14,10 @@ public class UsuarioResponseDto {
     private LocalDateTime data_cadastro;
     private Integer status_usuario;
 
-    public UsuarioResponseDto() {
+    public UsuarioResponseDtoTESTE() {
     }
 
-    public UsuarioResponseDto(Integer id_usuario, Endereco endereco, Contato contato, String nome, String senha, String tipo_usuario, LocalDateTime data_cadastro, Integer status_usuario) {
+    public UsuarioResponseDtoTESTE(Integer id_usuario, Endereco endereco, Contato contato, String nome, String senha, String tipo_usuario, LocalDateTime data_cadastro, Integer status_usuario) {
         this.id_usuario = id_usuario;
         this.endereco = endereco;
         this.contato = contato;

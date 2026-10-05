@@ -1,15 +1,15 @@
 package projeto.fisio4life.fenix.Dto.UsuarioDtoTESTED;
 
-public class UsuarioResumedDto {
+public class UsuarioResumedDtoTESTE {
     private Integer id_usuario;
     private String nome;
     private String tipo_usuario;
     private Integer status_usuario;
 
-    public UsuarioResumedDto() {
+    public UsuarioResumedDtoTESTE() {
     }
 
-    public UsuarioResumedDto(Integer id_usuario, String nome, String tipo_usuario, Integer status_usuario) {
+    public UsuarioResumedDtoTESTE(Integer id_usuario, String nome, String tipo_usuario, Integer status_usuario) {
         this.id_usuario = id_usuario;
         this.nome = nome;
         this.tipo_usuario = tipo_usuario;

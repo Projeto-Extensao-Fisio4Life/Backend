@@ -1,74 +1,67 @@
 package projeto.fisio4life.fenix.Mapper;
 
-import projeto.fisio4life.fenix.Dto.UsuarioDtoTESTED.UsuarioRequestDto;
-import projeto.fisio4life.fenix.Dto.UsuarioDtoTESTED.UsuarioResponseDto;
-import projeto.fisio4life.fenix.Dto.UsuarioDtoTESTED.UsuarioResumedDto;
+
+import projeto.fisio4life.fenix.Dto.usuarioDto.UsuarioRequestDto;
+import projeto.fisio4life.fenix.Dto.usuarioDto.UsuarioResponseDto;
+import projeto.fisio4life.fenix.Entity.Contato;
 import projeto.fisio4life.fenix.Entity.Usuario;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class UsuarioMapper {
+public final class UsuarioMapper {
 
-    public static UsuarioResponseDto toResponseDto(Usuario usuario){
+    private UsuarioMapper() {
+    }
+
+    public static Usuario toEntity(UsuarioRequestDto dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        Usuario entity = new Usuario();
+
+        entity.setNome(dto.getNome());
+        entity.setData_nascimento(dto.getDataNascimento());
+        entity.setSenha(dto.getSenha());
+        entity.setTipo_usuario(dto.getTipoUsuario());
+        entity.setData_cadastro(dto.getDataCadastro());
+        entity.setStatus_usuario(dto.getStatusUsuario());
+
+        return entity;
+    }
+
+    public static UsuarioResponseDto toResponseDto(Usuario entity) {
+        if (entity == null) {
+            return null;
+        }
+
+
         UsuarioResponseDto dto = new UsuarioResponseDto();
 
-        dto.setId_usuario(dto.getId_usuario());
-        dto.setEndereco(dto.getEndereco());
-        dto.setContato(dto.getContato());
-        dto.setNome(dto.getNome());
-        dto.setTipo_usuario(dto.getTipo_usuario());
-        dto.setData_cadastro(dto.getData_cadastro());
+        dto.setIdUsuario(entity.getId_usuario());
+
+        // Solução provisória, puxar id, mas o objetivo é adicionar uma nova requisição
+        dto.setIdContato(entity.getContato().getId_contato());
+        dto.setIdEndereco(entity.getEndereco().getId_endereco());
+
+
+        dto.setNome(entity.getNome());
+        dto.setDataNascimento(entity.getData_nascimento());
+        dto.setTipoUsuario(entity.getTipo_usuario());
+        dto.setDataCadastro(entity.getData_cadastro());
+        dto.setStatusUsuario(entity.getStatus_usuario());
 
         return dto;
     }
 
-    public static List<UsuarioResponseDto> toResponseDto(List<Usuario> usuarios){
-        List<UsuarioResponseDto> usuariosMapeados = new ArrayList<>();
-
-        for (Usuario usuario_DaVez: usuarios){
-
-            UsuarioResponseDto dto = UsuarioMapper.toResponseDto(usuario_DaVez);
-            usuariosMapeados.add(dto);
+    public static List<UsuarioResponseDto> toResponseDto(List<Usuario> entities) {
+        if (entities == null || entities.isEmpty()) {
+            return List.of();
         }
-        return usuariosMapeados;
+
+        return entities.stream()
+                .map(UsuarioMapper::toResponseDto)
+                .collect(Collectors.toList());
     }
-
-    public static UsuarioResumedDto toResumedDto(Usuario usuario){
-        UsuarioResumedDto dto = new UsuarioResumedDto();
-
-        dto.setId_usuario(usuario.getId_usuario());
-        dto.setNome(usuario.getNome());
-        dto.setTipo_usuario(usuario.getTipo_usuario());
-        dto.setStatus_usuario(usuario.getStatus_usuario());
-
-        return dto;
-    }
-
-    public static List<UsuarioResumedDto> toResumedDto(List<Usuario> usuarios){
-        List<UsuarioResumedDto> usuariosMapeados = new ArrayList<>();
-
-        for (Usuario usuario_DaVez: usuarios){
-
-            UsuarioResumedDto dto = UsuarioMapper.toResumedDto(usuario_DaVez);
-            usuariosMapeados.add(dto);
-        }
-        return usuariosMapeados;
-    }
-
-    public static Usuario toEntity(UsuarioRequestDto dto){
-        Usuario usuario = new Usuario(
-                null,
-                null,
-                null,
-                dto.getNome(),
-                dto.getSenha(),
-                dto.getTipo_usuario(),
-                dto.getData_cadastro(),
-                null
-        );
-      return usuario;
-    }
-
-
 }

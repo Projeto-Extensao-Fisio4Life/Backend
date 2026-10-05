@@ -2,9 +2,10 @@ package projeto.fisio4life.fenix.Dto.UsuarioDtoTESTED;
 
 import jakarta.validation.constraints.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class UsuarioRequestDto {
+public class UsuarioRequestDtoTESTE {
 
     @NotNull
     @NotBlank
@@ -16,18 +17,33 @@ public class UsuarioRequestDto {
     @NotNull
     @NotBlank
     private String tipo_usuario;
+
+    @NotNull
     @Past
+    private LocalDate Data_nascimento;
+
     @NotNull
     private LocalDateTime data_cadastro;
 
-    public UsuarioRequestDto() {
+    public UsuarioRequestDtoTESTE() {
     }
 
-    public UsuarioRequestDto(String nome, String senha, String tipo_usuario, LocalDateTime data_cadastro) {
+
+    public UsuarioRequestDtoTESTE(String nome, String senha, String tipo_usuario, LocalDate data_nascimento, LocalDateTime data_cadastro) {
         this.nome = nome;
         this.senha = senha;
         this.tipo_usuario = tipo_usuario;
+        Data_nascimento = data_nascimento;
         this.data_cadastro = data_cadastro;
+    }
+
+
+    public LocalDate getData_nascimento() {
+        return Data_nascimento;
+    }
+
+    public void setData_nascimento(LocalDate data_nascimento) {
+        Data_nascimento = data_nascimento;
     }
 
     public String getNome() {
