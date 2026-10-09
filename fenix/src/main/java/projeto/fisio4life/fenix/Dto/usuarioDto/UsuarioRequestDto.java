@@ -14,11 +14,9 @@ import java.time.LocalDateTime;
 
 public class UsuarioRequestDto {
 
-    @Valid
     @NotNull
     private  Integer idEndereco;
 
-    @Valid
     @NotNull
     private Integer idContato;
 

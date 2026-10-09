@@ -1,11 +1,11 @@
 package projeto.fisio4life.fenix.Entity;
 
 import jakarta.persistence.*;
-
+@Entity
 @Table
 public class Clinica {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_clinica;
+    private Integer id_clinica;
     @OneToOne
     @JoinColumn(name = "fk_contato")
     private Contato contato;
@@ -19,7 +19,7 @@ public class Clinica {
     public Clinica() {
     }
 
-    public Clinica(Long id_clinica, Contato contato, Endereco endereco, String nome, String cnpj) {
+    public Clinica(Integer id_clinica, Contato contato, Endereco endereco, String nome, String cnpj) {
         this.id_clinica = id_clinica;
         this.contato = contato;
         this.endereco = endereco;
@@ -27,11 +27,11 @@ public class Clinica {
         this.cnpj = cnpj;
     }
 
-    public Long getId_clinica() {
+    public Integer getId_clinica() {
         return id_clinica;
     }
 
-    public void setId_clinica(Long id_clinica) {
+    public void setId_clinica(Integer id_clinica) {
         this.id_clinica = id_clinica;
     }
 

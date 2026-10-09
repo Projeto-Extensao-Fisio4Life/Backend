@@ -6,7 +6,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
-
+@Entity
 @Table
 public class Agendamento {
     @Id
@@ -19,6 +19,7 @@ public class Agendamento {
     @ManyToOne
     private Paciente paciente;
     private LocalDate data;
+    private LocalDate data_agendamento;
     private LocalTime hora_inicio;
     private LocalTime hora_fim;
     private Integer status;
@@ -27,16 +28,25 @@ public class Agendamento {
     public Agendamento() {
     }
 
-    public Agendamento(Integer id_agendamento, Clinica clinica, Fisioterapeuta fisioterapeuta, Paciente paciente, LocalDate data, LocalTime hora_inicio, LocalTime hora_fim, Integer status, String observacao) {
+    public Agendamento(Integer id_agendamento, Clinica clinica, Fisioterapeuta fisioterapeuta, Paciente paciente, LocalDate data, LocalDate data_agendamento, LocalTime hora_inicio, LocalTime hora_fim, Integer status, String observacao) {
         this.id_agendamento = id_agendamento;
         this.clinica = clinica;
         this.fisioterapeuta = fisioterapeuta;
         this.paciente = paciente;
         this.data = data;
+        this.data_agendamento = data_agendamento;
         this.hora_inicio = hora_inicio;
         this.hora_fim = hora_fim;
         this.status = status;
         this.observacao = observacao;
+    }
+
+    public LocalDate getData_agendamento() {
+        return data_agendamento;
+    }
+
+    public void setData_agendamento(LocalDate data_agendamento) {
+        this.data_agendamento = data_agendamento;
     }
 
     public Integer getId_agendamento() {

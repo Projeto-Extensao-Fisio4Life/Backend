@@ -7,6 +7,7 @@ import org.hibernate.type.descriptor.jdbc.TinyIntAsSmallIntJdbcType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Entity
 @Table
 public class Usuario {
     @Id

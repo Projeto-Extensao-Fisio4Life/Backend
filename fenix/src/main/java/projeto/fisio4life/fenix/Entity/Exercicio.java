@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 
 // --- ENTITY ---
 @Entity
+@Table
 public class Exercicio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

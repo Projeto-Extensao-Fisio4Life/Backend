@@ -1,6 +1,9 @@
 package projeto.fisio4life.fenix.Service;
 
+import java.awt.print.Pageable;
 import java.util.List;
+
+import org.hibernate.query.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -41,6 +44,8 @@ public class ContatoService {
    public List<Contato> listarTodos() {
         return contatoRepository.findAll();
     }
+
+
 
     public Contato atualizar(Integer id, Contato entity) {
         if (entity == null) {
