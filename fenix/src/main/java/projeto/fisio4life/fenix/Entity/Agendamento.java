@@ -13,8 +13,10 @@ public class Agendamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_agendamento;
     @ManyToOne
+    @JoinColumn(name = "")
     private Clinica clinica;
     @ManyToOne
+    @JoinColumn(name = "")
     private Fisioterapeuta fisioterapeuta;
     @ManyToOne
     private Paciente paciente;
@@ -28,18 +30,7 @@ public class Agendamento {
     public Agendamento() {
     }
 
-    public Agendamento(Integer id_agendamento, Clinica clinica, Fisioterapeuta fisioterapeuta, Paciente paciente, LocalDate data, LocalDate data_agendamento, LocalTime hora_inicio, LocalTime hora_fim, Integer status, String observacao) {
-        this.id_agendamento = id_agendamento;
-        this.clinica = clinica;
-        this.fisioterapeuta = fisioterapeuta;
-        this.paciente = paciente;
-        this.data = data;
-        this.data_agendamento = data_agendamento;
-        this.hora_inicio = hora_inicio;
-        this.hora_fim = hora_fim;
-        this.status = status;
-        this.observacao = observacao;
-    }
+
 
     public LocalDate getData_agendamento() {
         return data_agendamento;

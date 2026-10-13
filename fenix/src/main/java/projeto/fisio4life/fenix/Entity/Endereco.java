@@ -18,15 +18,7 @@ public class Endereco {
     public Endereco() {
     }
 
-    public Endereco(Integer id_endereco, String logradouro, Integer numero, String bairro, String cidade, String estado, String cep) {
-        this.id_endereco = id_endereco;
-        this.logradouro = logradouro;
-        this.numero = numero;
-        this.bairro = bairro;
-        this.cidade = cidade;
-        this.estado = estado;
-        this.cep = cep;
-    }
+
 
     public Integer getId_endereco() {
         return id_endereco;

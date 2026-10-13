@@ -21,7 +21,6 @@ public class FisioterapeutaService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    @Transactional
     public Fisioterapeuta salvar(Fisioterapeuta entity) {
         if (entity == null) {
             throw new ResponseStatusException(
@@ -56,7 +55,6 @@ public class FisioterapeutaService {
         return fisioterapeutaRepository.save(entity);
     }
 
-    @Transactional(readOnly = true)
     public Fisioterapeuta buscarPorId(Integer id) {
         return fisioterapeutaRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
@@ -65,13 +63,11 @@ public class FisioterapeutaService {
                 ));
     }
 
-    @Transactional(readOnly = true)
     public List<Fisioterapeuta> listarTodos() {
         return fisioterapeutaRepository.findAll();
     }
 
-    @Transactional
-    public Fisioterapeuta atualizar(Integer id, Fisioterapeuta entity) {
+     public Fisioterapeuta atualizar(Integer id, Fisioterapeuta entity) {
         if (entity == null) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
@@ -112,7 +108,6 @@ public class FisioterapeutaService {
         return fisioterapeutaRepository.save(existente);
     }
 
-    @Transactional
     public void excluir(Integer id) {
         Fisioterapeuta existente = buscarPorId(id);
         fisioterapeutaRepository.delete(existente);

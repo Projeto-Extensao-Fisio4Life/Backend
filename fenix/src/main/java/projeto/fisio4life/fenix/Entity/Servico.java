@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class Servico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_servico;
+    private Integer id_servico;
     @ManyToOne
     @JoinColumn(name = "fk_clinica")
     private Clinica clinica;
@@ -20,7 +20,7 @@ public class Servico {
     public Servico() {
     }
 
-    public Servico(Long id_servico, Clinica clinica, String nome, Integer quantidade_sessoes, Double valor, String tipo) {
+    public Servico(Integer id_servico, Clinica clinica, String nome, Integer quantidade_sessoes, Double valor, String tipo) {
         this.id_servico = id_servico;
         this.clinica = clinica;
         this.nome = nome;
@@ -29,11 +29,11 @@ public class Servico {
         this.tipo = tipo;
     }
 
-    public Long getId_servico() {
+    public Integer getId_servico() {
         return id_servico;
     }
 
-    public void setId_servico(Long id_servico) {
+    public void setId_servico(Integer id_servico) {
         this.id_servico = id_servico;
     }
 

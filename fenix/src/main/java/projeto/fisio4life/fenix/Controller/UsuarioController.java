@@ -9,7 +9,7 @@ import projeto.fisio4life.fenix.Dto.usuarioDto.UsuarioRequestDto;
 import projeto.fisio4life.fenix.Dto.usuarioDto.UsuarioResponseDto;
 import projeto.fisio4life.fenix.Entity.Usuario;
 import projeto.fisio4life.fenix.Mapper.UsuarioMapper;
-import projeto.fisio4life.fenix.Repository.UsuarioService;
+import projeto.fisio4life.fenix.Service.UsuarioService;
 
 import java.util.List;
 

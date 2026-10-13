@@ -11,7 +11,7 @@ public class Sessao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_sessao;
+    private Integer id_sessao;
     @OneToOne
     @JoinColumn(name = "fk_agendamento")
     private Agendamento agendamento;
@@ -22,7 +22,7 @@ public class Sessao {
     public Sessao() {
     }
 
-    public Sessao(Long id_sessao, Agendamento agendamento, LocalDateTime data_sessao, String descricao, String observacao) {
+    public Sessao(Integer id_sessao, Agendamento agendamento, LocalDateTime data_sessao, String descricao, String observacao) {
         this.id_sessao = id_sessao;
         this.agendamento = agendamento;
         this.data_sessao = data_sessao;
@@ -30,11 +30,11 @@ public class Sessao {
         this.observacao = observacao;
     }
 
-    public Long getId_sessao() {
+    public Integer getId_sessao() {
         return id_sessao;
     }
 
-    public void setId_sessao(Long id_sessao) {
+    public void setId_sessao(Integer id_sessao) {
         this.id_sessao = id_sessao;
     }
 

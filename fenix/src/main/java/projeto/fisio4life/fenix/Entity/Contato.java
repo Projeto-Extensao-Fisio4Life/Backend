@@ -15,12 +15,7 @@ public class Contato {
     public Contato() {
     }
 
-    public Contato(Integer id_contato, String telefone, String celular, String email) {
-        this.id_contato = id_contato;
-        this.telefone = telefone;
-        this.celular = celular;
-        this.email = email;
-    }
+
 
     public Integer getId_contato() {
         return id_contato;

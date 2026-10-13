@@ -1,13 +1,13 @@
-package projeto.fisio4life.fenix.Dto.exercicioNaSessaoDto;
+package projeto.fisio4life.fenix.Dto.exercicioPassado;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalTime;
 
-public class ExercicioNaSessaoRequestDto {
+public class ExercicioPassadoRequestDto {
 
     @NotNull
-    private Integer idSessao;
+    private Integer idEvolucao;
 
     @NotNull
     private Integer idExercicio;

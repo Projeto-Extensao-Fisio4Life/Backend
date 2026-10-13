@@ -23,7 +23,6 @@ public class ClinicaService {
         this.enderecoRepository = enderecoRepository;
     }
 
-    @Transactional
     public Clinica salvar(Clinica entity) {
         if (entity == null) {
             throw new ResponseStatusException(
@@ -68,7 +67,6 @@ public class ClinicaService {
         return clinicaRepository.save(entity);
     }
 
-    @Transactional(readOnly = true)
     public Clinica buscarPorId(Integer id) {
         return clinicaRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
@@ -77,12 +75,10 @@ public class ClinicaService {
                 ));
     }
 
-    @Transactional(readOnly = true)
     public List<Clinica> listarTodos() {
         return clinicaRepository.findAll();
     }
 
-    @Transactional
     public Clinica atualizar(Integer id, Clinica entity) {
         if (entity == null) {
             throw new ResponseStatusException(
@@ -134,7 +130,6 @@ public class ClinicaService {
         return clinicaRepository.save(existente);
     }
 
-    @Transactional
     public void excluir(Integer id) {
         Clinica existente = buscarPorId(id);
         clinicaRepository.delete(existente);

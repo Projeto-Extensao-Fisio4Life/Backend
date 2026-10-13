@@ -9,7 +9,7 @@ import jakarta.validation.constraints.*;
 public class Exercicio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_exercicio;
+    private Integer id_exercicio;
     private String categoria;
     private String nome;
     private String url_exercicio;
@@ -17,18 +17,18 @@ public class Exercicio {
     public Exercicio() {
     }
 
-    public Exercicio(Long id_exercicio, String categoria, String nome, String url_exercicio) {
+    public Exercicio(Integer id_exercicio, String categoria, String nome, String url_exercicio) {
         this.id_exercicio = id_exercicio;
         this.categoria = categoria;
         this.nome = nome;
         this.url_exercicio = url_exercicio;
     }
 
-    public Long getId_exercicio() {
+    public Integer getId_exercicio() {
         return id_exercicio;
     }
 
-    public void setId_exercicio(Long id_exercicio) {
+    public void setId_exercicio(Integer id_exercicio) {
         this.id_exercicio = id_exercicio;
     }
 

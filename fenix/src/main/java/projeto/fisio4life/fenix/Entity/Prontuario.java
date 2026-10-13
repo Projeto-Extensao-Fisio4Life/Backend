@@ -10,7 +10,7 @@ public class Prontuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_prontuario;
+    private Integer id_prontuario;
     @OneToOne
     @JoinColumn(name = "fk_paciente")
     private Paciente paciente;
@@ -21,7 +21,7 @@ public class Prontuario {
     public Prontuario() {
     }
 
-    public Prontuario(Long id_prontuario, Paciente paciente, LocalDateTime data_abertura, Boolean status, String observacao_inicial) {
+    public Prontuario(Integer id_prontuario, Paciente paciente, LocalDateTime data_abertura, Boolean status, String observacao_inicial) {
         this.id_prontuario = id_prontuario;
         this.paciente = paciente;
         this.data_abertura = data_abertura;
@@ -29,11 +29,11 @@ public class Prontuario {
         this.observacao_inicial = observacao_inicial;
     }
 
-    public Long getId_prontuario() {
+    public Integer getId_prontuario() {
         return id_prontuario;
     }
 
-    public void setId_prontuario(Long id_prontuario) {
+    public void setId_prontuario(Integer id_prontuario) {
         this.id_prontuario = id_prontuario;
     }
 

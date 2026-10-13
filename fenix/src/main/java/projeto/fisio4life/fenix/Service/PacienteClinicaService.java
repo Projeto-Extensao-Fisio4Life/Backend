@@ -23,8 +23,7 @@ public class PacienteClinicaService {
         this.pacienteRepository = pacienteRepository;
     }
 
-    @Transactional
-    public PacienteClinica salvar(PacienteClinica entity) {
+     public PacienteClinica salvar(PacienteClinica entity) {
         if (entity == null) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
@@ -60,10 +59,11 @@ public class PacienteClinicaService {
                         "Paciente não encontrado."
                 ));
 
-        if (entity.getId_vinculo() == null
-                && pacienteClinicaRepository.existsByClinicaIdClinicaAndPacienteIdPaciente(
-                entity.getClinica().getId_clinica(),
-                entity.getPaciente().getId_paciente())) {
+         if (entity.getId_vinculo() == null
+                 && (clinicaRepository.existsById(entity.getClinica().getId_clinica()) &&
+                 pacienteRepository.existsById(entity.getPaciente().getId_paciente())
+         ))
+        {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
                     "O paciente já está vinculado à clínica."
@@ -73,7 +73,6 @@ public class PacienteClinicaService {
         return pacienteClinicaRepository.save(entity);
     }
 
-    @Transactional(readOnly = true)
     public PacienteClinica buscarPorId(Integer id) {
         return pacienteClinicaRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
@@ -82,13 +81,11 @@ public class PacienteClinicaService {
                 ));
     }
 
-    @Transactional(readOnly = true)
-    public List<PacienteClinica> listarTodos() {
+   public List<PacienteClinica> listarTodos() {
         return pacienteClinicaRepository.findAll();
     }
 
-    @Transactional
-    public PacienteClinica atualizar(Integer id, PacienteClinica entity) {
+   public PacienteClinica atualizar(Integer id, PacienteClinica entity) {
         if (entity == null) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
@@ -126,10 +123,10 @@ public class PacienteClinicaService {
                         "Paciente não encontrado."
                 ));
 
-        if (entity.getId_vinculo() == null
-                && pacienteClinicaRepository.existsByClinicaIdClinicaAndPacienteIdPaciente(
-                entity.getClinica().getId_clinica(),
-                entity.getPaciente().getId_paciente())) {
+       if (entity.getId_vinculo() == null
+               && (clinicaRepository.existsById(entity.getClinica().getId_clinica()) &&
+               pacienteRepository.existsById(entity.getPaciente().getId_paciente())
+       )) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
                     "O paciente já está vinculado à clínica."
@@ -145,8 +142,7 @@ public class PacienteClinicaService {
         return pacienteClinicaRepository.save(existente);
     }
 
-    @Transactional
-    public void excluir(Integer id) {
+   public void excluir(Integer id) {
         PacienteClinica existente = buscarPorId(id);
         pacienteClinicaRepository.delete(existente);
     }

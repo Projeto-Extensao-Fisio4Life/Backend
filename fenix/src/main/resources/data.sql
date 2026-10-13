@@ -181,7 +181,7 @@ CREATE TABLE IF NOT EXISTS documento_prontuario (
   nome_arquivo VARCHAR(45) NOT NULL UNIQUE, -- Nome do arquivo
   tipo_documento VARCHAR(45) NOT NULL, -- Tipo (PDF, CSV, etc.)
   s3_key VARCHAR(45) NOT NULL, -- Chave no S3
-  url_documento VARCHAR(45) NOT NULL UNIQUE, -- URL de acesso
+  url_documento VARCHAR(225) NULL UNIQUE, -- URL de acesso
   data_upload TIMESTAMP NOT NULL, -- Data de upload
   PRIMARY KEY (id_documento, fk_prontuario), -- Chave primária composta
   CONSTRAINT fk_documento_prontuario_prontuario FOREIGN KEY (fk_prontuario) REFERENCES prontuario (id_prontuario)
@@ -193,29 +193,49 @@ CREATE TABLE IF NOT EXISTS documento_prontuario (
 CREATE TABLE IF NOT EXISTS exercicio (
   id_exercicio INT PRIMARY KEY AUTO_INCREMENT, -- Identificador único do registro
   categoria VARCHAR(45) NOT NULL, -- Categoria/técnica do exercício
-  nome VARCHAR(45) NOT NULL -- Nome do exercício
+  nome VARCHAR(45) NOT NULL, -- Nome do exercício
+  url_exercicio VARCHAR(225) NULL -- URL para acessar dados não estruturados no S3
 );
 
 -- -----------------------------------------------------
 -- Tabela: exercicio_na_sessao
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS exercicio_na_sessao (
-  fk_sessao INT NOT NULL, -- Foreign key para vincular sessao
-  fk_exercicio INT NOT NULL, -- Foreign key para vincular exercicio
-  segmento VARCHAR(45) NULL, -- Segmento corporal trabalhado
-  quantidade_series INT NULL, -- Séries realizadas
-  quantidade_repeticoes INT NULL, -- Repetições por série
-  carga INT NULL, -- Carga/resistência
-  tempo TIME NULL, -- Duração
-  PRIMARY KEY (fk_sessao, fk_exercicio),
-  CONSTRAINT fk_exercicio_na_sessao_sessao FOREIGN KEY (fk_sessao) REFERENCES sessao (id_sessao),
-  CONSTRAINT fk_exercicio_na_sessao_exercicio FOREIGN KEY (fk_exercicio) REFERENCES exercicio (id_exercicio)
-);
+
+--CREATE TABLE IF NOT EXISTS exercicio_na_sessao (
+--  fk_sessao INT NOT NULL, -- Foreign key para vincular sessao
+--  fk_exercicio INT NOT NULL, -- Foreign key para vincular exercicio
+--  segmento VARCHAR(45) NULL, -- Segmento corporal trabalhado
+--  quantidade_series INT NULL, -- Séries realizadas
+--  quantidade_repeticoes INT NULL, -- Repetições por série
+--  carga INT NULL, -- Carga/resistência
+--  tempo TIME NULL, -- Duração
+--  PRIMARY KEY (fk_sessao, fk_exercicio),
+--  CONSTRAINT fk_exercicio_na_sessao_sessao FOREIGN KEY (fk_sessao) REFERENCES sessao (id_sessao),
+--  CONSTRAINT fk_exercicio_na_sessao_exercicio FOREIGN KEY (fk_exercicio) REFERENCES exercicio (id_exercicio)
+--);
 
 -- -----------------------------------------------------
 -- Tabela: exercicio_em_casa
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS exercicio_em_casa (
+
+-- CREATE TABLE IF NOT EXISTS exercicio_em_casa (
+--  fk_evolucao INT NOT NULL, -- Foreign key para vincular evolucao
+--  fk_exercicio INT NOT NULL, -- Foreign key para vincular exercicio
+--  segmento VARCHAR(45) NULL, -- Segmento corporal trabalhado
+--  quantidade_series INT NULL, -- Séries recomendadas
+--  quantidade_repeticoes INT NULL, -- Repetições por série
+--  carga INT NULL, -- Carga/resistência
+--  tempo TIME NULL, -- Duração
+--  PRIMARY KEY (fk_evolucao, fk_exercicio),
+--  CONSTRAINT fk_exercicio_em_casa_evolucao FOREIGN KEY (fk_evolucao) REFERENCES evolucao (id_evolucao),
+--  CONSTRAINT fk_exercicio_em_casa_exercicio FOREIGN KEY (fk_exercicio) REFERENCES exercicio (id_exercicio)
+--);
+
+DROP TABLE IF EXISTS exercicio_em_casa;
+DROP TABLE IF EXISTS exercicio_na_sessao;
+
+CREATE TABLE IF NOT EXISTS exercicio_passado (
+  id_exercicio_passado INT PRIMARY KEY AUTO_INCREMENT,
   fk_evolucao INT NOT NULL, -- Foreign key para vincular evolucao
   fk_exercicio INT NOT NULL, -- Foreign key para vincular exercicio
   segmento VARCHAR(45) NULL, -- Segmento corporal trabalhado
@@ -223,7 +243,6 @@ CREATE TABLE IF NOT EXISTS exercicio_em_casa (
   quantidade_repeticoes INT NULL, -- Repetições por série
   carga INT NULL, -- Carga/resistência
   tempo TIME NULL, -- Duração
-  PRIMARY KEY (fk_evolucao, fk_exercicio),
-  CONSTRAINT fk_exercicio_em_casa_evolucao FOREIGN KEY (fk_evolucao) REFERENCES evolucao (id_evolucao),
-  CONSTRAINT fk_exercicio_em_casa_exercicio FOREIGN KEY (fk_exercicio) REFERENCES exercicio (id_exercicio)
+  CONSTRAINT fk_exercicio_passado_evolucao FOREIGN KEY (fk_evolucao) REFERENCES evolucao (id_evolucao),
+  CONSTRAINT fk_exercicio_passado_exercicio FOREIGN KEY (fk_exercicio) REFERENCES exercicio (id_exercicio)
 );

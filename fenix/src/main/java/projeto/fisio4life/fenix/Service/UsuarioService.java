@@ -1,4 +1,4 @@
-package projeto.fisio4life.fenix.Repository;
+package projeto.fisio4life.fenix.Service;
 
 
 import java.util.List;
@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import projeto.fisio4life.fenix.Entity.Usuario;
+import projeto.fisio4life.fenix.Repository.ContatoRepository;
+import projeto.fisio4life.fenix.Repository.EnderecoRepository;
+import projeto.fisio4life.fenix.Repository.UsuarioRepository;
 
 @Service
 public class UsuarioService {

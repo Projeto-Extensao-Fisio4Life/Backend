@@ -25,8 +25,7 @@ public class AgendamentoService {
         this.pacienteRepository = pacienteRepository;
     }
 
-    @Transactional
-    public Agendamento salvar(Agendamento entity) {
+   public Agendamento salvar(Agendamento entity) {
         if (entity == null) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
@@ -84,9 +83,7 @@ public class AgendamentoService {
             );
         }
 
-        // O SQL não informa a tabela de equivalência dos TINYINTs.
-        // Ajuste o valor abaixo para o código oficial de "CANCELADO" do seu sistema.
-        Integer statusCancelado = 2;
+       Integer statusCancelado = 2;
 
         if (agendamentoRepository.existeConflito(
                 entity.getFisioterapeuta().getId_fisioterapeuta(),
@@ -104,7 +101,7 @@ public class AgendamentoService {
         return agendamentoRepository.save(entity);
     }
 
-    @Transactional(readOnly = true)
+
     public Agendamento buscarPorId(Integer id) {
         return agendamentoRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
@@ -113,13 +110,11 @@ public class AgendamentoService {
                 ));
     }
 
-    @Transactional(readOnly = true)
     public List<Agendamento> listarTodos() {
         return agendamentoRepository.findAll();
     }
 
-    @Transactional
-    public Agendamento atualizar(Integer id, Agendamento entity) {
+   public Agendamento atualizar(Integer id, Agendamento entity) {
         if (entity == null) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
@@ -179,8 +174,6 @@ public class AgendamentoService {
             );
         }
 
-        // O SQL não informa a tabela de equivalência dos TINYINTs.
-        // Ajuste o valor abaixo para o código oficial de "CANCELADO" do seu sistema.
         Integer statusCancelado = 2;
 
         if (agendamentoRepository.existeConflito(
@@ -208,7 +201,6 @@ public class AgendamentoService {
         return agendamentoRepository.save(existente);
     }
 
-    @Transactional
     public void excluir(Integer id) {
         Agendamento existente = buscarPorId(id);
         agendamentoRepository.delete(existente);

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Table(name = "documento_prontuario")
 public class DocumentoProntuario {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_documento;
+    private Integer id_documento;
     @ManyToOne
     @JoinColumn(name = "fk_prontuario")
     private Prontuario prontuario;
@@ -21,21 +21,13 @@ public class DocumentoProntuario {
     public DocumentoProntuario() {
     }
 
-    public DocumentoProntuario(Long id_documento, Prontuario prontuario, String nome_arquivo, String tipo_documento, String s3_key, String url_documento, LocalDateTime data_upload) {
-        this.id_documento = id_documento;
-        this.prontuario = prontuario;
-        this.nome_arquivo = nome_arquivo;
-        this.tipo_documento = tipo_documento;
-        this.s3_key = s3_key;
-        this.url_documento = url_documento;
-        this.data_upload = data_upload;
-    }
 
-    public Long getId_documento() {
+
+    public Integer getId_documento() {
         return id_documento;
     }
 
-    public void setId_documento(Long id_documento) {
+    public void setId_documento(Integer id_documento) {
         this.id_documento = id_documento;
     }
 

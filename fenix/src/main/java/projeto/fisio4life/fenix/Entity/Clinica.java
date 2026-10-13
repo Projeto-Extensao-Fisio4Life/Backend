@@ -19,13 +19,7 @@ public class Clinica {
     public Clinica() {
     }
 
-    public Clinica(Integer id_clinica, Contato contato, Endereco endereco, String nome, String cnpj) {
-        this.id_clinica = id_clinica;
-        this.contato = contato;
-        this.endereco = endereco;
-        this.nome = nome;
-        this.cnpj = cnpj;
-    }
+
 
     public Integer getId_clinica() {
         return id_clinica;

@@ -21,7 +21,6 @@ public class PacienteService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    @Transactional
     public Paciente salvar(Paciente entity) {
         if (entity == null) {
             throw new ResponseStatusException(
@@ -52,7 +51,6 @@ public class PacienteService {
         return pacienteRepository.save(entity);
     }
 
-    @Transactional(readOnly = true)
     public Paciente buscarPorId(Integer id) {
         return pacienteRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
@@ -61,12 +59,10 @@ public class PacienteService {
                 ));
     }
 
-    @Transactional(readOnly = true)
     public List<Paciente> listarTodos() {
         return pacienteRepository.findAll();
     }
 
-    @Transactional
     public Paciente atualizar(Integer id, Paciente entity) {
         if (entity == null) {
             throw new ResponseStatusException(
@@ -103,7 +99,6 @@ public class PacienteService {
         return pacienteRepository.save(existente);
     }
 
-    @Transactional
     public void excluir(Integer id) {
         Paciente existente = buscarPorId(id);
         pacienteRepository.delete(existente);

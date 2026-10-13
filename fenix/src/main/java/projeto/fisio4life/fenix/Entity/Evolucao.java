@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class Evolucao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_evolucao;
+    private Integer id_evolucao;
 
     @OneToOne
     @JoinColumn(name = "fk_sessao")
@@ -26,21 +26,11 @@ public class Evolucao {
     public Evolucao() {
     }
 
-    public Evolucao(Long id_evolucao, Sessao sessao, Prontuario prontuario, LocalDateTime data_evolucao, String conduta, String avaliacao, String observacao) {
-        this.id_evolucao = id_evolucao;
-        this.sessao = sessao;
-        this.prontuario = prontuario;
-        this.data_evolucao = data_evolucao;
-        this.conduta = conduta;
-        this.avaliacao = avaliacao;
-        this.observacao = observacao;
-    }
-
-    public Long getId_evolucao() {
+    public Integer getId_evolucao() {
         return id_evolucao;
     }
 
-    public void setId_evolucao(Long id_evolucao) {
+    public void setId_evolucao(Integer id_evolucao) {
         this.id_evolucao = id_evolucao;
     }
 

@@ -2,33 +2,33 @@ package projeto.fisio4life.fenix.Entity;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import java.io.Serializable;
-import java.time.LocalTime;
+
+import java.sql.Time;
 
 @Entity
-@Table(name = "exercicio_na_sessao")
-public class ExercicioNaSessao {
-    @EmbeddedId
-    private ExercicioNaSessaoId id = new ExercicioNaSessaoId();
-    @ManyToOne @MapsId("sessaoId")
-    @JoinColumn(name = "fk_sessao")
-    private Sessao sessao;
-    @ManyToOne @MapsId("exercicioId")
+@Table(name = "exercicio_passado")
+public class ExercicioPassado {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id_exercicio_passado;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_evolucao")
+    private Evolucao evolucao;
+    @ManyToOne
     @JoinColumn(name = "fk_exercicio")
     private Exercicio exercicio;
     private String segmento;
     private Integer quantidade_series;
     private Integer quantidade_repeticoes;
     private Integer carga;
-    private LocalTime tempo;
+    private Time tempo;
 
-    public ExercicioNaSessao() {
+    public ExercicioPassado() {
     }
 
-    public ExercicioNaSessao(ExercicioNaSessaoId id, Sessao sessao, Exercicio exercicio, String segmento, Integer quantidade_series, Integer quantidade_repeticoes, Integer carga, LocalTime tempo) {
-        this.id = id;
-        this.sessao = sessao;
+    public ExercicioPassado(Integer id_exercicio_passado, Evolucao evolucao, Exercicio exercicio, String segmento, Integer quantidade_series, Integer quantidade_repeticoes, Integer carga, Time tempo) {
+        this.id_exercicio_passado = id_exercicio_passado;
+        this.evolucao = evolucao;
         this.exercicio = exercicio;
         this.segmento = segmento;
         this.quantidade_series = quantidade_series;
@@ -37,20 +37,20 @@ public class ExercicioNaSessao {
         this.tempo = tempo;
     }
 
-    public ExercicioNaSessaoId getId() {
-        return id;
+    public Integer getId_exercicio_passado() {
+        return id_exercicio_passado;
     }
 
-    public void setId(ExercicioNaSessaoId id) {
-        this.id = id;
+    public void setId_exercicio_passado(Integer id_exercicio_passado) {
+        this.id_exercicio_passado = id_exercicio_passado;
     }
 
-    public Sessao getSessao() {
-        return sessao;
+    public Evolucao getEvolucao() {
+        return evolucao;
     }
 
-    public void setSessao(Sessao sessao) {
-        this.sessao = sessao;
+    public void setEvolucao(Evolucao evolucao) {
+        this.evolucao = evolucao;
     }
 
     public Exercicio getExercicio() {
@@ -93,11 +93,11 @@ public class ExercicioNaSessao {
         this.carga = carga;
     }
 
-    public LocalTime getTempo() {
+    public Time getTempo() {
         return tempo;
     }
 
-    public void setTempo(LocalTime tempo) {
+    public void setTempo(Time tempo) {
         this.tempo = tempo;
     }
 }

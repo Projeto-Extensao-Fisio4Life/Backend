@@ -4,6 +4,7 @@ package projeto.fisio4life.fenix.Mapper;
 import projeto.fisio4life.fenix.Dto.usuarioDto.UsuarioRequestDto;
 import projeto.fisio4life.fenix.Dto.usuarioDto.UsuarioResponseDto;
 import projeto.fisio4life.fenix.Entity.Contato;
+import projeto.fisio4life.fenix.Entity.Endereco;
 import projeto.fisio4life.fenix.Entity.Usuario;
 
 import java.util.List;
@@ -20,6 +21,17 @@ public final class UsuarioMapper {
         }
 
         Usuario entity = new Usuario();
+
+        if (dto.getIdEndereco() != null) {
+            Endereco endereco = new Endereco();
+            endereco.setId_endereco(dto.getIdEndereco());
+            entity.setEndereco(endereco);
+        }
+        if (dto.getIdContato() != null) {
+            Contato contato = new Contato();
+            contato.setId_contato(dto.getIdContato());
+            entity.setContato(contato);
+        }
 
         entity.setNome(dto.getNome());
         entity.setData_nascimento(dto.getDataNascimento());
@@ -41,9 +53,12 @@ public final class UsuarioMapper {
 
         dto.setIdUsuario(entity.getId_usuario());
 
-        // Solução provisória, puxar id, mas o objetivo é adicionar uma nova requisição
-        dto.setIdContato(entity.getContato().getId_contato());
-        dto.setIdEndereco(entity.getEndereco().getId_endereco());
+        if (entity.getContato() != null) {
+            dto.setIdContato(entity.getContato().getId_contato());
+        }
+        if (entity.getEndereco() != null) {
+            dto.setIdEndereco(entity.getEndereco().getId_endereco());
+        }
 
 
         dto.setNome(entity.getNome());
