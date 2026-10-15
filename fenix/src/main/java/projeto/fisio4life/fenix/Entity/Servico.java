@@ -1,79 +1,37 @@
 package projeto.fisio4life.fenix.Entity;
 
-
 import jakarta.persistence.*;
 
 @Entity
-@Table
+@Table(name = "servico")
 public class Servico {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_servico", nullable = false)
     private Integer id_servico;
-    @ManyToOne
-    @JoinColumn(name = "fk_clinica")
-    private Clinica clinica;
+
+    @Column(name = "nome", nullable = false, length = 45)
     private String nome;
+
+    @Column(name = "quantidade_sessoes", nullable = false)
     private Integer quantidade_sessoes;
-    private Double valor;
+
+    @Column(name = "tipo", nullable = false, length = 20)
     private String tipo;
 
-    public Servico() {
-    }
+    @Column(name = "status_servico", nullable = false, columnDefinition = "TINYINT")
+    private Byte status_servico;
 
-    public Servico(Integer id_servico, Clinica clinica, String nome, Integer quantidade_sessoes, Double valor, String tipo) {
-        this.id_servico = id_servico;
-        this.clinica = clinica;
-        this.nome = nome;
-        this.quantidade_sessoes = quantidade_sessoes;
-        this.valor = valor;
-        this.tipo = tipo;
-    }
-
-    public Integer getId_servico() {
-        return id_servico;
-    }
-
-    public void setId_servico(Integer id_servico) {
-        this.id_servico = id_servico;
-    }
-
-    public Clinica getClinica() {
-        return clinica;
-    }
-
-    public void setClinica(Clinica clinica) {
-        this.clinica = clinica;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public Integer getQuantidade_sessoes() {
-        return quantidade_sessoes;
-    }
-
-    public void setQuantidade_sessoes(Integer quantidade_sessoes) {
-        this.quantidade_sessoes = quantidade_sessoes;
-    }
-
-    public Double getValor() {
-        return valor;
-    }
-
-    public void setValor(Double valor) {
-        this.valor = valor;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
+    public Servico() {}
+    public Integer getId_servico() { return id_servico; }
+    public void setId_servico(Integer valor) { this.id_servico = valor; }
+    public String getNome() { return nome; }
+    public void setNome(String valor) { this.nome = valor; }
+    public Integer getQuantidade_sessoes() { return quantidade_sessoes; }
+    public void setQuantidade_sessoes(Integer valor) { this.quantidade_sessoes = valor; }
+    public String getTipo() { return tipo; }
+    public void setTipo(String valor) { this.tipo = valor; }
+    public Byte getStatus_servico() { return status_servico; }
+    public void setStatus_servico(Byte valor) { this.status_servico = valor; }
 }

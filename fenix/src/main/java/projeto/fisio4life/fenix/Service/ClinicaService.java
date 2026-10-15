@@ -3,7 +3,6 @@ package projeto.fisio4life.fenix.Service;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import projeto.fisio4life.fenix.Entity.Clinica;
 import projeto.fisio4life.fenix.Repository.ClinicaRepository;
@@ -24,55 +23,14 @@ public class ClinicaService {
     }
 
     public Clinica salvar(Clinica entity) {
-        if (entity == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Clinica não pode ser nulo."
-            );
-        }
-
-
-        if (entity.getContato() == null || entity.getContato().getId_contato() == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "idContato é obrigatório."
-            );
-        }
-
-        contatoRepository.findById(entity.getContato().getId_contato())
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Contato não encontrado."
-                ));
-
-
-        if (entity.getEndereco() == null || entity.getEndereco().getId_endereco() == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "idEndereco é obrigatório."
-            );
-        }
-
-        enderecoRepository.findById(entity.getEndereco().getId_endereco())
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Endereco não encontrado."
-                ));
-
-        if (entity.getCnpj() != null && entity.getId_clinica() == null
-                && clinicaRepository.existsByCnpj(entity.getCnpj())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "CNPJ já cadastrado.");
-        }
+        validar(entity, null);
 
         return clinicaRepository.save(entity);
     }
 
     public Clinica buscarPorId(Integer id) {
-        return clinicaRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Clinica não encontrado."
-                ));
+        return clinicaRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Clinica não encontrado."));
     }
 
     public List<Clinica> listarTodos() {
@@ -80,58 +38,42 @@ public class ClinicaService {
     }
 
     public Clinica atualizar(Integer id, Clinica entity) {
-        if (entity == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Clinica não pode ser nulo."
-            );
-        }
-
-        Clinica existente = buscarPorId(id);
-
-
-        if (entity.getContato() == null || entity.getContato().getId_contato() == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "idContato é obrigatório."
-            );
-        }
-
-        contatoRepository.findById(entity.getContato().getId_contato())
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Contato não encontrado."
-                ));
-
-
-        if (entity.getEndereco() == null || entity.getEndereco().getId_endereco() == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "idEndereco é obrigatório."
-            );
-        }
-
-        enderecoRepository.findById(entity.getEndereco().getId_endereco())
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Endereco não encontrado."
-                ));
-
-        if (entity.getCnpj() != null && entity.getId_clinica() == null
-                && clinicaRepository.existsByCnpj(entity.getCnpj())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "CNPJ já cadastrado.");
-        }
-
-        existente.setNome(entity.getNome());
-        existente.setCnpj(entity.getCnpj());
-        existente.setContato(entity.getContato());
-        existente.setEndereco(entity.getEndereco());
-
-        return clinicaRepository.save(existente);
+        Clinica clinica = buscarPorId(id);
+        validar(entity, id);
+        clinica.setNome(entity.getNome());
+        clinica.setCnpj(entity.getCnpj());
+        clinica.setContato(entity.getContato());
+        clinica.setEndereco(entity.getEndereco());
+        return clinicaRepository.save(clinica);
     }
 
     public void excluir(Integer id) {
-        Clinica existente = buscarPorId(id);
-        clinicaRepository.delete(existente);
+        Clinica clinica = buscarPorId(id);
+        try {
+            clinicaRepository.delete(clinica);
+        } catch (org.springframework.dao.DataIntegrityViolationException ex) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "Não é possível excluir Clinica: existem registros relacionados.", ex);
+        }
     }
+
+    private void validar(Clinica entity, Integer idAtual) {
+        if (entity == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Clinica não pode ser nulo.");
+        if (entity.getContato() == null || entity.getContato().getId_contato() == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "idContato é obrigatório.");
+        entity.setContato(contatoRepository.findById(entity.getContato().getId_contato()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Contato não encontrado.")));
+        if (entity.getEndereco() == null || entity.getEndereco().getId_endereco() == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "idEndereco é obrigatório.");
+        entity.setEndereco(enderecoRepository.findById(entity.getEndereco().getId_endereco()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Endereço não encontrado.")));
+        if (entity.getNome() == null || entity.getNome().isBlank() || entity.getNome().length() > 255)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nome da clínica é obrigatório e deve ter até 255 caracteres.");
+        if (entity.getCnpj() == null || !entity.getCnpj().matches("\\d{14}"))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CNPJ deve conter exatamente 14 dígitos.");
+        if (clinicaRepository.existeCnpjEmOutra(entity.getCnpj(), idAtual))
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "CNPJ já cadastrado para outra clínica.");
+        if (clinicaRepository.existeOutraClinicaNoEndereco(entity.getEndereco().getId_endereco(), idAtual))
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "O endereço já está vinculado a outra clínica.");
+    }
+
 }

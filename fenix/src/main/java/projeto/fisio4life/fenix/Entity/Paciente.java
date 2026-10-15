@@ -1,72 +1,34 @@
 package projeto.fisio4life.fenix.Entity;
 
 import jakarta.persistence.*;
-import org.hibernate.validator.constraints.br.CPF;
-
-import java.util.Date;
 
 @Entity
-@Table
+@Table(name = "paciente")
 public class Paciente {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_paciente", nullable = false)
     private Integer id_paciente;
+
     @OneToOne
-    @JoinColumn(name = "fk_usuario")
+    @JoinColumn(name = "fk_usuario", nullable = false, unique = true)
     private Usuario usuario;
-    private Date data_nascimento;
-    @Column(unique = true)
+
+    @Column(name = "cpf", nullable = false, length = 11)
     private String cpf;
+
+    @Convert(converter = BooleanToTinyIntConverter.class)
+    @Column(name = "permite_atendimento_grupo", nullable = false)
     private Boolean permite_atendimento_grupo;
 
-    public Paciente() {
-    }
-
-    public Paciente(Integer id_paciente, Usuario usuario, Date data_nascimento, String cpf, Boolean permite_atendimento_grupo) {
-        this.id_paciente = id_paciente;
-        this.usuario = usuario;
-        this.data_nascimento = data_nascimento;
-        this.cpf = cpf;
-        this.permite_atendimento_grupo = permite_atendimento_grupo;
-    }
-
-    public Integer getId_paciente() {
-        return id_paciente;
-    }
-
-    public void setId_paciente(Integer id_paciente) {
-        this.id_paciente = id_paciente;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public Date getData_nascimento() {
-        return data_nascimento;
-    }
-
-    public void setData_nascimento(Date data_nascimento) {
-        this.data_nascimento = data_nascimento;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public Boolean getPermite_atendimento_grupo() {
-        return permite_atendimento_grupo;
-    }
-
-    public void setPermite_atendimento_grupo(Boolean permite_atendimento_grupo) {
-        this.permite_atendimento_grupo = permite_atendimento_grupo;
-    }
+    public Paciente() {}
+    public Integer getId_paciente() { return id_paciente; }
+    public void setId_paciente(Integer valor) { this.id_paciente = valor; }
+    public Usuario getUsuario() { return usuario; }
+    public void setUsuario(Usuario valor) { this.usuario = valor; }
+    public String getCpf() { return cpf; }
+    public void setCpf(String valor) { this.cpf = valor; }
+    public Boolean getPermite_atendimento_grupo() { return permite_atendimento_grupo; }
+    public void setPermite_atendimento_grupo(Boolean valor) { this.permite_atendimento_grupo = valor; }
 }

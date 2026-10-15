@@ -1,51 +1,32 @@
 package projeto.fisio4life.fenix.Dto.pacienteDto;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 public class PacienteResponseDto {
 
     private Integer idPaciente;
+
     private Integer idUsuario;
+
     private String cpf;
+
     private Boolean permiteAtendimentoGrupo;
 
-    public PacienteResponseDto() {
-    }
+    public PacienteResponseDto() {}
 
-    public PacienteResponseDto(Integer idPaciente, Integer idUsuario, String cpf, Boolean permiteAtendimentoGrupo) {
-        this.idPaciente = idPaciente;
-        this.idUsuario = idUsuario;
-        this.cpf = cpf;
-        this.permiteAtendimentoGrupo = permiteAtendimentoGrupo;
-    }
+    public Integer getIdPaciente() { return idPaciente; }
+    public void setIdPaciente(Integer valor) { this.idPaciente = valor; }
 
-    public Integer getIdPaciente() {
-        return idPaciente;
-    }
+    public Integer getIdUsuario() { return idUsuario; }
+    public void setIdUsuario(Integer valor) { this.idUsuario = valor; }
 
-    public void setIdPaciente(Integer idPaciente) {
-        this.idPaciente = idPaciente;
-    }
+    public String getCpf() { return cpf; }
+    public void setCpf(String valor) { this.cpf = valor; }
 
-    public Integer getIdUsuario() {
-        return idUsuario;
-    }
+    public Boolean getPermiteAtendimentoGrupo() { return permiteAtendimentoGrupo; }
+    public void setPermiteAtendimentoGrupo(Boolean valor) { this.permiteAtendimentoGrupo = valor; }
 
-    public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public Boolean getPermiteAtendimentoGrupo() {
-        return permiteAtendimentoGrupo;
-    }
-
-    public void setPermiteAtendimentoGrupo(Boolean permiteAtendimentoGrupo) {
-        this.permiteAtendimentoGrupo = permiteAtendimentoGrupo;
-    }
 }

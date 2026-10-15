@@ -1,8 +1,6 @@
 package projeto.fisio4life.fenix.Dto.fisioterapeutaDto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public class FisioterapeutaRequestDto {
 
@@ -18,48 +16,22 @@ public class FisioterapeutaRequestDto {
     private String especialidade;
 
     @NotBlank
-    @Size(max = 14)
+    @Pattern(regexp = "\\d{14}")
+    @Size(min = 14, max = 14)
     private String cnpj;
 
-    public FisioterapeutaRequestDto() {
-    }
+    public FisioterapeutaRequestDto() {}
 
-    public FisioterapeutaRequestDto(Integer idUsuario, String crefito, String especialidade, String cnpj) {
-        this.idUsuario = idUsuario;
-        this.crefito = crefito;
-        this.especialidade = especialidade;
-        this.cnpj = cnpj;
-    }
+    public Integer getIdUsuario() { return idUsuario; }
+    public void setIdUsuario(Integer valor) { this.idUsuario = valor; }
 
-    public Integer getIdUsuario() {
-        return idUsuario;
-    }
+    public String getCrefito() { return crefito; }
+    public void setCrefito(String valor) { this.crefito = valor; }
 
-    public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
-    }
+    public String getEspecialidade() { return especialidade; }
+    public void setEspecialidade(String valor) { this.especialidade = valor; }
 
-    public String getCrefito() {
-        return crefito;
-    }
+    public String getCnpj() { return cnpj; }
+    public void setCnpj(String valor) { this.cnpj = valor; }
 
-    public void setCrefito(String crefito) {
-        this.crefito = crefito;
-    }
-
-    public String getEspecialidade() {
-        return especialidade;
-    }
-
-    public void setEspecialidade(String especialidade) {
-        this.especialidade = especialidade;
-    }
-
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
 }

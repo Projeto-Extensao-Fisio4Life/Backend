@@ -12,8 +12,8 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 
     boolean existsByCpf(String cpf);
 
-    @Query("SELECT CASE WHEN COUNT(p) > 0 THEN true ELSE false END FROM Paciente p WHERE p.cpf = :cpf AND p.id_paciente <> :idPaciente")
-    boolean existeCpfDeOutroPaciente(@Param("cpf") String cpf, @Param("idPaciente") Integer idPaciente);
+    @Query("SELECT CASE WHEN COUNT(p) > 0 THEN true ELSE false END FROM Paciente p WHERE p.usuario.id_usuario = :idUsuario AND (:idAtual IS NULL OR p.id_paciente <> :idAtual)")
+    boolean existeOutroPacienteParaUsuario(@Param("idUsuario") Integer idUsuario, @Param("idAtual") Integer idAtual);
 
     Paciente getByUsuario(Usuario usuarioCadastrado);
 }

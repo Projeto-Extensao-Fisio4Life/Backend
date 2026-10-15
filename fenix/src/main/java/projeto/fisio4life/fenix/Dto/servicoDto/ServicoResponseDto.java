@@ -1,71 +1,37 @@
 package projeto.fisio4life.fenix.Dto.servicoDto;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 public class ServicoResponseDto {
 
     private Integer idServico;
-    private Integer idClinica;
+
     private String nome;
-    private Integer quantidadeSessoes;
-    private Double valor;
+
+    private Integer quantidade_sessoes;
+
     private String tipo;
 
-    public ServicoResponseDto() {
-    }
+    private Integer statusServico;
 
-    public ServicoResponseDto(Integer idServico, Integer idClinica, String nome, Integer quantidadeSessoes, Double valor, String tipo) {
-        this.idServico = idServico;
-        this.idClinica = idClinica;
-        this.nome = nome;
-        this.quantidadeSessoes = quantidadeSessoes;
-        this.valor = valor;
-        this.tipo = tipo;
-    }
+    public ServicoResponseDto() {}
 
-    public Integer getIdServico() {
-        return idServico;
-    }
+    public Integer getIdServico() { return idServico; }
+    public void setIdServico(Integer valor) { this.idServico = valor; }
 
-    public void setIdServico(Integer idServico) {
-        this.idServico = idServico;
-    }
+    public String getNome() { return nome; }
+    public void setNome(String valor) { this.nome = valor; }
 
-    public Integer getIdClinica() {
-        return idClinica;
-    }
+    public Integer getQuantidade_sessoes() { return quantidade_sessoes; }
+    public void setQuantidade_sessoes(Integer valor) { this.quantidade_sessoes = valor; }
 
-    public void setIdClinica(Integer idClinica) {
-        this.idClinica = idClinica;
-    }
+    public String getTipo() { return tipo; }
+    public void setTipo(String valor) { this.tipo = valor; }
 
-    public String getNome() {
-        return nome;
-    }
+    public Integer getStatusServico() { return statusServico; }
+    public void setStatusServico(Integer valor) { this.statusServico = valor; }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public Integer getQuantidadeSessoes() {
-        return quantidadeSessoes;
-    }
-
-    public void setQuantidadeSessoes(Integer quantidadeSessoes) {
-        this.quantidadeSessoes = quantidadeSessoes;
-    }
-
-    public Double getValor() {
-        return valor;
-    }
-
-    public void setValor(Double valor) {
-        this.valor = valor;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
 }

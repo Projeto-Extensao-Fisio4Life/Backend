@@ -1,22 +1,17 @@
 package projeto.fisio4life.fenix.Mapper;
 
-
+import java.util.List;
+import java.util.stream.Collectors;
 import projeto.fisio4life.fenix.Dto.contatoDto.ContatoRequestDto;
 import projeto.fisio4life.fenix.Dto.contatoDto.ContatoResponseDto;
 import projeto.fisio4life.fenix.Entity.Contato;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 public final class ContatoMapper {
 
-    private ContatoMapper() {
-    }
+    private ContatoMapper() {}
 
     public static Contato toEntity(ContatoRequestDto dto) {
-        if (dto == null) {
-            return null;
-        }
+        if (dto == null) return null;
 
         Contato entity = new Contato();
 
@@ -28,12 +23,9 @@ public final class ContatoMapper {
     }
 
     public static ContatoResponseDto toResponseDto(Contato entity) {
-        if (entity == null) {
-            return null;
-        }
+        if (entity == null) return null;
 
         ContatoResponseDto dto = new ContatoResponseDto();
-
         dto.setIdContato(entity.getId_contato());
         dto.setTelefone(entity.getTelefone());
         dto.setCelular(entity.getCelular());
@@ -43,12 +35,7 @@ public final class ContatoMapper {
     }
 
     public static List<ContatoResponseDto> toResponseDto(List<Contato> entities) {
-        if (entities == null || entities.isEmpty()) {
-            return List.of();
-        }
-
-        return entities.stream()
-                .map(ContatoMapper::toResponseDto)
-                .collect(Collectors.toList());
+        if (entities == null || entities.isEmpty()) return List.of();
+        return entities.stream().map(ContatoMapper::toResponseDto).collect(Collectors.toList());
     }
 }

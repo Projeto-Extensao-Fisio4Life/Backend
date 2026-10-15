@@ -1,21 +1,14 @@
 package projeto.fisio4life.fenix.Dto.usuarioDto;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Size;
-import projeto.fisio4life.fenix.Entity.Contato;
-import projeto.fisio4life.fenix.Entity.Endereco;
+import jakarta.validation.constraints.*;
+import projeto.fisio4life.fenix.Enum.TipoUsuarioEnum;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class UsuarioRequestDto {
 
     @NotNull
-    private  Integer idEndereco;
+    private Integer idEndereco;
 
     @NotNull
     private Integer idContato;
@@ -24,99 +17,47 @@ public class UsuarioRequestDto {
     @Size(max = 255)
     private String nome;
 
-    @Past
     @NotNull
+    @Past
     private LocalDate dataNascimento;
 
-    @NotNull
-    private LocalDateTime dataCadastro;
-
     @NotBlank
-    @Size(max = 60)
+    @Size(min = 8, max = 60)
     private String senha;
 
     @NotBlank
     @Size(max = 45)
-    private String tipoUsuario;
+    private TipoUsuarioEnum tipoUsuario;
 
     @NotNull
     private Integer statusUsuario;
 
-    public UsuarioRequestDto() {
-    }
+    public UsuarioRequestDto() {}
 
-    public UsuarioRequestDto(Integer idEndereco, Integer idContato, String nome, LocalDate dataNascimento, LocalDateTime dataCadastro, String senha, String tipoUsuario, Integer statusUsuario) {
-        this.idEndereco = idEndereco;
-        this.idContato = idContato;
-        this.nome = nome;
-        this.dataNascimento = dataNascimento;
-        this.dataCadastro = dataCadastro;
-        this.senha = senha;
-        this.tipoUsuario = tipoUsuario;
-        this.statusUsuario = statusUsuario;
-    }
+    public Integer getIdEndereco() { return idEndereco; }
+    public void setIdEndereco(Integer valor) { this.idEndereco = valor; }
 
-    public LocalDateTime getDataCadastro() {
-        return dataCadastro;
-    }
+    public Integer getIdContato() { return idContato; }
+    public void setIdContato(Integer valor) { this.idContato = valor; }
 
-    public void setDataCadastro(LocalDateTime dataCadastro) {
-        this.dataCadastro = dataCadastro;
-    }
+    public String getNome() { return nome; }
+    public void setNome(String valor) { this.nome = valor; }
 
-    public Integer getIdEndereco() {
-        return idEndereco;
-    }
+    public LocalDate getDataNascimento() { return dataNascimento; }
+    public void setDataNascimento(LocalDate valor) { this.dataNascimento = valor; }
 
-    public void setIdEndereco(Integer idEndereco) {
-        this.idEndereco = idEndereco;
-    }
+    public String getSenha() { return senha; }
+    public void setSenha(String valor) { this.senha = valor; }
 
-    public Integer getIdContato() {
-        return idContato;
-    }
-
-    public void setIdContato(Integer idContato) {
-        this.idContato = idContato;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public LocalDate getDataNascimento() {
-        return dataNascimento;
-    }
-
-    public void setDataNascimento(LocalDate dataNascimento) {
-        this.dataNascimento = dataNascimento;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public String getTipoUsuario() {
+    public TipoUsuarioEnum getTipoUsuario() {
         return tipoUsuario;
     }
 
-    public void setTipoUsuario(String tipoUsuario) {
+    public void setTipoUsuario(TipoUsuarioEnum tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
 
-    public Integer getStatusUsuario() {
-        return statusUsuario;
-    }
+    public Integer getStatusUsuario() { return statusUsuario; }
+    public void setStatusUsuario(Integer valor) { this.statusUsuario = valor; }
 
-    public void setStatusUsuario(Integer statusUsuario) {
-        this.statusUsuario = statusUsuario;
-    }
 }

@@ -1,8 +1,6 @@
 package projeto.fisio4life.fenix.Dto.pacienteDto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public class PacienteRequestDto {
 
@@ -10,42 +8,22 @@ public class PacienteRequestDto {
     private Integer idUsuario;
 
     @NotBlank
-    @Size(max = 11)
+    @Pattern(regexp = "\\d{11}")
+    @Size(min = 11, max = 11)
     private String cpf;
 
     @NotNull
     private Boolean permiteAtendimentoGrupo;
 
-    public PacienteRequestDto() {
-    }
+    public PacienteRequestDto() {}
 
-    public PacienteRequestDto(Integer idUsuario, String cpf, Boolean permiteAtendimentoGrupo) {
-        this.idUsuario = idUsuario;
-        this.cpf = cpf;
-        this.permiteAtendimentoGrupo = permiteAtendimentoGrupo;
-    }
+    public Integer getIdUsuario() { return idUsuario; }
+    public void setIdUsuario(Integer valor) { this.idUsuario = valor; }
 
-    public Integer getIdUsuario() {
-        return idUsuario;
-    }
+    public String getCpf() { return cpf; }
+    public void setCpf(String valor) { this.cpf = valor; }
 
-    public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
-    }
+    public Boolean getPermiteAtendimentoGrupo() { return permiteAtendimentoGrupo; }
+    public void setPermiteAtendimentoGrupo(Boolean valor) { this.permiteAtendimentoGrupo = valor; }
 
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public Boolean getPermiteAtendimentoGrupo() {
-        return permiteAtendimentoGrupo;
-    }
-
-    public void setPermiteAtendimentoGrupo(Boolean permiteAtendimentoGrupo) {
-        this.permiteAtendimentoGrupo = permiteAtendimentoGrupo;
-    }
 }

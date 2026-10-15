@@ -13,7 +13,7 @@ import projeto.fisio4life.fenix.Repository.ProntuarioRepository;
 public class ProntuarioService {
 
     private final ProntuarioRepository prontuarioRepository;
-    private final PacienteRepository pacienteRepository;
+private final PacienteRepository pacienteRepository;
 
     public ProntuarioService(ProntuarioRepository prontuarioRepository, PacienteRepository pacienteRepository) {
         this.prontuarioRepository = prontuarioRepository;
@@ -21,94 +21,49 @@ public class ProntuarioService {
     }
 
     public Prontuario salvar(Prontuario entity) {
-        if (entity == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Prontuario não pode ser nulo."
-            );
-        }
-
-
-        if (entity.getPaciente() == null || entity.getPaciente().getId_paciente() == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "idPaciente é obrigatório."
-            );
-        }
-
-        pacienteRepository.findById(entity.getPaciente().getId_paciente())
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Paciente não encontrado."
-                ));
-
-        if (entity.getId_prontuario() == null
-                && pacienteRepository.existsById(
-                entity.getPaciente().getId_paciente())) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    "O paciente já possui prontuário."
-            );
-        }
+        validar(entity, null);
 
         return prontuarioRepository.save(entity);
     }
 
     public Prontuario buscarPorId(Integer id) {
-        return prontuarioRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Prontuario não encontrado."
-                ));
+        return prontuarioRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Prontuario não encontrado."));
     }
 
-   public List<Prontuario> listarTodos() {
+    public List<Prontuario> listarTodos() {
         return prontuarioRepository.findAll();
     }
 
     public Prontuario atualizar(Integer id, Prontuario entity) {
-        if (entity == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Prontuario não pode ser nulo."
-            );
-        }
-
-        Prontuario existente = buscarPorId(id);
-
-
-        if (entity.getPaciente() == null || entity.getPaciente().getId_paciente() == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "idPaciente é obrigatório."
-            );
-        }
-
-        pacienteRepository.findById(entity.getPaciente().getId_paciente())
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Paciente não encontrado."
-                ));
-
-        if (entity.getId_prontuario() == null
-                && pacienteRepository.existsById(
-                entity.getPaciente().getId_paciente())) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    "O paciente já possui prontuário."
-            );
-        }
-
-        existente.setData_abertura(entity.getData_abertura());
-        existente.setStatus(entity.getStatus());
-        existente.setObservacao_inicial(entity.getObservacao_inicial());
-        existente.setPaciente(entity.getPaciente());
-
-        return prontuarioRepository.save(existente);
+        Prontuario prontuario = buscarPorId(id);
+        validar(entity, id);
+        prontuario.setStatus_prontuario(entity.getStatus_prontuario());
+        prontuario.setObservacao_inicial(entity.getObservacao_inicial());
+        prontuario.setPaciente(entity.getPaciente());
+        return prontuarioRepository.save(prontuario);
     }
 
     public void excluir(Integer id) {
-        Prontuario existente = buscarPorId(id);
-        prontuarioRepository.delete(existente);
+        Prontuario prontuario = buscarPorId(id);
+        try {
+            prontuarioRepository.delete(prontuario);
+        } catch (org.springframework.dao.DataIntegrityViolationException ex) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "Não é possível excluir Prontuario: existem registros relacionados.", ex);
+        }
     }
+
+    private void validar(Prontuario entity, Integer idAtual) {
+        if (entity == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Prontuario não pode ser nulo.");
+        if (entity.getPaciente() == null || entity.getPaciente().getId_paciente() == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "idPaciente é obrigatório.");
+        entity.setPaciente(pacienteRepository.findById(entity.getPaciente().getId_paciente()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Paciente não encontrado.")));
+        if (entity.getStatus_prontuario() == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status do prontuário é obrigatório.");
+        if (prontuarioRepository.existeOutroProntuarioDoPaciente(entity.getPaciente().getId_paciente(), idAtual))
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "O paciente já possui prontuário.");
+    }
+
 }

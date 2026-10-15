@@ -1,6 +1,5 @@
 package projeto.fisio4life.fenix.Service;
 
-
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,45 +14,23 @@ import projeto.fisio4life.fenix.Repository.UsuarioRepository;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
-    private final EnderecoRepository enderecoRepository;
     private final ContatoRepository contatoRepository;
+    private final EnderecoRepository enderecoRepository;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, EnderecoRepository enderecoRepository, ContatoRepository contatoRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, ContatoRepository contatoRepository, EnderecoRepository enderecoRepository) {
         this.usuarioRepository = usuarioRepository;
-        this.enderecoRepository = enderecoRepository;
         this.contatoRepository = contatoRepository;
+        this.enderecoRepository = enderecoRepository;
     }
 
     public Usuario salvar(Usuario entity) {
-        if (entity == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Usuario não pode ser nulo."
-            );
-        }
-
-
-        if (entity.getNome() != null && entity.getId_usuario() == null
-                && usuarioRepository.existsByNome(entity.getNome())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Nome de usuário já cadastrado.");
-        }
-
-        if (entity.getEndereco() == null || entity.getContato() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Endereço e contato são obrigatórios.");
-        }
-
-        entity.setEndereco(enderecoRepository.save(entity.getEndereco()));
-        entity.setContato(contatoRepository.save(entity.getContato()));
-
+        validar(entity, null);
         return usuarioRepository.save(entity);
     }
 
-     public Usuario buscarPorId(Integer id) {
-        return usuarioRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Usuario não encontrado."
-                ));
+    public Usuario buscarPorId(Integer id) {
+        return usuarioRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario não encontrado."));
     }
 
     public List<Usuario> listarTodos() {
@@ -61,41 +38,45 @@ public class UsuarioService {
     }
 
     public Usuario atualizar(Integer id, Usuario entity) {
-        if (entity == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Usuario não pode ser nulo."
-            );
-        }
-
-        Usuario existente = buscarPorId(id);
-
-
-        if (entity.getNome() != null && entity.getId_usuario() == null
-                && usuarioRepository.existsByNome(entity.getNome())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Nome de usuário já cadastrado.");
-        }
-
-        if (entity.getEndereco() == null || entity.getContato() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Endereço e contato são obrigatórios.");
-        }
-
-        entity.setEndereco(enderecoRepository.save(entity.getEndereco()));
-        entity.setContato(contatoRepository.save(entity.getContato()));
-
-        existente.setNome(entity.getNome());
-        existente.setData_nascimento(entity.getData_nascimento());
-        existente.setSenha(entity.getSenha());
-        existente.setTipo_usuario(entity.getTipo_usuario());
-        existente.setStatus_usuario(entity.getStatus_usuario());
-        if (entity.getEndereco() != null) { existente.setEndereco(enderecoRepository.save(entity.getEndereco())); }
-        if (entity.getContato() != null) { existente.setContato(contatoRepository.save(entity.getContato())); }
-
-        return usuarioRepository.save(existente);
+        Usuario usuario = buscarPorId(id);
+        validar(entity, id);
+        usuario.setNome(entity.getNome());
+        usuario.setData_nascimento(entity.getData_nascimento());
+        usuario.setSenha(entity.getSenha());
+        usuario.setTipo_usuario(entity.getTipo_usuario());
+        usuario.setStatus_usuario(entity.getStatus_usuario());
+        usuario.setEndereco(entity.getEndereco());
+        usuario.setContato(entity.getContato());
+        return usuarioRepository.save(usuario);
     }
 
     public void excluir(Integer id) {
-        Usuario existente = buscarPorId(id);
-        usuarioRepository.delete(existente);
+        Usuario usuario = buscarPorId(id);
+        try {
+            usuarioRepository.delete(usuario);
+        } catch (org.springframework.dao.DataIntegrityViolationException ex) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "Não é possível excluir Usuario: existem registros relacionados.", ex);
+        }
     }
+
+    private void validar(Usuario entity, Integer idAtual) {
+        if (entity == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuario não pode ser nulo.");
+        if (entity.getNome() == null || entity.getNome().isBlank() || entity.getNome().length() > 255)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nome é obrigatório e deve ter até 255 caracteres.");
+        if (entity.getData_nascimento() == null || !entity.getData_nascimento().isBefore(java.time.LocalDate.now()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Data de nascimento deve ser anterior à data atual.");
+        if (entity.getSenha() == null || entity.getSenha().isBlank())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Senha é obrigatória.");
+        if (entity.getStatus_usuario() == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status do usuário é obrigatório.");
+        if (entity.getEndereco() == null || entity.getEndereco().getId_endereco() == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "idEndereco é obrigatório.");
+        if (entity.getContato() == null || entity.getContato().getId_contato() == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "idContato é obrigatório.");
+        entity.setEndereco(enderecoRepository.findById(entity.getEndereco().getId_endereco()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Endereço não encontrado.")));
+        entity.setContato(contatoRepository.findById(entity.getContato().getId_contato()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Contato não encontrado.")));
+    }
+
 }

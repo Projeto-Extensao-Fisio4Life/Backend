@@ -1,8 +1,6 @@
 package projeto.fisio4life.fenix.Dto.contatoDto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public class ContatoRequestDto {
 
@@ -19,36 +17,15 @@ public class ContatoRequestDto {
     @Size(max = 45)
     private String email;
 
-    public ContatoRequestDto() {
-    }
+    public ContatoRequestDto() {}
 
-    public ContatoRequestDto(String telefone, String celular, String email) {
-        this.telefone = telefone;
-        this.celular = celular;
-        this.email = email;
-    }
+    public String getTelefone() { return telefone; }
+    public void setTelefone(String valor) { this.telefone = valor; }
 
-    public String getTelefone() {
-        return telefone;
-    }
+    public String getCelular() { return celular; }
+    public void setCelular(String valor) { this.celular = valor; }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String valor) { this.email = valor; }
 
-    public String getCelular() {
-        return celular;
-    }
-
-    public void setCelular(String celular) {
-        this.celular = celular;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }

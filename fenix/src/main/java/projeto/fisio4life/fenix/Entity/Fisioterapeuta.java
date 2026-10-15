@@ -1,70 +1,38 @@
 package projeto.fisio4life.fenix.Entity;
 
 import jakarta.persistence.*;
+
 @Entity
-@Table
+@Table(name = "fisioterapeuta")
 public class Fisioterapeuta {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_fisioterapeuta", nullable = false)
     private Integer id_fisioterapeuta;
+
     @OneToOne
-    @JoinColumn(name = "fk_usuario")
+    @JoinColumn(name = "fk_usuario", nullable = false, unique = true)
     private Usuario usuario;
-    @Column(unique = true)
+
+    @Column(name = "crefito", nullable = false, length = 10)
     private String crefito;
+
+    @Column(name = "especialidade", nullable = false, length = 45)
     private String especialidade;
-    @Column(unique = true)
+
+    @Column(name = "cnpj", nullable = false, length = 14)
     private String cnpj;
 
-    public Fisioterapeuta() {
-    }
-
-    public Fisioterapeuta(Integer id_fisioterapeuta, Usuario usuario, String crefito, String especialidade, String cnpj) {
-        this.id_fisioterapeuta = id_fisioterapeuta;
-        this.usuario = usuario;
-        this.crefito = crefito;
-        this.especialidade = especialidade;
-        this.cnpj = cnpj;
-    }
-
-    public Integer getId_fisioterapeuta() {
-        return id_fisioterapeuta;
-    }
-
-    public void setId_fisioterapeuta(Integer id_fisioterapeuta) {
-        this.id_fisioterapeuta = id_fisioterapeuta;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getCrefito() {
-        return crefito;
-    }
-
-    public void setCrefito(String crefito) {
-        this.crefito = crefito;
-    }
-
-    public String getEspecialidade() {
-        return especialidade;
-    }
-
-    public void setEspecialidade(String especialidade) {
-        this.especialidade = especialidade;
-    }
-
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
+    public Fisioterapeuta() {}
+    public Integer getId_fisioterapeuta() { return id_fisioterapeuta; }
+    public void setId_fisioterapeuta(Integer valor) { this.id_fisioterapeuta = valor; }
+    public Usuario getUsuario() { return usuario; }
+    public void setUsuario(Usuario valor) { this.usuario = valor; }
+    public String getCrefito() { return crefito; }
+    public void setCrefito(String valor) { this.crefito = valor; }
+    public String getEspecialidade() { return especialidade; }
+    public void setEspecialidade(String valor) { this.especialidade = valor; }
+    public String getCnpj() { return cnpj; }
+    public void setCnpj(String valor) { this.cnpj = valor; }
 }
-

@@ -2,11 +2,11 @@ package projeto.fisio4life.fenix.Dto.agendamentoDto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class AgendamentoRequestDto {
-
     @NotNull
     private Integer idClinica;
 
@@ -31,82 +31,30 @@ public class AgendamentoRequestDto {
     @Size(max = 255)
     private String observacao;
 
-    public AgendamentoRequestDto() {
-    }
+    public AgendamentoRequestDto() {}
 
-    public AgendamentoRequestDto(Integer idClinica, Integer idFisioterapeuta, Integer idPaciente, LocalDate dataAgendamento, LocalTime horaInicio, LocalTime horaFim, Integer statusAgendamento, String observacao) {
-        this.idClinica = idClinica;
-        this.idFisioterapeuta = idFisioterapeuta;
-        this.idPaciente = idPaciente;
-        this.dataAgendamento = dataAgendamento;
-        this.horaInicio = horaInicio;
-        this.horaFim = horaFim;
-        this.statusAgendamento = statusAgendamento;
-        this.observacao = observacao;
-    }
+    public Integer getIdClinica() { return idClinica; }
+    public void setIdClinica(Integer valor) { this.idClinica = valor; }
 
+    public Integer getIdFisioterapeuta() { return idFisioterapeuta; }
+    public void setIdFisioterapeuta(Integer valor) { this.idFisioterapeuta = valor; }
 
-    public Integer getIdClinica() {
-        return idClinica;
-    }
+    public Integer getIdPaciente() { return idPaciente; }
+    public void setIdPaciente(Integer valor) { this.idPaciente = valor; }
 
-    public void setIdClinica(Integer idClinica) {
-        this.idClinica = idClinica;
-    }
+    public LocalDate getDataAgendamento() { return dataAgendamento; }
+    public void setDataAgendamento(LocalDate valor) { this.dataAgendamento = valor; }
 
-    public Integer getIdFisioterapeuta() {
-        return idFisioterapeuta;
-    }
+    public LocalTime getHoraInicio() { return horaInicio; }
+    public void setHoraInicio(LocalTime valor) { this.horaInicio = valor; }
 
-    public void setIdFisioterapeuta(Integer idFisioterapeuta) {
-        this.idFisioterapeuta = idFisioterapeuta;
-    }
+    public LocalTime getHoraFim() { return horaFim; }
+    public void setHoraFim(LocalTime valor) { this.horaFim = valor; }
 
-    public Integer getIdPaciente() {
-        return idPaciente;
-    }
+    public Integer getStatusAgendamento() { return statusAgendamento; }
+    public void setStatusAgendamento(Integer valor) { this.statusAgendamento = valor; }
 
-    public void setIdPaciente(Integer idPaciente) {
-        this.idPaciente = idPaciente;
-    }
+    public String getObservacao() { return observacao; }
+    public void setObservacao(String valor) { this.observacao = valor; }
 
-    public LocalDate getDataAgendamento() {
-        return dataAgendamento;
-    }
-
-    public void setDataAgendamento(LocalDate dataAgendamento) {
-        this.dataAgendamento = dataAgendamento;
-    }
-
-    public LocalTime getHoraInicio() {
-        return horaInicio;
-    }
-
-    public void setHoraInicio(LocalTime horaInicio) {
-        this.horaInicio = horaInicio;
-    }
-
-    public LocalTime getHoraFim() {
-        return horaFim;
-    }
-
-    public void setHoraFim(LocalTime horaFim) {
-        this.horaFim = horaFim;
-    }
-
-    public Integer getStatusAgendamento() {
-        return statusAgendamento;
-    }
-
-    public void setStatusAgendamento(Integer statusAgendamento) {
-        this.statusAgendamento = statusAgendamento;
-    }
-
-    public String getObservacao() {
-        return observacao;
-    }
-
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
-    }
 }

@@ -1,8 +1,6 @@
 package projeto.fisio4life.fenix.Dto.clinicaDto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public class ClinicaRequestDto {
 
@@ -17,48 +15,22 @@ public class ClinicaRequestDto {
     private String nome;
 
     @NotBlank
-    @Size(max = 14)
+    @Pattern(regexp = "\\d{14}")
+    @Size(min = 14, max = 14)
     private String cnpj;
 
-    public ClinicaRequestDto() {
-    }
+    public ClinicaRequestDto() {}
 
-    public ClinicaRequestDto(Integer idContato, Integer idEndereco, String nome, String cnpj) {
-        this.idContato = idContato;
-        this.idEndereco = idEndereco;
-        this.nome = nome;
-        this.cnpj = cnpj;
-    }
+    public Integer getIdContato() { return idContato; }
+    public void setIdContato(Integer valor) { this.idContato = valor; }
 
-    public Integer getIdContato() {
-        return idContato;
-    }
+    public Integer getIdEndereco() { return idEndereco; }
+    public void setIdEndereco(Integer valor) { this.idEndereco = valor; }
 
-    public void setIdContato(Integer idContato) {
-        this.idContato = idContato;
-    }
+    public String getNome() { return nome; }
+    public void setNome(String valor) { this.nome = valor; }
 
-    public Integer getIdEndereco() {
-        return idEndereco;
-    }
+    public String getCnpj() { return cnpj; }
+    public void setCnpj(String valor) { this.cnpj = valor; }
 
-    public void setIdEndereco(Integer idEndereco) {
-        this.idEndereco = idEndereco;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
 }

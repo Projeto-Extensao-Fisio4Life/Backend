@@ -1,63 +1,42 @@
 package projeto.fisio4life.fenix.Dto.sessaoDto;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class SessaoResponseDto {
 
     private Integer idSessao;
+
     private Integer idAgendamento;
+
+    private Integer idServico;
+
     private LocalDateTime dataSessao;
+
     private String descricao;
+
     private String observacao;
 
-    public SessaoResponseDto() {
-    }
+    public SessaoResponseDto() {}
 
-    public SessaoResponseDto(Integer idSessao, Integer idAgendamento, LocalDateTime dataSessao, String descricao, String observacao) {
-        this.idSessao = idSessao;
-        this.idAgendamento = idAgendamento;
-        this.dataSessao = dataSessao;
-        this.descricao = descricao;
-        this.observacao = observacao;
-    }
+    public Integer getIdSessao() { return idSessao; }
+    public void setIdSessao(Integer valor) { this.idSessao = valor; }
 
-    public Integer getIdSessao() {
-        return idSessao;
-    }
+    public Integer getIdAgendamento() { return idAgendamento; }
+    public void setIdAgendamento(Integer valor) { this.idAgendamento = valor; }
 
-    public void setIdSessao(Integer idSessao) {
-        this.idSessao = idSessao;
-    }
+    public Integer getIdServico() { return idServico; }
+    public void setIdServico(Integer valor) { this.idServico = valor; }
 
-    public Integer getIdAgendamento() {
-        return idAgendamento;
-    }
+    public LocalDateTime getDataSessao() { return dataSessao; }
+    public void setDataSessao(LocalDateTime valor) { this.dataSessao = valor; }
 
-    public void setIdAgendamento(Integer idAgendamento) {
-        this.idAgendamento = idAgendamento;
-    }
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String valor) { this.descricao = valor; }
 
-    public LocalDateTime getDataSessao() {
-        return dataSessao;
-    }
+    public String getObservacao() { return observacao; }
+    public void setObservacao(String valor) { this.observacao = valor; }
 
-    public void setDataSessao(LocalDateTime dataSessao) {
-        this.dataSessao = dataSessao;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public String getObservacao() {
-        return observacao;
-    }
-
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
-    }
 }

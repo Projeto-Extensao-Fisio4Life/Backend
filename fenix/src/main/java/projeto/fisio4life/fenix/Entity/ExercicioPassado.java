@@ -1,103 +1,60 @@
 package projeto.fisio4life.fenix.Entity;
 
-
 import jakarta.persistence.*;
-
-import java.sql.Time;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "exercicio_passado")
 public class ExercicioPassado {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_exercicio_passado", nullable = false)
     private Integer id_exercicio_passado;
 
     @ManyToOne
-    @JoinColumn(name = "fk_evolucao")
-    private Evolucao evolucao;
-    @ManyToOne
-    @JoinColumn(name = "fk_exercicio")
+    @JoinColumn(name = "fk_exercicio", nullable = false)
     private Exercicio exercicio;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_evolucao", nullable = false)
+    private Evolucao evolucao;
+
+    @Column(name = "segmento", nullable = false, length = 45)
     private String segmento;
+
+    @Column(name = "quantidade_series", nullable = false)
     private Integer quantidade_series;
+
+    @Column(name = "quantidade_repeticoes", nullable = false)
     private Integer quantidade_repeticoes;
+
+    @Column(name = "carga", nullable = false)
     private Integer carga;
-    private Time tempo;
 
-    public ExercicioPassado() {
-    }
+    @Column(name = "tempo", nullable = false)
+    private LocalTime tempo;
 
-    public ExercicioPassado(Integer id_exercicio_passado, Evolucao evolucao, Exercicio exercicio, String segmento, Integer quantidade_series, Integer quantidade_repeticoes, Integer carga, Time tempo) {
-        this.id_exercicio_passado = id_exercicio_passado;
-        this.evolucao = evolucao;
-        this.exercicio = exercicio;
-        this.segmento = segmento;
-        this.quantidade_series = quantidade_series;
-        this.quantidade_repeticoes = quantidade_repeticoes;
-        this.carga = carga;
-        this.tempo = tempo;
-    }
+    @Column(name = "local", nullable = false, length = 45)
+    private String local;
 
-    public Integer getId_exercicio_passado() {
-        return id_exercicio_passado;
-    }
-
-    public void setId_exercicio_passado(Integer id_exercicio_passado) {
-        this.id_exercicio_passado = id_exercicio_passado;
-    }
-
-    public Evolucao getEvolucao() {
-        return evolucao;
-    }
-
-    public void setEvolucao(Evolucao evolucao) {
-        this.evolucao = evolucao;
-    }
-
-    public Exercicio getExercicio() {
-        return exercicio;
-    }
-
-    public void setExercicio(Exercicio exercicio) {
-        this.exercicio = exercicio;
-    }
-
-    public String getSegmento() {
-        return segmento;
-    }
-
-    public void setSegmento(String segmento) {
-        this.segmento = segmento;
-    }
-
-    public Integer getQuantidade_series() {
-        return quantidade_series;
-    }
-
-    public void setQuantidade_series(Integer quantidade_series) {
-        this.quantidade_series = quantidade_series;
-    }
-
-    public Integer getQuantidade_repeticoes() {
-        return quantidade_repeticoes;
-    }
-
-    public void setQuantidade_repeticoes(Integer quantidade_repeticoes) {
-        this.quantidade_repeticoes = quantidade_repeticoes;
-    }
-
-    public Integer getCarga() {
-        return carga;
-    }
-
-    public void setCarga(Integer carga) {
-        this.carga = carga;
-    }
-
-    public Time getTempo() {
-        return tempo;
-    }
-
-    public void setTempo(Time tempo) {
-        this.tempo = tempo;
-    }
+    public ExercicioPassado() {}
+    public Integer getId_exercicio_passado() { return id_exercicio_passado; }
+    public void setId_exercicio_passado(Integer valor) { this.id_exercicio_passado = valor; }
+    public Exercicio getExercicio() { return exercicio; }
+    public void setExercicio(Exercicio valor) { this.exercicio = valor; }
+    public Evolucao getEvolucao() { return evolucao; }
+    public void setEvolucao(Evolucao valor) { this.evolucao = valor; }
+    public String getSegmento() { return segmento; }
+    public void setSegmento(String valor) { this.segmento = valor; }
+    public Integer getQuantidade_series() { return quantidade_series; }
+    public void setQuantidade_series(Integer valor) { this.quantidade_series = valor; }
+    public Integer getQuantidade_repeticoes() { return quantidade_repeticoes; }
+    public void setQuantidade_repeticoes(Integer valor) { this.quantidade_repeticoes = valor; }
+    public Integer getCarga() { return carga; }
+    public void setCarga(Integer valor) { this.carga = valor; }
+    public LocalTime getTempo() { return tempo; }
+    public void setTempo(LocalTime valor) { this.tempo = valor; }
+    public String getLocal() { return local; }
+    public void setLocal(String valor) { this.local = valor; }
 }

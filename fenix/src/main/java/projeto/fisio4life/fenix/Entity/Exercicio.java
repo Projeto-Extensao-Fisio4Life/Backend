@@ -1,58 +1,27 @@
 package projeto.fisio4life.fenix.Entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 
-// --- ENTITY ---
 @Entity
-@Table
+@Table(name = "exercicio")
 public class Exercicio {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_exercicio", nullable = false)
     private Integer id_exercicio;
+
+    @Column(name = "categoria", nullable = false, length = 45)
     private String categoria;
+
+    @Column(name = "nome", nullable = false, length = 45)
     private String nome;
-    private String url_exercicio;
 
-    public Exercicio() {
-    }
-
-    public Exercicio(Integer id_exercicio, String categoria, String nome, String url_exercicio) {
-        this.id_exercicio = id_exercicio;
-        this.categoria = categoria;
-        this.nome = nome;
-        this.url_exercicio = url_exercicio;
-    }
-
-    public Integer getId_exercicio() {
-        return id_exercicio;
-    }
-
-    public void setId_exercicio(Integer id_exercicio) {
-        this.id_exercicio = id_exercicio;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getUrl_exercicio() {
-        return url_exercicio;
-    }
-
-    public void setUrl_exercicio(String url_exercicio) {
-        this.url_exercicio = url_exercicio;
-    }
+    public Exercicio() {}
+    public Integer getId_exercicio() { return id_exercicio; }
+    public void setId_exercicio(Integer valor) { this.id_exercicio = valor; }
+    public String getCategoria() { return categoria; }
+    public void setCategoria(String valor) { this.categoria = valor; }
+    public String getNome() { return nome; }
+    public void setNome(String valor) { this.nome = valor; }
 }
