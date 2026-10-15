@@ -3,6 +3,7 @@ package projeto.fisio4life.fenix.Entity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CollectionIdJdbcTypeCode;
 import org.hibernate.type.descriptor.jdbc.TinyIntAsSmallIntJdbcType;
+import projeto.fisio4life.fenix.Enum.TipoUsuarioEnum;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,7 +23,7 @@ public class Usuario {
 
     private String nome;
     private String senha;
-    private String tipo_usuario;
+    private TipoUsuarioEnum tipo_usuario;
     private LocalDate data_nascimento;
     private LocalDateTime data_cadastro;
     private Integer status_usuario;
@@ -30,7 +31,7 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(Integer id_usuario, Endereco endereco, Contato contato, String nome, String senha, String tipo_usuario, LocalDate data_nascimento, LocalDateTime data_cadastro, Integer status_usuario) {
+    public Usuario(Integer id_usuario, Endereco endereco, Contato contato, String nome, String senha, TipoUsuarioEnum tipo_usuario, LocalDate data_nascimento, LocalDateTime data_cadastro, Integer status_usuario) {
         this.id_usuario = id_usuario;
         this.endereco = endereco;
         this.contato = contato;
@@ -90,11 +91,11 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public String getTipo_usuario() {
+    public TipoUsuarioEnum getTipo_usuario() {
         return tipo_usuario;
     }
 
-    public void setTipo_usuario(String tipo_usuario) {
+    public void setTipo_usuario(TipoUsuarioEnum tipo_usuario) {
         this.tipo_usuario = tipo_usuario;
     }
 

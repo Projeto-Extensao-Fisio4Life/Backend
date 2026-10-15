@@ -35,6 +35,7 @@ public class UsuarioController {
                 .body(UsuarioMapper.toResponseDto(salvo));
     }
 
+
     @GetMapping
     public ResponseEntity<List<UsuarioResponseDto>> listarTodos() {
 
