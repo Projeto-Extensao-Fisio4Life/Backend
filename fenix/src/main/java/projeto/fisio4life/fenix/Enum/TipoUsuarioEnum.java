@@ -1,9 +1,9 @@
 package projeto.fisio4life.fenix.Enum;
 
 public enum TipoUsuarioEnum {
-    PACIENTE("paciente"),
-    FISIOTERAPEUTA("fisioterapeuta"),
-    DONO_CLINICA("dono_clinica");
+    PACIENTE("PACIENTE"),
+    FISIOTERAPEUTA("FISIOTERAPEUTA"),
+    DONO_CLINICA("DONO_CLINICA");
 
     private final String descricao;
 

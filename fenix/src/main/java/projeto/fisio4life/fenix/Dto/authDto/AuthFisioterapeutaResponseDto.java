@@ -12,7 +12,7 @@ public class AuthFisioterapeutaResponseDto extends AuthResponseDto {
     private String especialidade;
     private String cnpj;
 
-    public AuthFisioterapeutaResponseDto(Integer idUsuario, Integer idEndereco, Integer idContato, String nome, LocalDate dataNascimento, TipoUsuarioEnum tipoUsuario, LocalDateTime dataCadastro, Integer statusUsuario, long tokenJwt, Integer idFisioterapeuta, String crefito, String especialidade, String cnpj) {
+    public AuthFisioterapeutaResponseDto(Integer idUsuario, Integer idEndereco, Integer idContato, String nome, LocalDate dataNascimento, TipoUsuarioEnum tipoUsuario, LocalDateTime dataCadastro, Integer statusUsuario, String tokenJwt, Integer idFisioterapeuta, String crefito, String especialidade, String cnpj) {
         super(idUsuario, idEndereco, idContato, nome, dataNascimento, tipoUsuario, dataCadastro, statusUsuario, tokenJwt);
         this.idFisioterapeuta = idFisioterapeuta;
         this.crefito = crefito;
@@ -20,7 +20,7 @@ public class AuthFisioterapeutaResponseDto extends AuthResponseDto {
         this.cnpj = cnpj;
     }
 
-    public AuthFisioterapeutaResponseDto(Integer idUsuario, Integer idEndereco, Integer idContato, String nome, LocalDate dataNascimento, String tipoUsuario, LocalDateTime dataCadastro, Integer statusUsuario, long tokenJwt) {
+    public AuthFisioterapeutaResponseDto(Integer idUsuario, Integer idEndereco, Integer idContato, String nome, LocalDate dataNascimento, TipoUsuarioEnum tipoUsuario, LocalDateTime dataCadastro, Integer statusUsuario, String tokenJwt) {
         super(idUsuario, idEndereco, idContato, nome, dataNascimento, tipoUsuario, dataCadastro, statusUsuario, tokenJwt);
     }
 

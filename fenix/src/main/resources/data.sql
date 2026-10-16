@@ -271,3 +271,45 @@ CREATE TABLE IF NOT EXISTS exercicio_passado (
   CONSTRAINT fk_exercicio_passado_exercicio FOREIGN KEY (fk_exercicio) REFERENCES exercicio (id_exercicio),
   CONSTRAINT fk_exercicio_passado_evolucao FOREIGN KEY (fk_evolucao) REFERENCES evolucao (id_evolucao)
 );
+
+
+-- 1. Endereço
+INSERT INTO endereco (
+    logradouro, numero, bairro, cidade, estado, cep
+) VALUES (
+             'Rua das Flores', 150, 'Centro', 'Osasco', 'SP', '06010-000'
+         );
+
+-- 2. Contato
+INSERT INTO contato (
+    telefone, celular, email
+) VALUES (
+             '1133334444', '1198765432', 'fisioterapeuta@exemplo.com'
+         );
+
+-- 3. Usuário
+INSERT INTO usuario (
+    fk_endereco,
+    fk_contato,
+    nome,
+    data_nascimento,
+    email,
+    senha,
+    tipo_usuario,
+    status_usuario
+) VALUES (
+             1,
+             1,
+             'Mariana Oliveira Santos',
+             '1990-05-15',
+             'fisioterapeuta@exemplo.com',
+             '12345678910',
+             'FISIOTERAPEUTA',
+             1
+         );
+-- 4. Fisioterapeuta
+INSERT INTO fisioterapeuta (
+    fk_usuario, crefito, especialidade, cnpj
+) VALUES (
+             1, '123456-F', 'Ortopedia', '12345678000195'
+         );
