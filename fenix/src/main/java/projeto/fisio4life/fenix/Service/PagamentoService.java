@@ -19,41 +19,47 @@ private final ServicoRepository servicoRepository;
 
     public PagamentoService(PagamentoRepository pagamentoRepository, PacienteRepository pacienteRepository, ServicoRepository servicoRepository) {
         this.pagamentoRepository = pagamentoRepository;
-        this.pacienteRepository = pacienteRepository;
-        this.servicoRepository = servicoRepository;
+this.pacienteRepository = pacienteRepository;
+this.servicoRepository = servicoRepository;
     }
 
+    @Transactional
     public Pagamento salvar(Pagamento entity) {
         validar(entity, null);
 
         return pagamentoRepository.save(entity);
     }
 
+    @Transactional(readOnly = true)
     public Pagamento buscarPorId(Integer id) {
         return pagamentoRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Pagamento não encontrado."));
     }
 
+    @Transactional(readOnly = true)
     public List<Pagamento> listarTodos() {
         return pagamentoRepository.findAll();
     }
 
+    @Transactional
     public Pagamento atualizar(Integer id, Pagamento entity) {
-        Pagamento pagamento = buscarPorId(id);
+        Pagamento existente = buscarPorId(id);
         validar(entity, id);
-        pagamento.setValor(entity.getValor());
-        pagamento.setForma_pagamento(entity.getForma_pagamento());
-        pagamento.setStatus_pagamento(entity.getStatus_pagamento());
-        pagamento.setData_concluida(entity.getData_concluida());
-        pagamento.setPaciente(entity.getPaciente());
-        pagamento.setServico(entity.getServico());
-        return pagamentoRepository.save(pagamento);
+        existente.setValor(entity.getValor());
+existente.setForma_pagamento(entity.getForma_pagamento());
+existente.setStatus_pagamento(entity.getStatus_pagamento());
+existente.setData_concluida(entity.getData_concluida());
+existente.setPaciente(entity.getPaciente());
+existente.setServico(entity.getServico());
+        return pagamentoRepository.save(existente);
     }
 
+    @Transactional
     public void excluir(Integer id) {
-        Pagamento pagamento = buscarPorId(id);
+        Pagamento existente = buscarPorId(id);
         try {
-            pagamentoRepository.delete(pagamento);
+            pagamentoRepository.delete(existente);
+            pagamentoRepository.flush();
         } catch (org.springframework.dao.DataIntegrityViolationException ex) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Não é possível excluir Pagamento: existem registros relacionados.", ex);
@@ -77,5 +83,24 @@ private final ServicoRepository servicoRepository;
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Data concluída deve ter até 45 caracteres.");
     }
 
+    private void validarTexto(String valor, String campo, int max) {
+        if (valor == null || valor.isBlank() || valor.length() > max)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    campo + " é obrigatório e deve ter até " + max + " caracteres.");
+    }
+
+    @Transactional(readOnly = true)
+    public List<Pagamento> listarPorPaciente(Integer idPaciente) {
+        if (!pacienteRepository.existsById(idPaciente))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Paciente não encontrado.");
+        return pagamentoRepository.buscarPorPaciente(idPaciente);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Pagamento> listarPorServico(Integer idServico) {
+        if (!servicoRepository.existsById(idServico))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Serviço não encontrado.");
+        return pagamentoRepository.buscarPorServico(idServico);
+    }
 
 }

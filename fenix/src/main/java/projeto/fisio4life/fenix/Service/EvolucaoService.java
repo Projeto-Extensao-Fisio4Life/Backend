@@ -14,49 +14,52 @@ import projeto.fisio4life.fenix.Repository.SessaoRepository;
 public class EvolucaoService {
 
     private final EvolucaoRepository evolucaoRepository;
-    private final ProntuarioRepository prontuarioRepository;
-    private final SessaoRepository sessaoRepository;
+private final ProntuarioRepository prontuarioRepository;
+private final SessaoRepository sessaoRepository;
 
     public EvolucaoService(EvolucaoRepository evolucaoRepository, ProntuarioRepository prontuarioRepository, SessaoRepository sessaoRepository) {
         this.evolucaoRepository = evolucaoRepository;
-        this.prontuarioRepository = prontuarioRepository;
-        this.sessaoRepository = sessaoRepository;
+this.prontuarioRepository = prontuarioRepository;
+this.sessaoRepository = sessaoRepository;
     }
 
-
+    @Transactional
     public Evolucao salvar(Evolucao entity) {
         validar(entity, null);
 
         return evolucaoRepository.save(entity);
     }
 
+    @Transactional(readOnly = true)
     public Evolucao buscarPorId(Integer id) {
         return evolucaoRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Evolucao não encontrado."));
     }
 
+    @Transactional(readOnly = true)
     public List<Evolucao> listarTodos() {
         return evolucaoRepository.findAll();
     }
 
-
+    @Transactional
     public Evolucao atualizar(Integer id, Evolucao entity) {
-        Evolucao evolucao = buscarPorId(id);
+        Evolucao existente = buscarPorId(id);
         validar(entity, id);
-        evolucao.setData_evolucao(entity.getData_evolucao());
-        evolucao.setConduta(entity.getConduta());
-        evolucao.setAvaliacao(entity.getAvaliacao());
-        evolucao.setObservacao(entity.getObservacao());
-        evolucao.setSessao(entity.getSessao());
-        evolucao.setProntuario(entity.getProntuario());
-        return evolucaoRepository.save(evolucao);
+        existente.setData_evolucao(entity.getData_evolucao());
+existente.setConduta(entity.getConduta());
+existente.setAvaliacao(entity.getAvaliacao());
+existente.setObservacao(entity.getObservacao());
+existente.setSessao(entity.getSessao());
+existente.setProntuario(entity.getProntuario());
+        return evolucaoRepository.save(existente);
     }
 
-
+    @Transactional
     public void excluir(Integer id) {
-        Evolucao evolucao = buscarPorId(id);
+        Evolucao existente = buscarPorId(id);
         try {
-            evolucaoRepository.delete(evolucao);
+            evolucaoRepository.delete(existente);
+            evolucaoRepository.flush();
         } catch (org.springframework.dao.DataIntegrityViolationException ex) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Não é possível excluir Evolucao: existem registros relacionados.", ex);
@@ -88,4 +91,19 @@ public class EvolucaoService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     campo + " é obrigatório e deve ter até " + max + " caracteres.");
     }
+
+    @Transactional(readOnly = true)
+    public List<Evolucao> listarPorSessao(Integer idSessao) {
+        if (!sessaoRepository.existsById(idSessao))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Sessão não encontrada.");
+        return evolucaoRepository.buscarPorSessao(idSessao);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Evolucao> listarPorProntuario(Integer idProntuario) {
+        if (!prontuarioRepository.existsById(idProntuario))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Prontuário não encontrado.");
+        return evolucaoRepository.buscarPorProntuario(idProntuario);
+    }
+
 }

@@ -13,44 +13,47 @@ import projeto.fisio4life.fenix.Repository.EscalaRepository;
 public class EscalaPerguntasService {
 
     private final EscalaPerguntasRepository escalaPerguntasRepository;
-    private final EscalaRepository escalaRepository;
+private final EscalaRepository escalaRepository;
 
     public EscalaPerguntasService(EscalaPerguntasRepository escalaPerguntasRepository, EscalaRepository escalaRepository) {
         this.escalaPerguntasRepository = escalaPerguntasRepository;
-        this.escalaRepository = escalaRepository;
+this.escalaRepository = escalaRepository;
     }
 
-
+    @Transactional
     public EscalaPerguntas salvar(EscalaPerguntas entity) {
         validar(entity, null);
 
         return escalaPerguntasRepository.save(entity);
     }
 
+    @Transactional(readOnly = true)
     public EscalaPerguntas buscarPorId(Integer id) {
         return escalaPerguntasRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "EscalaPerguntas não encontrado."));
     }
 
+    @Transactional(readOnly = true)
     public List<EscalaPerguntas> listarTodos() {
         return escalaPerguntasRepository.findAll();
     }
 
-
+    @Transactional
     public EscalaPerguntas atualizar(Integer id, EscalaPerguntas entity) {
-        EscalaPerguntas escalaPerguntas = buscarPorId(id);
+        EscalaPerguntas existente = buscarPorId(id);
         validar(entity, id);
-        escalaPerguntas.setTitulo_pergunta(entity.getTitulo_pergunta());
-        escalaPerguntas.setTipo_dado(entity.getTipo_dado());
-        escalaPerguntas.setEscala(entity.getEscala());
-        return escalaPerguntasRepository.save(escalaPerguntas);
+        existente.setTitulo_pergunta(entity.getTitulo_pergunta());
+existente.setTipo_dado(entity.getTipo_dado());
+existente.setEscala(entity.getEscala());
+        return escalaPerguntasRepository.save(existente);
     }
 
-
+    @Transactional
     public void excluir(Integer id) {
-        EscalaPerguntas escalaPerguntas = buscarPorId(id);
+        EscalaPerguntas existente = buscarPorId(id);
         try {
-            escalaPerguntasRepository.delete(escalaPerguntas);
+            escalaPerguntasRepository.delete(existente);
+            escalaPerguntasRepository.flush();
         } catch (org.springframework.dao.DataIntegrityViolationException ex) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Não é possível excluir EscalaPerguntas: existem registros relacionados.", ex);
@@ -71,6 +74,13 @@ public class EscalaPerguntasService {
         if (valor == null || valor.isBlank() || valor.length() > max)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     campo + " é obrigatório e deve ter até " + max + " caracteres.");
+    }
+
+    @Transactional(readOnly = true)
+    public List<EscalaPerguntas> listarPorEscala(Integer idEscala) {
+        if (!escalaRepository.existsById(idEscala))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Escala não encontrada.");
+        return escalaPerguntasRepository.buscarPorEscala(idEscala);
     }
 
 }

@@ -19,43 +19,44 @@ private final EscalaProntuarioRepository escalaProntuarioRepository;
 
     public EscalaRespostasService(EscalaRespostasRepository escalaRespostasRepository, EscalaPerguntasRepository escalaPerguntasRepository, EscalaProntuarioRepository escalaProntuarioRepository) {
         this.escalaRespostasRepository = escalaRespostasRepository;
-        this.escalaPerguntasRepository = escalaPerguntasRepository;
-        this.escalaProntuarioRepository = escalaProntuarioRepository;
+this.escalaPerguntasRepository = escalaPerguntasRepository;
+this.escalaProntuarioRepository = escalaProntuarioRepository;
     }
 
-
+    @Transactional
     public EscalaRespostas salvar(EscalaRespostas entity) {
         validar(entity, null);
 
         return escalaRespostasRepository.save(entity);
     }
 
-
+    @Transactional(readOnly = true)
     public EscalaRespostas buscarPorId(Integer id) {
         return escalaRespostasRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "EscalaRespostas não encontrado."));
     }
 
-
+    @Transactional(readOnly = true)
     public List<EscalaRespostas> listarTodos() {
         return escalaRespostasRepository.findAll();
     }
 
-
+    @Transactional
     public EscalaRespostas atualizar(Integer id, EscalaRespostas entity) {
-        EscalaRespostas escalaResposta = buscarPorId(id);
+        EscalaRespostas existente = buscarPorId(id);
         validar(entity, id);
-        escalaResposta.setValor_resposta(entity.getValor_resposta());
-        escalaResposta.setEscala_prontuario(entity.getEscala_prontuario());
-        escalaResposta.setEscala_perguntas(entity.getEscala_perguntas());
-        return escalaRespostasRepository.save(escalaResposta);
+        existente.setValor_resposta(entity.getValor_resposta());
+existente.setEscala_prontuario(entity.getEscala_prontuario());
+existente.setEscala_perguntas(entity.getEscala_perguntas());
+        return escalaRespostasRepository.save(existente);
     }
 
-
+    @Transactional
     public void excluir(Integer id) {
-        EscalaRespostas escalaResposta = buscarPorId(id);
+        EscalaRespostas existente = buscarPorId(id);
         try {
-            escalaRespostasRepository.delete(escalaResposta);
+            escalaRespostasRepository.delete(existente);
+            escalaRespostasRepository.flush();
         } catch (org.springframework.dao.DataIntegrityViolationException ex) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Não é possível excluir EscalaRespostas: existem registros relacionados.", ex);
@@ -80,6 +81,13 @@ private final EscalaProntuarioRepository escalaProntuarioRepository;
         if (valor == null || valor.isBlank() || valor.length() > max)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     campo + " é obrigatório e deve ter até " + max + " caracteres.");
+    }
+
+    @Transactional(readOnly = true)
+    public List<EscalaRespostas> listarPorAplicacao(Integer idEscalaProntuario) {
+        if (!escalaProntuarioRepository.existsById(idEscalaProntuario))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Aplicação da escala não encontrada.");
+        return escalaRespostasRepository.buscarPorAplicacao(idEscalaProntuario);
     }
 
 }

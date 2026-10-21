@@ -3,6 +3,7 @@ package projeto.fisio4life.fenix.Service;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import projeto.fisio4life.fenix.Entity.Endereco;
 import projeto.fisio4life.fenix.Repository.EnderecoRepository;
@@ -16,40 +17,43 @@ public class EnderecoService {
         this.enderecoRepository = enderecoRepository;
     }
 
-
+    @Transactional
     public Endereco salvar(Endereco entity) {
         validar(entity, null);
 
         return enderecoRepository.save(entity);
     }
 
+    @Transactional(readOnly = true)
     public Endereco buscarPorId(Integer id) {
         return enderecoRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Endereco não encontrado."));
     }
 
+    @Transactional(readOnly = true)
     public List<Endereco> listarTodos() {
         return enderecoRepository.findAll();
     }
 
-
+    @Transactional
     public Endereco atualizar(Integer id, Endereco entity) {
-        Endereco endereco = buscarPorId(id);
+        Endereco existente = buscarPorId(id);
         validar(entity, id);
-        endereco.setLogradouro(entity.getLogradouro());
-        endereco.setNumero(entity.getNumero());
-        endereco.setBairro(entity.getBairro());
-        endereco.setCidade(entity.getCidade());
-        endereco.setEstado(entity.getEstado());
-        endereco.setCep(entity.getCep());
-        return enderecoRepository.save(endereco);
+        existente.setLogradouro(entity.getLogradouro());
+existente.setNumero(entity.getNumero());
+existente.setBairro(entity.getBairro());
+existente.setCidade(entity.getCidade());
+existente.setEstado(entity.getEstado());
+existente.setCep(entity.getCep());
+        return enderecoRepository.save(existente);
     }
 
-
+    @Transactional
     public void excluir(Integer id) {
-        Endereco endereco = buscarPorId(id);
+        Endereco existente = buscarPorId(id);
         try {
-            enderecoRepository.delete(endereco);
+            enderecoRepository.delete(existente);
+            enderecoRepository.flush();
         } catch (org.springframework.dao.DataIntegrityViolationException ex) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Não é possível excluir Endereco: existem registros relacionados.", ex);

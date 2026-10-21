@@ -17,35 +17,41 @@ public class ServicoService {
         this.servicoRepository = servicoRepository;
     }
 
+    @Transactional
     public Servico salvar(Servico entity) {
         validar(entity, null);
 
         return servicoRepository.save(entity);
     }
 
+    @Transactional(readOnly = true)
     public Servico buscarPorId(Integer id) {
         return servicoRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Servico não encontrado."));
     }
 
+    @Transactional(readOnly = true)
     public List<Servico> listarTodos() {
         return servicoRepository.findAll();
     }
 
+    @Transactional
     public Servico atualizar(Integer id, Servico entity) {
-        Servico servico = buscarPorId(id);
+        Servico existente = buscarPorId(id);
         validar(entity, id);
-        servico.setNome(entity.getNome());
-        servico.setQuantidade_sessoes(entity.getQuantidade_sessoes());
-        servico.setTipo(entity.getTipo());
-        servico.setStatus_servico(entity.getStatus_servico());
-        return servicoRepository.save(servico);
+        existente.setNome(entity.getNome());
+existente.setQuantidade_sessoes(entity.getQuantidade_sessoes());
+existente.setTipo(entity.getTipo());
+existente.setStatus_servico(entity.getStatus_servico());
+        return servicoRepository.save(existente);
     }
 
+    @Transactional
     public void excluir(Integer id) {
-        Servico servico = buscarPorId(id);
+        Servico existente = buscarPorId(id);
         try {
-            servicoRepository.delete(servico);
+            servicoRepository.delete(existente);
+            servicoRepository.flush();
         } catch (org.springframework.dao.DataIntegrityViolationException ex) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Não é possível excluir Servico: existem registros relacionados.", ex);
@@ -63,6 +69,12 @@ public class ServicoService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo do serviço é obrigatório e deve ter até 20 caracteres.");
         if (entity.getStatus_servico() == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status do serviço é obrigatório.");
+    }
+
+    private void validarTexto(String valor, String campo, int max) {
+        if (valor == null || valor.isBlank() || valor.length() > max)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    campo + " é obrigatório e deve ter até " + max + " caracteres.");
     }
 
 }

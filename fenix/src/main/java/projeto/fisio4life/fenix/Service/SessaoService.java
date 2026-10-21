@@ -15,45 +15,53 @@ import projeto.fisio4life.fenix.Repository.SessaoRepository;
 public class SessaoService {
 
     private final SessaoRepository sessaoRepository;
-    private final AgendamentoRepository agendamentoRepository;
-    private final ServicoRepository servicoRepository;
+private final AgendamentoRepository agendamentoRepository;
+private final EvolucaoRepository evolucaoRepository;
+private final ServicoRepository servicoRepository;
 
     public SessaoService(SessaoRepository sessaoRepository, AgendamentoRepository agendamentoRepository, EvolucaoRepository evolucaoRepository, ServicoRepository servicoRepository) {
         this.sessaoRepository = sessaoRepository;
-        this.agendamentoRepository = agendamentoRepository;
-        this.servicoRepository = servicoRepository;
+this.agendamentoRepository = agendamentoRepository;
+this.evolucaoRepository = evolucaoRepository;
+this.servicoRepository = servicoRepository;
     }
 
+    @Transactional
     public Sessao salvar(Sessao entity) {
         validar(entity, null);
 
         return sessaoRepository.save(entity);
     }
 
+    @Transactional(readOnly = true)
     public Sessao buscarPorId(Integer id) {
         return sessaoRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Sessao não encontrado."));
     }
 
+    @Transactional(readOnly = true)
     public List<Sessao> listarTodos() {
         return sessaoRepository.findAll();
     }
 
+    @Transactional
     public Sessao atualizar(Integer id, Sessao entity) {
-        Sessao sessao = buscarPorId(id);
+        Sessao existente = buscarPorId(id);
         validar(entity, id);
-        sessao.setData_sessao(entity.getData_sessao());
-        sessao.setDescricao(entity.getDescricao());
-        sessao.setObservacao(entity.getObservacao());
-        sessao.setAgendamento(entity.getAgendamento());
-        sessao.setServico(entity.getServico());
-        return sessaoRepository.save(sessao);
+        existente.setData_sessao(entity.getData_sessao());
+existente.setDescricao(entity.getDescricao());
+existente.setObservacao(entity.getObservacao());
+existente.setAgendamento(entity.getAgendamento());
+existente.setServico(entity.getServico());
+        return sessaoRepository.save(existente);
     }
 
+    @Transactional
     public void excluir(Integer id) {
-        Sessao sessao = buscarPorId(id);
+        Sessao existente = buscarPorId(id);
         try {
-            sessaoRepository.delete(sessao);
+            sessaoRepository.delete(existente);
+            sessaoRepository.flush();
         } catch (org.springframework.dao.DataIntegrityViolationException ex) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Não é possível excluir Sessao: existem registros relacionados.", ex);
@@ -80,8 +88,24 @@ public class SessaoService {
         if (sessaoRepository.existeSessaoDoAgendamento(entity.getAgendamento().getId_agendamento(), idAtual))
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Este agendamento já possui uma sessão.");
         Integer pacienteId = entity.getAgendamento().getPaciente().getId_paciente();
-        Integer sessoesNoServico = sessaoRepository.contarSessoesDoPacienteNoServico(pacienteId, entity.getServico().getId_servico(), idAtual);
+        long sessoesNoServico = sessaoRepository.contarSessoesDoPacienteNoServico(pacienteId, entity.getServico().getId_servico(), idAtual);
         if (sessoesNoServico >= entity.getServico().getQuantidade_sessoes())
             throw new ResponseStatusException(HttpStatus.CONFLICT, "O paciente já atingiu a quantidade de sessões contratada para este serviço.");
     }
+
+    private void validarTexto(String valor, String campo, int max) {
+        if (valor == null || valor.isBlank() || valor.length() > max)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    campo + " é obrigatório e deve ter até " + max + " caracteres.");
+    }
+
+    @Transactional(readOnly = true)
+    public List<Sessao> listarPorServico(Integer idServico) {
+        if (!servicoRepository.existsById(idServico))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Serviço não encontrado.");
+        return sessaoRepository.findAll().stream()
+                .filter(s -> s.getServico() != null && s.getServico().getId_servico().equals(idServico))
+                .toList();
+    }
+
 }

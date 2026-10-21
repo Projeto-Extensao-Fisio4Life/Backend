@@ -17,33 +17,39 @@ public class ExercicioService {
         this.exercicioRepository = exercicioRepository;
     }
 
+    @Transactional
     public Exercicio salvar(Exercicio entity) {
         validar(entity, null);
 
         return exercicioRepository.save(entity);
     }
 
+    @Transactional(readOnly = true)
     public Exercicio buscarPorId(Integer id) {
         return exercicioRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Exercicio não encontrado."));
     }
 
+    @Transactional(readOnly = true)
     public List<Exercicio> listarTodos() {
         return exercicioRepository.findAll();
     }
 
+    @Transactional
     public Exercicio atualizar(Integer id, Exercicio entity) {
-        Exercicio exercicio = buscarPorId(id);
+        Exercicio existente = buscarPorId(id);
         validar(entity, id);
-        exercicio.setCategoria(entity.getCategoria());
-        exercicio.setNome(entity.getNome());
-        return exercicioRepository.save(exercicio);
+        existente.setCategoria(entity.getCategoria());
+existente.setNome(entity.getNome());
+        return exercicioRepository.save(existente);
     }
 
+    @Transactional
     public void excluir(Integer id) {
-        Exercicio exercicio = buscarPorId(id);
+        Exercicio existente = buscarPorId(id);
         try {
-            exercicioRepository.delete(exercicio);
+            exercicioRepository.delete(existente);
+            exercicioRepository.flush();
         } catch (org.springframework.dao.DataIntegrityViolationException ex) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Não é possível excluir Exercicio: existem registros relacionados.", ex);

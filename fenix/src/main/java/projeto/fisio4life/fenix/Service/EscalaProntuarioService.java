@@ -14,46 +14,49 @@ import projeto.fisio4life.fenix.Repository.ProntuarioRepository;
 public class EscalaProntuarioService {
 
     private final EscalaProntuarioRepository escalaProntuarioRepository;
-    private final EscalaRepository escalaRepository;
-    private final ProntuarioRepository prontuarioRepository;
+private final EscalaRepository escalaRepository;
+private final ProntuarioRepository prontuarioRepository;
 
     public EscalaProntuarioService(EscalaProntuarioRepository escalaProntuarioRepository, EscalaRepository escalaRepository, ProntuarioRepository prontuarioRepository) {
         this.escalaProntuarioRepository = escalaProntuarioRepository;
-        this.escalaRepository = escalaRepository;
-        this.prontuarioRepository = prontuarioRepository;
+this.escalaRepository = escalaRepository;
+this.prontuarioRepository = prontuarioRepository;
     }
 
-
+    @Transactional
     public EscalaProntuario salvar(EscalaProntuario entity) {
         validar(entity, null);
 
         return escalaProntuarioRepository.save(entity);
     }
 
+    @Transactional(readOnly = true)
     public EscalaProntuario buscarPorId(Integer id) {
         return escalaProntuarioRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "EscalaProntuario não encontrado."));
     }
 
+    @Transactional(readOnly = true)
     public List<EscalaProntuario> listarTodos() {
         return escalaProntuarioRepository.findAll();
     }
 
-
+    @Transactional
     public EscalaProntuario atualizar(Integer id, EscalaProntuario entity) {
-        EscalaProntuario escalaProntuario = buscarPorId(id);
+        EscalaProntuario existente = buscarPorId(id);
         validar(entity, id);
-        escalaProntuario.setData_resposta(entity.getData_resposta());
-        escalaProntuario.setProntuario(entity.getProntuario());
-        escalaProntuario.setEscala(entity.getEscala());
-        return escalaProntuarioRepository.save(escalaProntuario);
+        existente.setData_resposta(entity.getData_resposta());
+existente.setProntuario(entity.getProntuario());
+existente.setEscala(entity.getEscala());
+        return escalaProntuarioRepository.save(existente);
     }
 
-
+    @Transactional
     public void excluir(Integer id) {
-        EscalaProntuario escalaProntuario = buscarPorId(id);
+        EscalaProntuario existente = buscarPorId(id);
         try {
-            escalaProntuarioRepository.delete(escalaProntuario);
+            escalaProntuarioRepository.delete(existente);
+            escalaProntuarioRepository.flush();
         } catch (org.springframework.dao.DataIntegrityViolationException ex) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Não é possível excluir EscalaProntuario: existem registros relacionados.", ex);
@@ -71,6 +74,19 @@ public class EscalaProntuarioService {
         entity.setEscala(escalaRepository.findById(entity.getEscala().getId_escala()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Escala não encontrada.")));
         if (entity.getData_resposta() == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Data da resposta é obrigatória.");
+    }
+
+    private void validarTexto(String valor, String campo, int max) {
+        if (valor == null || valor.isBlank() || valor.length() > max)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    campo + " é obrigatório e deve ter até " + max + " caracteres.");
+    }
+
+    @Transactional(readOnly = true)
+    public List<EscalaProntuario> listarPorProntuario(Integer idProntuario) {
+        if (!prontuarioRepository.existsById(idProntuario))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Prontuário não encontrado.");
+        return escalaProntuarioRepository.buscarPorProntuario(idProntuario);
     }
 
 }

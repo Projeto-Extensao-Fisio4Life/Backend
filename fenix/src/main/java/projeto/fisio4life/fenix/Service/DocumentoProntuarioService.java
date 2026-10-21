@@ -3,6 +3,7 @@ package projeto.fisio4life.fenix.Service;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import projeto.fisio4life.fenix.Entity.DocumentoProntuario;
 import projeto.fisio4life.fenix.Repository.DocumentoProntuarioRepository;
@@ -12,49 +13,50 @@ import projeto.fisio4life.fenix.Repository.ProntuarioRepository;
 public class DocumentoProntuarioService {
 
     private final DocumentoProntuarioRepository documentoProntuarioRepository;
-    private final ProntuarioRepository prontuarioRepository;
+private final ProntuarioRepository prontuarioRepository;
 
     public DocumentoProntuarioService(DocumentoProntuarioRepository documentoProntuarioRepository, ProntuarioRepository prontuarioRepository) {
         this.documentoProntuarioRepository = documentoProntuarioRepository;
-        this.prontuarioRepository = prontuarioRepository;
+this.prontuarioRepository = prontuarioRepository;
     }
 
-
+    @Transactional
     public DocumentoProntuario salvar(DocumentoProntuario entity) {
         validar(entity, null);
 
         return documentoProntuarioRepository.save(entity);
     }
 
-
+    @Transactional(readOnly = true)
     public DocumentoProntuario buscarPorId(Integer id) {
         return documentoProntuarioRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "DocumentoProntuario não encontrado."));
     }
 
-
+    @Transactional(readOnly = true)
     public List<DocumentoProntuario> listarTodos() {
         return documentoProntuarioRepository.findAll();
     }
 
-
+    @Transactional
     public DocumentoProntuario atualizar(Integer id, DocumentoProntuario entity) {
-        DocumentoProntuario documentoProntuario = buscarPorId(id);
+        DocumentoProntuario existente = buscarPorId(id);
         validar(entity, id);
-        documentoProntuario.setNome_arquivo(entity.getNome_arquivo());
-        documentoProntuario.setTipo_documento(entity.getTipo_documento());
-        documentoProntuario.setS3_key(entity.getS3_key());
-        documentoProntuario.setUrl_documento(entity.getUrl_documento());
-        documentoProntuario.setData_upload(entity.getData_upload());
-        documentoProntuario.setProntuario(entity.getProntuario());
-        return documentoProntuarioRepository.save(documentoProntuario);
+        existente.setNome_arquivo(entity.getNome_arquivo());
+existente.setTipo_documento(entity.getTipo_documento());
+existente.setS3_key(entity.getS3_key());
+existente.setUrl_documento(entity.getUrl_documento());
+existente.setData_upload(entity.getData_upload());
+existente.setProntuario(entity.getProntuario());
+        return documentoProntuarioRepository.save(existente);
     }
 
-
+    @Transactional
     public void excluir(Integer id) {
-        DocumentoProntuario documentoProntuario = buscarPorId(id);
+        DocumentoProntuario existente = buscarPorId(id);
         try {
-            documentoProntuarioRepository.delete(documentoProntuario);
+            documentoProntuarioRepository.delete(existente);
+            documentoProntuarioRepository.flush();
         } catch (org.springframework.dao.DataIntegrityViolationException ex) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Não é possível excluir DocumentoProntuario: existem registros relacionados.", ex);
@@ -77,6 +79,19 @@ public class DocumentoProntuarioService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "URL do documento é obrigatória e deve ter até 45 caracteres.");
         if (entity.getData_upload() == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Data de upload é obrigatória.");
+    }
+
+    private void validarTexto(String valor, String campo, int max) {
+        if (valor == null || valor.isBlank() || valor.length() > max)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    campo + " é obrigatório e deve ter até " + max + " caracteres.");
+    }
+
+    @Transactional(readOnly = true)
+    public List<DocumentoProntuario> listarPorProntuario(Integer idProntuario) {
+        if (!prontuarioRepository.existsById(idProntuario))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Prontuário não encontrado.");
+        return documentoProntuarioRepository.buscarPorProntuario(idProntuario);
     }
 
 }

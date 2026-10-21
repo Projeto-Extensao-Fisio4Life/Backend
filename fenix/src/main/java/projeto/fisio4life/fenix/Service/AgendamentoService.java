@@ -3,6 +3,7 @@ package projeto.fisio4life.fenix.Service;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import projeto.fisio4life.fenix.Entity.Agendamento;
 import projeto.fisio4life.fenix.Repository.AgendamentoRepository;
@@ -14,50 +15,56 @@ import projeto.fisio4life.fenix.Repository.PacienteRepository;
 public class AgendamentoService {
 
     private final AgendamentoRepository agendamentoRepository;
-    private final ClinicaRepository clinicaRepository;
-    private final FisioterapeutaRepository fisioterapeutaRepository;
-    private final PacienteRepository pacienteRepository;
+private final ClinicaRepository clinicaRepository;
+private final FisioterapeutaRepository fisioterapeutaRepository;
+private final PacienteRepository pacienteRepository;
 
     public AgendamentoService(AgendamentoRepository agendamentoRepository, ClinicaRepository clinicaRepository, FisioterapeutaRepository fisioterapeutaRepository, PacienteRepository pacienteRepository) {
         this.agendamentoRepository = agendamentoRepository;
-        this.clinicaRepository = clinicaRepository;
-        this.fisioterapeutaRepository = fisioterapeutaRepository;
-        this.pacienteRepository = pacienteRepository;
+this.clinicaRepository = clinicaRepository;
+this.fisioterapeutaRepository = fisioterapeutaRepository;
+this.pacienteRepository = pacienteRepository;
     }
 
+    @Transactional
     public Agendamento salvar(Agendamento entity) {
         validar(entity, null);
 
         return agendamentoRepository.save(entity);
     }
 
+    @Transactional(readOnly = true)
     public Agendamento buscarPorId(Integer id) {
         return agendamentoRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Agendamento não encontrado."));
     }
 
+    @Transactional(readOnly = true)
     public List<Agendamento> listarTodos() {
         return agendamentoRepository.findAll();
     }
 
+    @Transactional
     public Agendamento atualizar(Integer id, Agendamento entity) {
-        Agendamento agendamento = buscarPorId(id);
+        Agendamento existente = buscarPorId(id);
         validar(entity, id);
-        agendamento.setData_agendamento(entity.getData_agendamento());
-        agendamento.setHora_inicio(entity.getHora_inicio());
-        agendamento.setHora_fim(entity.getHora_fim());
-        agendamento.setStatus_agendamento(entity.getStatus_agendamento());
-        agendamento.setObservacao(entity.getObservacao());
-        agendamento.setClinica(entity.getClinica());
-        agendamento.setFisioterapeuta(entity.getFisioterapeuta());
-        agendamento.setPaciente(entity.getPaciente());
-        return agendamentoRepository.save(agendamento);
+        existente.setData_agendamento(entity.getData_agendamento());
+existente.setHora_inicio(entity.getHora_inicio());
+existente.setHora_fim(entity.getHora_fim());
+existente.setStatus_agendamento(entity.getStatus_agendamento());
+existente.setObservacao(entity.getObservacao());
+existente.setClinica(entity.getClinica());
+existente.setFisioterapeuta(entity.getFisioterapeuta());
+existente.setPaciente(entity.getPaciente());
+        return agendamentoRepository.save(existente);
     }
 
+    @Transactional
     public void excluir(Integer id) {
-        Agendamento agendamento = buscarPorId(id);
+        Agendamento existente = buscarPorId(id);
         try {
-            agendamentoRepository.delete(agendamento);
+            agendamentoRepository.delete(existente);
+            agendamentoRepository.flush();
         } catch (org.springframework.dao.DataIntegrityViolationException ex) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Não é possível excluir Agendamento: existem registros relacionados.", ex);
@@ -86,4 +93,11 @@ public class AgendamentoService {
             agendamentoRepository.existeConflito(entity.getFisioterapeuta().getId_fisioterapeuta(), entity.getData_agendamento(), entity.getHora_inicio(), entity.getHora_fim(), RegraStatus.AGENDAMENTO_CANCELADO, idAtual))
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Existe conflito de horário para este fisioterapeuta.");
     }
+
+    private void validarTexto(String valor, String campo, int max) {
+        if (valor == null || valor.isBlank() || valor.length() > max)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    campo + " é obrigatório e deve ter até " + max + " caracteres.");
+    }
+
 }

@@ -14,48 +14,54 @@ import projeto.fisio4life.fenix.Repository.ExercicioRepository;
 public class ExercicioPassadoService {
 
     private final ExercicioPassadoRepository exercicioPassadoRepository;
-    private final EvolucaoRepository evolucaoRepository;
-    private final ExercicioRepository exercicioRepository;
+private final EvolucaoRepository evolucaoRepository;
+private final ExercicioRepository exercicioRepository;
 
     public ExercicioPassadoService(ExercicioPassadoRepository exercicioPassadoRepository, EvolucaoRepository evolucaoRepository, ExercicioRepository exercicioRepository) {
         this.exercicioPassadoRepository = exercicioPassadoRepository;
-        this.evolucaoRepository = evolucaoRepository;
-        this.exercicioRepository = exercicioRepository;
+this.evolucaoRepository = evolucaoRepository;
+this.exercicioRepository = exercicioRepository;
     }
 
+    @Transactional
     public ExercicioPassado salvar(ExercicioPassado entity) {
         validar(entity, null);
 
         return exercicioPassadoRepository.save(entity);
     }
 
+    @Transactional(readOnly = true)
     public ExercicioPassado buscarPorId(Integer id) {
         return exercicioPassadoRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "ExercicioPassado não encontrado."));
     }
 
+    @Transactional(readOnly = true)
     public List<ExercicioPassado> listarTodos() {
         return exercicioPassadoRepository.findAll();
     }
 
+    @Transactional
     public ExercicioPassado atualizar(Integer id, ExercicioPassado entity) {
-        ExercicioPassado exercioPassado = buscarPorId(id);
+        ExercicioPassado existente = buscarPorId(id);
         validar(entity, id);
-        exercioPassado.setSegmento(entity.getSegmento());
-        exercioPassado.setQuantidade_series(entity.getQuantidade_series());
-        exercioPassado.setQuantidade_repeticoes(entity.getQuantidade_repeticoes());
-        exercioPassado.setCarga(entity.getCarga());
-        exercioPassado.setTempo(entity.getTempo());
-        exercioPassado.setLocal(entity.getLocal());
-        exercioPassado.setExercicio(entity.getExercicio());
-        exercioPassado.setEvolucao(entity.getEvolucao());
-        return exercicioPassadoRepository.save(exercioPassado);
+        existente.setSegmento(entity.getSegmento());
+existente.setQuantidade_series(entity.getQuantidade_series());
+existente.setQuantidade_repeticoes(entity.getQuantidade_repeticoes());
+existente.setCarga(entity.getCarga());
+existente.setTempo(entity.getTempo());
+existente.setLocal(entity.getLocal());
+existente.setExercicio(entity.getExercicio());
+existente.setEvolucao(entity.getEvolucao());
+        return exercicioPassadoRepository.save(existente);
     }
 
+    @Transactional
     public void excluir(Integer id) {
-        ExercicioPassado exercioPassado = buscarPorId(id);
+        ExercicioPassado existente = buscarPorId(id);
         try {
-            exercicioPassadoRepository.delete(exercioPassado);
+            exercicioPassadoRepository.delete(existente);
+            exercicioPassadoRepository.flush();
         } catch (org.springframework.dao.DataIntegrityViolationException ex) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Não é possível excluir ExercicioPassado: existem registros relacionados.", ex);
@@ -87,6 +93,13 @@ public class ExercicioPassadoService {
         if (valor == null || valor.isBlank() || valor.length() > max)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     campo + " é obrigatório e deve ter até " + max + " caracteres.");
+    }
+
+    @Transactional(readOnly = true)
+    public List<ExercicioPassado> listarPorEvolucao(Integer idEvolucao) {
+        if (!evolucaoRepository.existsById(idEvolucao))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Evolução não encontrada.");
+        return exercicioPassadoRepository.buscarPorEvolucao(idEvolucao);
     }
 
 }

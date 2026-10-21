@@ -3,6 +3,7 @@ package projeto.fisio4life.fenix.Service;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import projeto.fisio4life.fenix.Entity.Contato;
 import projeto.fisio4life.fenix.Repository.ContatoRepository;
@@ -16,39 +17,40 @@ public class ContatoService {
         this.contatoRepository = contatoRepository;
     }
 
-
+    @Transactional
     public Contato salvar(Contato entity) {
         validar(entity, null);
 
         return contatoRepository.save(entity);
     }
 
-
+    @Transactional(readOnly = true)
     public Contato buscarPorId(Integer id) {
         return contatoRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Contato não encontrado."));
     }
 
-
+    @Transactional(readOnly = true)
     public List<Contato> listarTodos() {
         return contatoRepository.findAll();
     }
 
-
+    @Transactional
     public Contato atualizar(Integer id, Contato entity) {
-        Contato contato = buscarPorId(id);
+        Contato existente = buscarPorId(id);
         validar(entity, id);
-        contato.setTelefone(entity.getTelefone());
-        contato.setCelular(entity.getCelular());
-        contato.setEmail(entity.getEmail());
-        return contatoRepository.save(contato);
+        existente.setTelefone(entity.getTelefone());
+existente.setCelular(entity.getCelular());
+existente.setEmail(entity.getEmail());
+        return contatoRepository.save(existente);
     }
 
-
+    @Transactional
     public void excluir(Integer id) {
-        Contato contato = buscarPorId(id);
+        Contato existente = buscarPorId(id);
         try {
-            contatoRepository.delete(contato);
+            contatoRepository.delete(existente);
+            contatoRepository.flush();
         } catch (org.springframework.dao.DataIntegrityViolationException ex) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Não é possível excluir Contato: existem registros relacionados.", ex);

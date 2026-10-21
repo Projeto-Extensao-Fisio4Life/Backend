@@ -17,36 +17,39 @@ public class EscalaService {
         this.escalaRepository = escalaRepository;
     }
 
-
+    @Transactional
     public Escala salvar(Escala entity) {
         validar(entity, null);
 
         return escalaRepository.save(entity);
     }
 
+    @Transactional(readOnly = true)
     public Escala buscarPorId(Integer id) {
         return escalaRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Escala não encontrado."));
     }
 
+    @Transactional(readOnly = true)
     public List<Escala> listarTodos() {
         return escalaRepository.findAll();
     }
 
-
+    @Transactional
     public Escala atualizar(Integer id, Escala entity) {
-        Escala escala = buscarPorId(id);
+        Escala existente = buscarPorId(id);
         validar(entity, id);
-        escala.setNome(entity.getNome());
-        escala.setDescricao(entity.getDescricao());
-        return escalaRepository.save(escala);
+        existente.setNome(entity.getNome());
+existente.setDescricao(entity.getDescricao());
+        return escalaRepository.save(existente);
     }
 
-
+    @Transactional
     public void excluir(Integer id) {
-        Escala escala = buscarPorId(id);
+        Escala existente = buscarPorId(id);
         try {
-            escalaRepository.delete(escala);
+            escalaRepository.delete(existente);
+            escalaRepository.flush();
         } catch (org.springframework.dao.DataIntegrityViolationException ex) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Não é possível excluir Escala: existem registros relacionados.", ex);
