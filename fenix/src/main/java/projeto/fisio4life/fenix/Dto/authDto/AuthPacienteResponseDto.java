@@ -21,7 +21,7 @@ public class AuthPacienteResponseDto extends AuthResponseDto {
             TipoUsuarioEnum tipoUsuario,
             LocalDateTime dataCadastro,
             Integer statusUsuario,
-            long tokenJwt,
+            String tokenJwt,
             Integer idPaciente,
             String cpf,
             Boolean permiteAtendimentoGrupo
@@ -32,7 +32,7 @@ public class AuthPacienteResponseDto extends AuthResponseDto {
         this.permiteAtendimentoGrupo = permiteAtendimentoGrupo;
     }
 
-    public AuthPacienteResponseDto(Integer idUsuario, Integer idEndereco, Integer idContato, String nome, LocalDate dataNascimento, TipoUsuarioEnum tipoUsuario, LocalDateTime dataCadastro, Integer statusUsuario, long tokenJwt) {
+    public AuthPacienteResponseDto(Integer idUsuario, Integer idEndereco, Integer idContato, String nome, LocalDate dataNascimento, TipoUsuarioEnum tipoUsuario, LocalDateTime dataCadastro, Integer statusUsuario, String tokenJwt) {
         super(idUsuario, idEndereco, idContato, nome, dataNascimento, tipoUsuario, dataCadastro, statusUsuario, tokenJwt);
     }
 

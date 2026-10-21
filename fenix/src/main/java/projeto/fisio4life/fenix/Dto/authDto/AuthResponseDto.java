@@ -18,9 +18,9 @@ public class AuthResponseDto {
     private TipoUsuarioEnum tipoUsuario;
     private LocalDateTime dataCadastro;
     private Integer statusUsuario;
-    private long tokenJwt;
+    private String tokenJwt;
 
-    public AuthResponseDto(Integer idUsuario, Integer idEndereco, Integer idContato, String nome, LocalDate dataNascimento, TipoUsuarioEnum tipoUsuario, LocalDateTime dataCadastro, Integer statusUsuario, long tokenJwt) {
+    public AuthResponseDto(Integer idUsuario, Integer idEndereco, Integer idContato, String nome, LocalDate dataNascimento, TipoUsuarioEnum tipoUsuario, LocalDateTime dataCadastro, Integer statusUsuario, String tokenJwt) {
         this.idUsuario = idUsuario;
         this.idEndereco = idEndereco;
         this.idContato = idContato;
@@ -96,11 +96,11 @@ public class AuthResponseDto {
         this.statusUsuario = statusUsuario;
     }
 
-    public long getTokenJwt() {
+    public String getTokenJwt() {
         return tokenJwt;
     }
 
-    public void setTokenJwt(long tokenJwt) {
+    public void setTokenJwt(String tokenJwt) {
         this.tokenJwt = tokenJwt;
     }
 }

@@ -23,6 +23,7 @@ public class Usuario {
 
     private String nome;
     private String senha;
+    @Enumerated(EnumType.STRING)
     private TipoUsuarioEnum tipo_usuario;
     private LocalDate data_nascimento;
     private LocalDateTime data_cadastro;

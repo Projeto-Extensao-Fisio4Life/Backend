@@ -25,8 +25,6 @@ public class AuthController {
         AuthResponseDto authResponseDto = authService.login(dto);
 
         return ResponseEntity.status(200).body(authResponseDto);
-
-
     }
 
 }

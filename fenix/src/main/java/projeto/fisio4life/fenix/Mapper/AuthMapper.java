@@ -28,6 +28,20 @@ public class AuthMapper {
         );
 
     }
+    public static AuthResponseDto toResponse(Usuario usuario, String token) {
+        return new AuthResponseDto(
+                usuario.getId_usuario(),
+                usuario.getEndereco().getId_endereco(),
+                usuario.getContato().getId_contato(),
+                usuario.getNome(),
+                usuario.getData_nascimento(),
+                usuario.getTipo_usuario(),
+                usuario.getData_cadastro(),
+                usuario.getStatus_usuario(),
+                token
+        );
+
+    }
 
     public static AuthResponseDto toResponse(Usuario usuario, Paciente paciente, String token) {
         return new AuthPacienteResponseDto(
