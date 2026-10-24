@@ -23,6 +23,7 @@ public class Usuario {
 
     private String nome;
     private String senha;
+    private String email;
     @Enumerated(EnumType.STRING)
     private TipoUsuarioEnum tipo_usuario;
     private LocalDate data_nascimento;
@@ -32,12 +33,13 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(Integer id_usuario, Endereco endereco, Contato contato, String nome, String senha, TipoUsuarioEnum tipo_usuario, LocalDate data_nascimento, LocalDateTime data_cadastro, Integer status_usuario) {
+    public Usuario(Integer id_usuario, Endereco endereco, Contato contato, String nome, String senha, String email, TipoUsuarioEnum tipo_usuario, LocalDate data_nascimento, LocalDateTime data_cadastro, Integer status_usuario) {
         this.id_usuario = id_usuario;
         this.endereco = endereco;
         this.contato = contato;
         this.nome = nome;
         this.senha = senha;
+        this.email = email;
         this.tipo_usuario = tipo_usuario;
         this.data_nascimento = data_nascimento;
         this.data_cadastro = data_cadastro;
@@ -114,5 +116,13 @@ public class Usuario {
 
     public void setStatus_usuario(Integer status_usuario) {
         this.status_usuario = status_usuario;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

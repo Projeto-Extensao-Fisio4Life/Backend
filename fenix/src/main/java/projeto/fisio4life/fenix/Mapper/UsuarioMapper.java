@@ -1,12 +1,15 @@
 package projeto.fisio4life.fenix.Mapper;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import projeto.fisio4life.fenix.Dto.usuarioDto.UsuarioRequestDto;
 import projeto.fisio4life.fenix.Dto.usuarioDto.UsuarioResponseDto;
 import projeto.fisio4life.fenix.Entity.Contato;
 import projeto.fisio4life.fenix.Entity.Endereco;
 import projeto.fisio4life.fenix.Entity.Usuario;
+import projeto.fisio4life.fenix.Enum.TipoUsuarioEnum;
+import projeto.fisio4life.fenix.Exception.TipoUsuarioNaoEncontrado;
 
 public final class UsuarioMapper {
 
@@ -30,7 +33,20 @@ public final class UsuarioMapper {
         entity.setNome(dto.getNome());
         entity.setData_nascimento(dto.getDataNascimento());
         entity.setSenha(dto.getSenha());
-        entity.setTipo_usuario(dto.getTipoUsuario());
+        TipoUsuarioEnum tipoUsuario = null;
+        for (TipoUsuarioEnum tipoUsuarioEnum : TipoUsuarioEnum.values()){
+
+            if (Objects.equals(tipoUsuarioEnum.toString(), dto.getTipoUsuario())) {
+                tipoUsuario = tipoUsuarioEnum;
+                break;
+            }
+        }
+
+        if (tipoUsuario == null) {
+            throw new TipoUsuarioNaoEncontrado("Tipo de usuário não encontrado: " + dto.getTipoUsuario());
+        }
+        entity.setEmail(dto.getEmail());
+        entity.setTipo_usuario(tipoUsuario);
         entity.setStatus_usuario(Integer.valueOf(dto.getStatusUsuario() == null ? null : dto.getStatusUsuario().byteValue()));
 
         return entity;
@@ -44,11 +60,11 @@ public final class UsuarioMapper {
         if (entity.getEndereco() != null) dto.setIdEndereco(entity.getEndereco().getId_endereco());
         if (entity.getContato() != null) dto.setIdContato(entity.getContato().getId_contato());
         dto.setNome(entity.getNome());
+        dto.setEmail(entity.getEmail());
         dto.setDataNascimento(entity.getData_nascimento());
         dto.setTipoUsuario(entity.getTipo_usuario());
         dto.setDataCadastro(entity.getData_cadastro());
         dto.setStatusUsuario(entity.getStatus_usuario() == null ? null : entity.getStatus_usuario().intValue());
-
         return dto;
     }
 

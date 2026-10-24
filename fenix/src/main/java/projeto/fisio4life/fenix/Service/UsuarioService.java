@@ -1,6 +1,8 @@
 package projeto.fisio4life.fenix.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,21 +17,22 @@ import projeto.fisio4life.fenix.Repository.UsuarioRepository;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
-private final ContatoRepository contatoRepository;
-private final EnderecoRepository enderecoRepository;
-private final PasswordEncoder passwordEncoder;
+    private final ContatoRepository contatoRepository;
+    private final EnderecoRepository enderecoRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UsuarioService(UsuarioRepository usuarioRepository, ContatoRepository contatoRepository, EnderecoRepository enderecoRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
-this.contatoRepository = contatoRepository;
-this.enderecoRepository = enderecoRepository;
-this.passwordEncoder = passwordEncoder;
+        this.contatoRepository = contatoRepository;
+        this.enderecoRepository = enderecoRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
     public Usuario salvar(Usuario entity) {
         validar(entity, null);
         entity.setSenha(passwordEncoder.encode(entity.getSenha()));
+        entity.setData_cadastro(LocalDateTime.now());
         return usuarioRepository.save(entity);
     }
 
@@ -49,12 +52,12 @@ this.passwordEncoder = passwordEncoder;
         Usuario existente = buscarPorId(id);
         validar(entity, id);
         existente.setNome(entity.getNome());
-existente.setData_nascimento(entity.getData_nascimento());
-existente.setSenha(passwordEncoder.encode(entity.getSenha()));
-existente.setTipo_usuario(entity.getTipo_usuario());
-existente.setStatus_usuario(entity.getStatus_usuario());
-existente.setEndereco(entity.getEndereco());
-existente.setContato(entity.getContato());
+        existente.setData_nascimento(entity.getData_nascimento());
+        existente.setSenha(passwordEncoder.encode(entity.getSenha()));
+        existente.setTipo_usuario(entity.getTipo_usuario());
+        existente.setStatus_usuario(entity.getStatus_usuario());
+        existente.setEndereco(entity.getEndereco());
+        existente.setContato(entity.getContato());
         return usuarioRepository.save(existente);
     }
 
@@ -79,7 +82,7 @@ existente.setContato(entity.getContato());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Data de nascimento deve ser anterior à data atual.");
         if (entity.getSenha() == null || entity.getSenha().isBlank())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Senha é obrigatória.");
-        if (entity.getTipo_usuario() == null || entity.getTipo_usuario().isBlank())
+        if (entity.getTipo_usuario() == null || entity.getTipo_usuario().toString().isBlank())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de usuário é obrigatório.");
         if (entity.getStatus_usuario() == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status do usuário é obrigatório.");
