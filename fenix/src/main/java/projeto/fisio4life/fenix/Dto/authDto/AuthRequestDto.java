@@ -8,23 +8,23 @@ public class AuthRequestDto {
 
     @NotNull
     @NotEmpty
-    private String usuario;
+    private String email;
 
     @NotNull
     @NotEmpty
     private String senha;
 
-    public AuthRequestDto(String usuario, String senha) {
-        this.usuario = usuario;
+    public AuthRequestDto(String email, String senha) {
+        this.email = email;
         this.senha = senha;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getSenha() {

@@ -76,4 +76,5 @@ public class JwtService {
                 .signWith(key)
                 .compact();
     }
+
 }

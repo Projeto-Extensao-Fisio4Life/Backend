@@ -7,5 +7,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     boolean existsByNome(String nome);
     java.util.Optional<Usuario> findByNome(String nome);
-    Usuario getByNomeAndSenha(String usuario, String senha);
+    Usuario findByEmail(String email);
 }

@@ -1,5 +1,7 @@
 package projeto.fisio4life.fenix.Dto.usuarioDto;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
 import projeto.fisio4life.fenix.Enum.TipoUsuarioEnum;
 
@@ -26,8 +28,12 @@ public class UsuarioRequestDto {
     private String senha;
 
     @NotBlank
-    @Size(max = 45)
-    private TipoUsuarioEnum tipoUsuario;
+    @Email
+    private String email;
+
+    @NotBlank
+    @Size(min = 8, max = 255)
+    private String tipoUsuario;
 
     @NotNull
     private Integer statusUsuario;
@@ -49,15 +55,22 @@ public class UsuarioRequestDto {
     public String getSenha() { return senha; }
     public void setSenha(String valor) { this.senha = valor; }
 
-    public TipoUsuarioEnum getTipoUsuario() {
+    public String getTipoUsuario() {
         return tipoUsuario;
     }
 
-    public void setTipoUsuario(TipoUsuarioEnum tipoUsuario) {
+    public void setTipoUsuario(String tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
 
     public Integer getStatusUsuario() { return statusUsuario; }
     public void setStatusUsuario(Integer valor) { this.statusUsuario = valor; }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

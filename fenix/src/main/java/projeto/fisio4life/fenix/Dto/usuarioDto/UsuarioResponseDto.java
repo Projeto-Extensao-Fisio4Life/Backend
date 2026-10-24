@@ -16,6 +16,7 @@ public class UsuarioResponseDto {
     private Integer idContato;
 
     private String nome;
+    private String email;
 
     private LocalDate dataNascimento;
 
@@ -38,6 +39,14 @@ public class UsuarioResponseDto {
 
     public String getNome() { return nome; }
     public void setNome(String valor) { this.nome = valor; }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public LocalDate getDataNascimento() { return dataNascimento; }
     public void setDataNascimento(LocalDate valor) { this.dataNascimento = valor; }
