@@ -823,8 +823,6 @@ CREATE TABLE IF NOT EXISTS exercicio_passado
     id_evolucao
 )
     );
-
-
 -- 1. Endereço
 INSERT INTO endereco (logradouro, numero, bairro, cidade, estado, cep)
 VALUES ('Rua das Flores', 150, 'Centro', 'Osasco', 'SP', '06010-000');
@@ -834,22 +832,27 @@ INSERT INTO contato (telefone, celular, email)
 VALUES ('1133334444', '1198765432', 'fisioterapeuta@exemplo.com');
 
 -- 3. Usuário
-INSERT INTO usuario (fk_endereco,
-                     fk_contato,
-                     nome,
-                     data_nascimento,
-                     email,
-                     senha,
-                     tipo_usuario,
-                     status_usuario)
-VALUES (1,
-        1,
-        'Mariana Oliveira Santos',
-        '1990-05-15',
-        'fisioterapeuta@exemplo.com',
-        '12345678910',
-        'FISIOTERAPEUTA',
-        1);
+INSERT INTO usuario (fk_endereco, fk_contato, nome, data_nascimento, email, senha, tipo_usuario, status_usuario)
+VALUES (1, 1, 'Mariana Oliveira Santos', '1990-05-15', 'fisioterapeuta@exemplo.com', '12345678910', 'FISIOTERAPEUTA', 1);
+
 -- 4. Fisioterapeuta
 INSERT INTO fisioterapeuta (fk_usuario, crefito, especialidade, cnpj)
 VALUES (1, '123456-F', 'Ortopedia', '12345678000195');
+
+
+-- 5. Endereço
+INSERT INTO endereco (logradouro, numero, bairro, cidade, estado, cep)
+VALUES ('Rua das Palmeiras', 250, 'Centro', 'Osasco', 'SP', '06010-000');
+
+-- 6. Contato
+INSERT INTO contato (telefone, celular, email)
+VALUES ('1133335555', '11987654321', 'paciente@exemplo.com');
+
+-- 7. Usuário
+INSERT INTO usuario (fk_endereco, fk_contato, nome, data_nascimento, email, senha, tipo_usuario, status_usuario)
+VALUES (2,2,'João Pedro da Silva','1995-08-20','paciente@exemplo.com','12345678910','PACIENTE',1);
+-- 8. Paciente
+INSERT INTO paciente (fk_usuario, cpf, permite_atendimento_grupo)
+VALUES (2, '12345678901', 1);
+INSERT INTO usuario (fk_endereco, fk_contato, nome, data_nascimento, email, senha, tipo_usuario, status_usuario)
+VALUES (1, 1, 'Paulo Oliveira Santos', '1990-05-15', 'paulo@exemplo.com', '12345678910', 'DONO_CLINICA', 1);
