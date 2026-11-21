@@ -46,8 +46,8 @@ public class AgendamentoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Integer id) {
-        service.excluir(id);
+    public ResponseEntity<Void> cancelar(@PathVariable Integer id) {
+        service.cancelar(id);
         return ResponseEntity.noContent().build();
     }
 
