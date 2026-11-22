@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import projeto.fisio4life.fenix.Entity.Usuario;
+import projeto.fisio4life.fenix.Enum.StatusUsuarioEnum;
 import projeto.fisio4life.fenix.Repository.EnderecoRepository;
 import projeto.fisio4life.fenix.Repository.UsuarioRepository;
 
@@ -63,30 +64,23 @@ public class UsuarioService {
     @Transactional
     public void excluir(Integer id) {
         Usuario existente = buscarPorId(id);
-        try {
-            usuarioRepository.delete(existente);
-            usuarioRepository.flush();
-        } catch (org.springframework.dao.DataIntegrityViolationException ex) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT,
-                    "Não é possível excluir Usuario: existem registros relacionados.", ex);
-        }
+        existente.setStatus_usuario(StatusUsuarioEnum.INATIVO);
+        usuarioRepository.save(existente);
     }
 
+//    @Transactional
+//    public void excluir(Integer id) {
+//        Usuario existente = buscarPorId(id);
+//        try {
+//            usuarioRepository.delete(existente);
+//            usuarioRepository.flush();
+//        } catch (org.springframework.dao.DataIntegrityViolationException ex) {
+//            throw new ResponseStatusException(HttpStatus.CONFLICT,
+//                    "Não é possível excluir Usuario: existem registros relacionados.", ex);
+//        }
+//    }
+
     private void validar(Usuario entity, Integer idAtual) {
-        if (entity == null)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuario não pode ser nulo.");
-        if (entity.getNome() == null || entity.getNome().isBlank() || entity.getNome().length() > 255)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nome é obrigatório e deve ter até 255 caracteres.");
-        if (entity.getData_nascimento() == null || !entity.getData_nascimento().isBefore(java.time.LocalDate.now()))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Data de nascimento deve ser anterior à data atual.");
-        if (entity.getSenha() == null || entity.getSenha().isBlank())
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Senha é obrigatória.");
-        if (entity.getTipo_usuario() == null || entity.getTipo_usuario().toString().isBlank())
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de usuário é obrigatório.");
-        if (entity.getStatus_usuario() == null)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status do usuário é obrigatório.");
-        if (entity.getEndereco() == null || entity.getEndereco().getId_endereco() == null)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "idEndereco é obrigatório.");
         entity.setEndereco(enderecoRepository.findById(entity.getEndereco().getId_endereco()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Endereço não encontrado.")));
     }
 

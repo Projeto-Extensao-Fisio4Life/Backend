@@ -1,5 +1,6 @@
 package projeto.fisio4life.fenix.Dto.usuarioDto;
 
+import projeto.fisio4life.fenix.Enum.StatusUsuarioEnum;
 import projeto.fisio4life.fenix.Enum.TipoUsuarioEnum;
 
 import java.math.BigDecimal;
@@ -27,7 +28,7 @@ public class UsuarioResponseDto {
 
     private LocalDateTime dataCadastro;
 
-    private Integer statusUsuario;
+    private StatusUsuarioEnum statusUsuario;
 
     public UsuarioResponseDto() {}
 
@@ -103,11 +104,11 @@ public class UsuarioResponseDto {
         this.dataCadastro = dataCadastro;
     }
 
-    public Integer getStatusUsuario() {
+    public StatusUsuarioEnum getStatusUsuario() {
         return statusUsuario;
     }
 
-    public void setStatusUsuario(Integer statusUsuario) {
+    public void setStatusUsuario(StatusUsuarioEnum statusUsuario) {
         this.statusUsuario = statusUsuario;
     }
 }

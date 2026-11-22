@@ -3,6 +3,7 @@ package projeto.fisio4life.fenix.Entity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CollectionIdJdbcTypeCode;
 import org.hibernate.type.descriptor.jdbc.TinyIntAsSmallIntJdbcType;
+import projeto.fisio4life.fenix.Enum.StatusUsuarioEnum;
 import projeto.fisio4life.fenix.Enum.TipoUsuarioEnum;
 
 import java.time.LocalDate;
@@ -14,26 +15,46 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_usuario", nullable = false)
     private Integer id_usuario;
+
     @ManyToOne
-    @JoinColumn(name = "fk_endereco")
+    @JoinColumn(name = "fk_endereco", nullable = false)
     private Endereco endereco;
 
+    @Column(name = "nome", nullable = false, length = 255)
     private String nome;
+
+    @Column(name = "senha", nullable = false, length = 60)
     private String senha;
+
+    @Column(name = "email", nullable = false, unique = true, length = 45)
     private String email;
+
+    @Column(name = "celular", nullable = false, length = 14)
     private String celular;
+
+    @Column(name = "telefone", nullable = true, length = 14)
     private String telefone;
+
     @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_usuario", nullable = false, length = 45)
     private TipoUsuarioEnum tipo_usuario;
+
+    @Column(name = "data_nascimento", nullable = false)
     private LocalDate data_nascimento;
+
+    @Column(name = "data_cadastro", nullable = false)
     private LocalDateTime data_cadastro;
-    private Integer status_usuario;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "status_usuario", nullable = false, columnDefinition = "TINYINT")
+    private StatusUsuarioEnum status_usuario;
 
     public Usuario() {
     }
 
-    public Usuario(Integer id_usuario, Endereco endereco, String nome, String senha, String email, String celular, String telefone, TipoUsuarioEnum tipo_usuario, LocalDate data_nascimento, LocalDateTime data_cadastro, Integer status_usuario) {
+    public Usuario(Integer id_usuario, Endereco endereco, String nome, String senha, String email, String celular, String telefone, TipoUsuarioEnum tipo_usuario, LocalDate data_nascimento, LocalDateTime data_cadastro, StatusUsuarioEnum status_usuario) {
         this.id_usuario = id_usuario;
         this.endereco = endereco;
         this.nome = nome;
@@ -127,11 +148,11 @@ public class Usuario {
         this.data_cadastro = data_cadastro;
     }
 
-    public Integer getStatus_usuario() {
+    public StatusUsuarioEnum getStatus_usuario() {
         return status_usuario;
     }
 
-    public void setStatus_usuario(Integer status_usuario) {
+    public void setStatus_usuario(StatusUsuarioEnum status_usuario) {
         this.status_usuario = status_usuario;
     }
 }
