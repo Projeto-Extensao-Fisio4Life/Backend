@@ -4,8 +4,7 @@ import jakarta.validation.constraints.*;
 
 public class ClinicaRequestDto {
 
-    @NotNull
-    private Integer idContato;
+
 
     @NotNull
     private Integer idEndereco;
@@ -19,18 +18,66 @@ public class ClinicaRequestDto {
     @Size(min = 14, max = 14)
     private String cnpj;
 
+    @NotBlank
+    @Email
+    @Size(max = 45)
+    private String email;
+
+    @NotBlank
+    @Size(min = 14, max = 14)
+    private String celular;
+
+    @Size(min = 14, max = 14)
+    private String telefone;
+
+
     public ClinicaRequestDto() {}
 
-    public Integer getIdContato() { return idContato; }
-    public void setIdContato(Integer valor) { this.idContato = valor; }
+    public Integer getIdEndereco() {
+        return idEndereco;
+    }
 
-    public Integer getIdEndereco() { return idEndereco; }
-    public void setIdEndereco(Integer valor) { this.idEndereco = valor; }
+    public void setIdEndereco(Integer idEndereco) {
+        this.idEndereco = idEndereco;
+    }
 
-    public String getNome() { return nome; }
-    public void setNome(String valor) { this.nome = valor; }
+    public String getNome() {
+        return nome;
+    }
 
-    public String getCnpj() { return cnpj; }
-    public void setCnpj(String valor) { this.cnpj = valor; }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
 }
