@@ -1,11 +1,14 @@
 package projeto.fisio4life.fenix.Dto.pacienteDto;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import projeto.fisio4life.fenix.Dto.usuarioDto.UsuarioRequestDto;
 
 public class PacienteRequestDto {
 
+    @Valid
     @NotNull
-    private Integer idUsuario;
+    private UsuarioRequestDto usuario;
 
     @NotBlank
     @Pattern(regexp = "\\d{11}")
@@ -17,8 +20,12 @@ public class PacienteRequestDto {
 
     public PacienteRequestDto() {}
 
-    public Integer getIdUsuario() { return idUsuario; }
-    public void setIdUsuario(Integer valor) { this.idUsuario = valor; }
+    public UsuarioRequestDto getUsuario() {
+        return usuario;
+    }
+    public void setUsuario(UsuarioRequestDto usuario) {
+        this.usuario = usuario;
+    }
 
     public String getCpf() { return cpf; }
     public void setCpf(String valor) { this.cpf = valor; }

@@ -16,11 +16,7 @@ public final class PacienteMapper {
 
         Paciente entity = new Paciente();
 
-        if (dto.getIdUsuario() != null) {
-            Usuario ref = new Usuario();
-            ref.setId_usuario(dto.getIdUsuario());
-            entity.setUsuario(ref);
-        }
+        entity.setUsuario(UsuarioMapper.toEntity(dto.getUsuario()));
         entity.setCpf(dto.getCpf());
         entity.setPermite_atendimento_grupo(dto.getPermiteAtendimentoGrupo());
 
@@ -32,7 +28,7 @@ public final class PacienteMapper {
 
         PacienteResponseDto dto = new PacienteResponseDto();
         dto.setIdPaciente(entity.getId_paciente());
-        if (entity.getUsuario() != null) dto.setIdUsuario(entity.getUsuario().getId_usuario());
+        dto.setUsuario(UsuarioMapper.toResponseDto(entity.getUsuario()));
         dto.setCpf(entity.getCpf());
         dto.setPermiteAtendimentoGrupo(entity.getPermite_atendimento_grupo());
 

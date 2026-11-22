@@ -1,5 +1,7 @@
 package projeto.fisio4life.fenix.Dto.pacienteDto;
 
+import projeto.fisio4life.fenix.Dto.usuarioDto.UsuarioResponseDto;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -9,7 +11,7 @@ public class PacienteResponseDto {
 
     private Integer idPaciente;
 
-    private Integer idUsuario;
+    private UsuarioResponseDto usuario;
 
     private String cpf;
 
@@ -20,8 +22,12 @@ public class PacienteResponseDto {
     public Integer getIdPaciente() { return idPaciente; }
     public void setIdPaciente(Integer valor) { this.idPaciente = valor; }
 
-    public Integer getIdUsuario() { return idUsuario; }
-    public void setIdUsuario(Integer valor) { this.idUsuario = valor; }
+    public UsuarioResponseDto getUsuario() {
+        return usuario;
+    }
+    public void setUsuario(UsuarioResponseDto usuario) {
+        this.usuario = usuario;
+    }
 
     public String getCpf() { return cpf; }
     public void setCpf(String valor) { this.cpf = valor; }
