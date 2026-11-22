@@ -20,11 +20,7 @@ public final class UsuarioMapper {
 
         Usuario entity = new Usuario();
 
-        if (dto.getIdEndereco() != null) {
-            Endereco ref = new Endereco();
-            ref.setId_endereco(dto.getIdEndereco());
-            entity.setEndereco(ref);
-        }
+        entity.setEndereco(EnderecoMapper.toEntity(dto.getEndereco()));
         entity.setNome(dto.getNome());
         entity.setData_nascimento(dto.getDataNascimento());
         entity.setEmail(dto.getEmail());
@@ -54,7 +50,7 @@ public final class UsuarioMapper {
 
         UsuarioResponseDto dto = new UsuarioResponseDto();
         dto.setIdUsuario(entity.getId_usuario());
-        if (entity.getEndereco() != null) dto.setIdEndereco(entity.getEndereco().getId_endereco());
+        dto.setEndereco(EnderecoMapper.toResponseDto(entity.getEndereco()));
         dto.setNome(entity.getNome());
         dto.setEmail(entity.getEmail());
         dto.setCelular(entity.getCelular());

@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import projeto.fisio4life.fenix.Entity.Endereco;
 import projeto.fisio4life.fenix.Entity.Usuario;
 import projeto.fisio4life.fenix.Enum.StatusUsuarioEnum;
 import projeto.fisio4life.fenix.Repository.EnderecoRepository;
@@ -28,7 +29,8 @@ public class UsuarioService {
 
     @Transactional
     public Usuario salvar(Usuario entity) {
-        validar(entity, null);
+        Endereco enderecoSalvo = enderecoRepository.save(entity.getEndereco());
+        entity.setEndereco(enderecoSalvo);
         entity.setSenha(passwordEncoder.encode(entity.getSenha()));
         entity.setData_cadastro(LocalDateTime.now());
         return usuarioRepository.save(entity);
@@ -48,7 +50,7 @@ public class UsuarioService {
     @Transactional
     public Usuario atualizar(Integer id, Usuario entity) {
         Usuario existente = buscarPorId(id);
-        validar(entity, id);
+
         existente.setNome(entity.getNome());
         existente.setData_nascimento(entity.getData_nascimento());
         existente.setEmail(entity.getEmail());
@@ -57,7 +59,17 @@ public class UsuarioService {
         existente.setSenha(passwordEncoder.encode(entity.getSenha()));
         existente.setTipo_usuario(entity.getTipo_usuario());
         existente.setStatus_usuario(entity.getStatus_usuario());
-        existente.setEndereco(entity.getEndereco());
+
+        Endereco enderecoExistente = existente.getEndereco();
+        Endereco novosDadosEndereco = entity.getEndereco();
+        enderecoExistente.setLogradouro(novosDadosEndereco.getLogradouro());
+        enderecoExistente.setNumero(novosDadosEndereco.getNumero());
+        enderecoExistente.setBairro(novosDadosEndereco.getBairro());
+        enderecoExistente.setCidade(novosDadosEndereco.getCidade());
+        enderecoExistente.setEstado(novosDadosEndereco.getEstado());
+        enderecoExistente.setCep(novosDadosEndereco.getCep());
+        enderecoRepository.save(enderecoExistente);
+
         return usuarioRepository.save(existente);
     }
 
@@ -79,15 +91,5 @@ public class UsuarioService {
 //                    "Não é possível excluir Usuario: existem registros relacionados.", ex);
 //        }
 //    }
-
-    private void validar(Usuario entity, Integer idAtual) {
-        entity.setEndereco(enderecoRepository.findById(entity.getEndereco().getId_endereco()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Endereço não encontrado.")));
-    }
-
-    private void validarTexto(String valor, String campo, int max) {
-        if (valor == null || valor.isBlank() || valor.length() > max)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    campo + " é obrigatório e deve ter até " + max + " caracteres.");
-    }
 
 }

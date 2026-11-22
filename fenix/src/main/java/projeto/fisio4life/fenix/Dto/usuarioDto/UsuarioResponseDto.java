@@ -1,5 +1,6 @@
 package projeto.fisio4life.fenix.Dto.usuarioDto;
 
+import projeto.fisio4life.fenix.Dto.enderecoDto.EnderecoResponseDto;
 import projeto.fisio4life.fenix.Enum.StatusUsuarioEnum;
 import projeto.fisio4life.fenix.Enum.TipoUsuarioEnum;
 
@@ -12,7 +13,7 @@ public class UsuarioResponseDto {
 
     private Integer idUsuario;
 
-    private Integer idEndereco;
+    private EnderecoResponseDto endereco;
 
     private String nome;
 
@@ -40,12 +41,12 @@ public class UsuarioResponseDto {
         this.idUsuario = idUsuario;
     }
 
-    public Integer getIdEndereco() {
-        return idEndereco;
+    public EnderecoResponseDto getEndereco() {
+        return endereco;
     }
 
-    public void setIdEndereco(Integer idEndereco) {
-        this.idEndereco = idEndereco;
+    public void setEndereco(EnderecoResponseDto endereco) {
+        this.endereco = endereco;
     }
 
     public String getNome() {
