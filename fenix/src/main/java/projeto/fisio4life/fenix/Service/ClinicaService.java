@@ -14,13 +14,11 @@ import projeto.fisio4life.fenix.Repository.EnderecoRepository;
 public class ClinicaService {
 
     private final ClinicaRepository clinicaRepository;
-//private final ContatoRepository contatoRepository;
-private final EnderecoRepository enderecoRepository;
+    private final EnderecoRepository enderecoRepository;
 
     public ClinicaService(ClinicaRepository clinicaRepository, EnderecoRepository enderecoRepository) {
         this.clinicaRepository = clinicaRepository;
-
-this.enderecoRepository = enderecoRepository;
+        this.enderecoRepository = enderecoRepository;
     }
 
     @Transactional
@@ -46,9 +44,12 @@ this.enderecoRepository = enderecoRepository;
         Clinica existente = buscarPorId(id);
         validar(entity, id);
         existente.setNome(entity.getNome());
-existente.setCnpj(entity.getCnpj());
-//existente.setContato(entity.getContato());
-existente.setEndereco(entity.getEndereco());
+        existente.setCnpj(entity.getCnpj());
+        existente.setEmail(entity.getEmail());
+        existente.setCelular(entity.getCelular());
+        existente.setTelefone(entity.getTelefone());
+        existente.setEndereco(entity.getEndereco());
+
         return clinicaRepository.save(existente);
     }
 
@@ -67,9 +68,6 @@ existente.setEndereco(entity.getEndereco());
     private void validar(Clinica entity, Integer idAtual) {
         if (entity == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Clinica não pode ser nulo.");
-//        if (entity.getContato() == null || entity.getContato().getId_contato() == null)
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "idContato é obrigatório.");
-//        entity.setContato(contatoRepository.findById(entity.getContato().getId_contato()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Contato não encontrado.")));
         if (entity.getEndereco() == null || entity.getEndereco().getId_endereco() == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "idEndereco é obrigatório.");
         entity.setEndereco(enderecoRepository.findById(entity.getEndereco().getId_endereco()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Endereço não encontrado.")));

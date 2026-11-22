@@ -302,3 +302,4 @@ VALUES (2, '12345678901', 1);
 -- 7. Usuário (Dono de Clínica)
 INSERT INTO usuario (fk_endereco, nome, data_nascimento, email, celular, telefone, senha, tipo_usuario, status_usuario)
 VALUES (1, 'Paulo Oliveira Santos', '1990-05-15', 'paulo@exemplo.com', '11999998888', NULL, '12345678910', 'DONO_CLINICA', 1);
+
