@@ -1,6 +1,9 @@
 package projeto.fisio4life.fenix.Dto.servicoDto;
 
 import jakarta.validation.constraints.*;
+import projeto.fisio4life.fenix.Enum.RegraStatusEnum;
+
+import java.math.BigDecimal;
 
 public class ServicoRequestDto {
 
@@ -17,7 +20,12 @@ public class ServicoRequestDto {
     private String tipo;
 
     @NotNull
-    private Integer statusServico;
+    private RegraStatusEnum statusServico;
+
+    @NotNull
+    @DecimalMin("0.01")
+    private BigDecimal valorSessao;
+
 
     public ServicoRequestDto() {}
 
@@ -30,7 +38,14 @@ public class ServicoRequestDto {
     public String getTipo() { return tipo; }
     public void setTipo(String valor) { this.tipo = valor; }
 
-    public Integer getStatusServico() { return statusServico; }
-    public void setStatusServico(Integer valor) { this.statusServico = valor; }
+    public RegraStatusEnum getStatusServico() { return statusServico; }
+    public void setStatusServico(RegraStatusEnum valor) { this.statusServico = valor; }
 
+    public BigDecimal getValorSessao() {
+        return valorSessao;
+    }
+
+    public void setValorSessao(BigDecimal valorSessao) {
+        this.valorSessao = valorSessao;
+    }
 }

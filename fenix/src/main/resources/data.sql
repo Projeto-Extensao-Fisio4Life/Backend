@@ -126,7 +126,8 @@ CREATE TABLE IF NOT EXISTS servico (
     nome VARCHAR(45) NOT NULL, -- Nome do serviço
     quantidade_sessoes INT NOT NULL, -- Quantidade de sessões do pacote/serviço
     tipo VARCHAR(20) NOT NULL, -- Categoria ou modalidade do serviço (ex.: ortopedia)
-    status_servico TINYINT NOT NULL -- Indica se o serviço está ativo ou inativo
+    status_servico TINYINT NOT NULL, -- Indica se o serviço está ativo ou inativo
+    valor_sessao DECIMAL(10, 2) NOT NULL
     );
 
 -- -----------------------------------------------------

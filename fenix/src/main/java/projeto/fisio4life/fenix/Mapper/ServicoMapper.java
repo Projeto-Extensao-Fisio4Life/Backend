@@ -18,7 +18,8 @@ public final class ServicoMapper {
         entity.setNome(dto.getNome());
         entity.setQuantidade_sessoes(dto.getQuantidadeSessoes());
         entity.setTipo(dto.getTipo());
-        entity.setStatus_servico(dto.getStatusServico() == null ? null : dto.getStatusServico().byteValue());
+        entity.setStatus_servico(dto.getStatusServico());
+        entity.setValor_sessao(dto.getValorSessao());
 
         return entity;
     }
@@ -31,7 +32,8 @@ public final class ServicoMapper {
         dto.setNome(entity.getNome());
         dto.setQuantidade_sessoes(entity.getQuantidade_sessoes());
         dto.setTipo(entity.getTipo());
-        dto.setStatusServico(entity.getStatus_servico() == null ? null : entity.getStatus_servico().intValue());
+        dto.setStatusServico(entity.getStatus_servico());
+        dto.setValorSessao(entity.getValor_sessao());
 
         return dto;
     }
