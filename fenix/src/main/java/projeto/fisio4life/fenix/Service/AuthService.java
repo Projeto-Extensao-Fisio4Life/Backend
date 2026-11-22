@@ -32,13 +32,10 @@ public class AuthService {
     public AuthResponseDto login(AuthRequestDto dto, String tipo) {
         try {
             String chave = tipo.toUpperCase(Locale.ROOT);
-
             LoginStrategy strategy = strategies.get(chave);
-
             if (strategy == null) {
                 throw new TipoUsuarioNaoEncontrado("Tipo de usuário não encontrado.");
             }
-
             return strategy.login(dto);
         } catch (Exception e) {
             System.out.println("Erro ao logar usuário: " + e);
