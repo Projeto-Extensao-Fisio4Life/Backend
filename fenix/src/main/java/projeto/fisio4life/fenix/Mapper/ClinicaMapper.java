@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import projeto.fisio4life.fenix.Dto.clinicaDto.ClinicaRequestDto;
 import projeto.fisio4life.fenix.Dto.clinicaDto.ClinicaResponseDto;
 import projeto.fisio4life.fenix.Entity.Clinica;
-import projeto.fisio4life.fenix.Entity.Contato;
+//import projeto.fisio4life.fenix.Entity.Contato;
 import projeto.fisio4life.fenix.Entity.Endereco;
 
 public final class ClinicaMapper {
@@ -17,11 +17,11 @@ public final class ClinicaMapper {
 
         Clinica entity = new Clinica();
 
-        if (dto.getIdContato() != null) {
-            Contato ref = new Contato();
-            ref.setId_contato(dto.getIdContato());
-            entity.setContato(ref);
-        }
+//        if (dto.getIdContato() != null) {
+//            Contato ref = new Contato();
+//            ref.setId_contato(dto.getIdContato());
+//            entity.setContato(ref);
+//        }
         if (dto.getIdEndereco() != null) {
             Endereco ref = new Endereco();
             ref.setId_endereco(dto.getIdEndereco());
@@ -38,7 +38,7 @@ public final class ClinicaMapper {
 
         ClinicaResponseDto dto = new ClinicaResponseDto();
         dto.setIdClinica(entity.getId_clinica());
-        if (entity.getContato() != null) dto.setIdContato(entity.getContato().getId_contato());
+//        if (entity.getContato() != null) dto.setIdContato(entity.getContato().getId_contato());
         if (entity.getEndereco() != null) dto.setIdEndereco(entity.getEndereco().getId_endereco());
         dto.setNome(entity.getNome());
         dto.setCnpj(entity.getCnpj());

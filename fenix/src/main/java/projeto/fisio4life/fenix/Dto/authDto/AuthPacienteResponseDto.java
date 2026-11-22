@@ -15,9 +15,11 @@ public class AuthPacienteResponseDto extends AuthResponseDto {
     public AuthPacienteResponseDto(
             Integer idUsuario,
             Integer idEndereco,
-            Integer idContato,
             String nome,
             LocalDate dataNascimento,
+            String email,
+            String celular,
+            String telefone,
             TipoUsuarioEnum tipoUsuario,
             LocalDateTime dataCadastro,
             Integer statusUsuario,
@@ -26,15 +28,16 @@ public class AuthPacienteResponseDto extends AuthResponseDto {
             String cpf,
             Boolean permiteAtendimentoGrupo
     ) {
-        super(idUsuario, idEndereco, idContato, nome, dataNascimento, tipoUsuario, dataCadastro, statusUsuario, tokenJwt);
+        super(idUsuario, idEndereco, nome, dataNascimento, email, celular, telefone, tipoUsuario, dataCadastro, statusUsuario, tokenJwt);
         this.idPaciente = idPaciente;
         this.cpf = cpf;
         this.permiteAtendimentoGrupo = permiteAtendimentoGrupo;
     }
 
-    public AuthPacienteResponseDto(Integer idUsuario, Integer idEndereco, Integer idContato, String nome, LocalDate dataNascimento, TipoUsuarioEnum tipoUsuario, LocalDateTime dataCadastro, Integer statusUsuario, String tokenJwt) {
-        super(idUsuario, idEndereco, idContato, nome, dataNascimento, tipoUsuario, dataCadastro, statusUsuario, tokenJwt);
+    public AuthPacienteResponseDto(Integer idUsuario, Integer idEndereco, String nome, LocalDate dataNascimento, String email, String celular, String telefone, TipoUsuarioEnum tipoUsuario, LocalDateTime dataCadastro, Integer statusUsuario, String tokenJwt) {
+        super(idUsuario, idEndereco, nome, dataNascimento, email, celular, telefone, tipoUsuario, dataCadastro, statusUsuario, tokenJwt);
     }
+
 
     public Integer getIdPaciente() {
         return idPaciente;

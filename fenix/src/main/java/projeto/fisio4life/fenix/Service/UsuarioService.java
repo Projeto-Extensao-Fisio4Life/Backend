@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import projeto.fisio4life.fenix.Entity.Usuario;
-import projeto.fisio4life.fenix.Repository.ContatoRepository;
 import projeto.fisio4life.fenix.Repository.EnderecoRepository;
 import projeto.fisio4life.fenix.Repository.UsuarioRepository;
 
@@ -17,13 +16,11 @@ import projeto.fisio4life.fenix.Repository.UsuarioRepository;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
-    private final ContatoRepository contatoRepository;
     private final EnderecoRepository enderecoRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, ContatoRepository contatoRepository, EnderecoRepository enderecoRepository, PasswordEncoder passwordEncoder) {
+    public UsuarioService(UsuarioRepository usuarioRepository, EnderecoRepository enderecoRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
-        this.contatoRepository = contatoRepository;
         this.enderecoRepository = enderecoRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -53,11 +50,13 @@ public class UsuarioService {
         validar(entity, id);
         existente.setNome(entity.getNome());
         existente.setData_nascimento(entity.getData_nascimento());
+        existente.setEmail(entity.getEmail());
+        existente.setCelular(entity.getCelular());
+        existente.setTelefone(entity.getTelefone());
         existente.setSenha(passwordEncoder.encode(entity.getSenha()));
         existente.setTipo_usuario(entity.getTipo_usuario());
         existente.setStatus_usuario(entity.getStatus_usuario());
         existente.setEndereco(entity.getEndereco());
-        existente.setContato(entity.getContato());
         return usuarioRepository.save(existente);
     }
 
@@ -88,10 +87,7 @@ public class UsuarioService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status do usuário é obrigatório.");
         if (entity.getEndereco() == null || entity.getEndereco().getId_endereco() == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "idEndereco é obrigatório.");
-        if (entity.getContato() == null || entity.getContato().getId_contato() == null)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "idContato é obrigatório.");
         entity.setEndereco(enderecoRepository.findById(entity.getEndereco().getId_endereco()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Endereço não encontrado.")));
-        entity.setContato(contatoRepository.findById(entity.getContato().getId_contato()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Contato não encontrado.")));
     }
 
     private void validarTexto(String valor, String campo, int max) {

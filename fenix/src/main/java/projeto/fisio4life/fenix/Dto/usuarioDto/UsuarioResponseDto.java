@@ -13,10 +13,13 @@ public class UsuarioResponseDto {
 
     private Integer idEndereco;
 
-    private Integer idContato;
-
     private String nome;
+
     private String email;
+
+    private String celular;
+
+    private String telefone;
 
     private LocalDate dataNascimento;
 
@@ -28,17 +31,29 @@ public class UsuarioResponseDto {
 
     public UsuarioResponseDto() {}
 
-    public Integer getIdUsuario() { return idUsuario; }
-    public void setIdUsuario(Integer valor) { this.idUsuario = valor; }
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
 
-    public Integer getIdEndereco() { return idEndereco; }
-    public void setIdEndereco(Integer valor) { this.idEndereco = valor; }
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+    }
 
-    public Integer getIdContato() { return idContato; }
-    public void setIdContato(Integer valor) { this.idContato = valor; }
+    public Integer getIdEndereco() {
+        return idEndereco;
+    }
 
-    public String getNome() { return nome; }
-    public void setNome(String valor) { this.nome = valor; }
+    public void setIdEndereco(Integer idEndereco) {
+        this.idEndereco = idEndereco;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
     public String getEmail() {
         return email;
@@ -48,8 +63,29 @@ public class UsuarioResponseDto {
         this.email = email;
     }
 
-    public LocalDate getDataNascimento() { return dataNascimento; }
-    public void setDataNascimento(LocalDate valor) { this.dataNascimento = valor; }
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
 
     public TipoUsuarioEnum getTipoUsuario() {
         return tipoUsuario;
@@ -59,10 +95,19 @@ public class UsuarioResponseDto {
         this.tipoUsuario = tipoUsuario;
     }
 
-    public LocalDateTime getDataCadastro() { return dataCadastro; }
-    public void setDataCadastro(LocalDateTime valor) { this.dataCadastro = valor; }
+    public LocalDateTime getDataCadastro() {
+        return dataCadastro;
+    }
 
-    public Integer getStatusUsuario() { return statusUsuario; }
-    public void setStatusUsuario(Integer valor) { this.statusUsuario = valor; }
+    public void setDataCadastro(LocalDateTime dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
 
+    public Integer getStatusUsuario() {
+        return statusUsuario;
+    }
+
+    public void setStatusUsuario(Integer statusUsuario) {
+        this.statusUsuario = statusUsuario;
+    }
 }

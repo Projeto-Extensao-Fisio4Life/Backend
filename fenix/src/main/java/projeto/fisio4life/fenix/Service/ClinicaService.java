@@ -7,19 +7,19 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import projeto.fisio4life.fenix.Entity.Clinica;
 import projeto.fisio4life.fenix.Repository.ClinicaRepository;
-import projeto.fisio4life.fenix.Repository.ContatoRepository;
+//import projeto.fisio4life.fenix.Repository.ContatoRepository;
 import projeto.fisio4life.fenix.Repository.EnderecoRepository;
 
 @Service
 public class ClinicaService {
 
     private final ClinicaRepository clinicaRepository;
-private final ContatoRepository contatoRepository;
+//private final ContatoRepository contatoRepository;
 private final EnderecoRepository enderecoRepository;
 
-    public ClinicaService(ClinicaRepository clinicaRepository, ContatoRepository contatoRepository, EnderecoRepository enderecoRepository) {
+    public ClinicaService(ClinicaRepository clinicaRepository, EnderecoRepository enderecoRepository) {
         this.clinicaRepository = clinicaRepository;
-this.contatoRepository = contatoRepository;
+
 this.enderecoRepository = enderecoRepository;
     }
 
@@ -47,7 +47,7 @@ this.enderecoRepository = enderecoRepository;
         validar(entity, id);
         existente.setNome(entity.getNome());
 existente.setCnpj(entity.getCnpj());
-existente.setContato(entity.getContato());
+//existente.setContato(entity.getContato());
 existente.setEndereco(entity.getEndereco());
         return clinicaRepository.save(existente);
     }
@@ -67,9 +67,9 @@ existente.setEndereco(entity.getEndereco());
     private void validar(Clinica entity, Integer idAtual) {
         if (entity == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Clinica não pode ser nulo.");
-        if (entity.getContato() == null || entity.getContato().getId_contato() == null)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "idContato é obrigatório.");
-        entity.setContato(contatoRepository.findById(entity.getContato().getId_contato()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Contato não encontrado.")));
+//        if (entity.getContato() == null || entity.getContato().getId_contato() == null)
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "idContato é obrigatório.");
+//        entity.setContato(contatoRepository.findById(entity.getContato().getId_contato()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Contato não encontrado.")));
         if (entity.getEndereco() == null || entity.getEndereco().getId_endereco() == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "idEndereco é obrigatório.");
         entity.setEndereco(enderecoRepository.findById(entity.getEndereco().getId_endereco()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Endereço não encontrado.")));
