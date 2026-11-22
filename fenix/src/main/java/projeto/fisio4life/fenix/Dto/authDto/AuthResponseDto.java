@@ -1,6 +1,5 @@
 package projeto.fisio4life.fenix.Dto.authDto;
 
-import projeto.fisio4life.fenix.Entity.Contato;
 import projeto.fisio4life.fenix.Entity.Endereco;
 import projeto.fisio4life.fenix.Enum.TipoUsuarioEnum;
 
@@ -12,20 +11,24 @@ public class AuthResponseDto {
 
     private Integer idUsuario;
     private Integer idEndereco;
-    private Integer idContato;
     private String nome;
     private LocalDate dataNascimento;
+    private String email;
+    private String celular;
+    private String telefone;
     private TipoUsuarioEnum tipoUsuario;
     private LocalDateTime dataCadastro;
     private Integer statusUsuario;
     private String tokenJwt;
 
-    public AuthResponseDto(Integer idUsuario, Integer idEndereco, Integer idContato, String nome, LocalDate dataNascimento, TipoUsuarioEnum tipoUsuario, LocalDateTime dataCadastro, Integer statusUsuario, String tokenJwt) {
+    public AuthResponseDto(Integer idUsuario, Integer idEndereco, String nome, LocalDate dataNascimento, String email, String celular, String telefone, TipoUsuarioEnum tipoUsuario, LocalDateTime dataCadastro, Integer statusUsuario, String tokenJwt) {
         this.idUsuario = idUsuario;
         this.idEndereco = idEndereco;
-        this.idContato = idContato;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
+        this.email = email;
+        this.celular = celular;
+        this.telefone = telefone;
         this.tipoUsuario = tipoUsuario;
         this.dataCadastro = dataCadastro;
         this.statusUsuario = statusUsuario;
@@ -48,14 +51,6 @@ public class AuthResponseDto {
         this.idEndereco = idEndereco;
     }
 
-    public Integer getIdContato() {
-        return idContato;
-    }
-
-    public void setIdContato(Integer idContato) {
-        this.idContato = idContato;
-    }
-
     public String getNome() {
         return nome;
     }
@@ -70,6 +65,30 @@ public class AuthResponseDto {
 
     public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public TipoUsuarioEnum getTipoUsuario() {

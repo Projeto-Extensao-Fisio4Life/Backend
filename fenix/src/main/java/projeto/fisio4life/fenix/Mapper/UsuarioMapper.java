@@ -5,7 +5,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import projeto.fisio4life.fenix.Dto.usuarioDto.UsuarioRequestDto;
 import projeto.fisio4life.fenix.Dto.usuarioDto.UsuarioResponseDto;
-import projeto.fisio4life.fenix.Entity.Contato;
 import projeto.fisio4life.fenix.Entity.Endereco;
 import projeto.fisio4life.fenix.Entity.Usuario;
 import projeto.fisio4life.fenix.Enum.TipoUsuarioEnum;
@@ -25,11 +24,6 @@ public final class UsuarioMapper {
             ref.setId_endereco(dto.getIdEndereco());
             entity.setEndereco(ref);
         }
-        if (dto.getIdContato() != null) {
-            Contato ref = new Contato();
-            ref.setId_contato(dto.getIdContato());
-            entity.setContato(ref);
-        }
         entity.setNome(dto.getNome());
         entity.setData_nascimento(dto.getDataNascimento());
         entity.setSenha(dto.getSenha());
@@ -46,6 +40,8 @@ public final class UsuarioMapper {
             throw new TipoUsuarioNaoEncontrado("Tipo de usuário não encontrado: " + dto.getTipoUsuario());
         }
         entity.setEmail(dto.getEmail());
+        entity.setCelular(dto.getCelular());
+        entity.setTelefone(dto.getTelefone());
         entity.setTipo_usuario(tipoUsuario);
         entity.setStatus_usuario(Integer.valueOf(dto.getStatusUsuario() == null ? null : dto.getStatusUsuario().byteValue()));
 
@@ -58,9 +54,10 @@ public final class UsuarioMapper {
         UsuarioResponseDto dto = new UsuarioResponseDto();
         dto.setIdUsuario(entity.getId_usuario());
         if (entity.getEndereco() != null) dto.setIdEndereco(entity.getEndereco().getId_endereco());
-        if (entity.getContato() != null) dto.setIdContato(entity.getContato().getId_contato());
         dto.setNome(entity.getNome());
         dto.setEmail(entity.getEmail());
+        dto.setCelular(entity.getCelular());
+        dto.setTelefone(entity.getTelefone());
         dto.setDataNascimento(entity.getData_nascimento());
         dto.setTipoUsuario(entity.getTipo_usuario());
         dto.setDataCadastro(entity.getData_cadastro());

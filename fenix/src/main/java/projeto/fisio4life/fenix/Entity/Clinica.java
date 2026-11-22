@@ -11,9 +11,9 @@ public class Clinica {
     @Column(name = "id_clinica", nullable = false)
     private Integer id_clinica;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_contato", nullable = false)
-    private Contato contato;
+//    @ManyToOne
+//    @JoinColumn(name = "fk_contato", nullable = false)
+//    private Contato contato;
 
     @OneToOne
     @JoinColumn(name = "fk_endereco", nullable = false, unique = true)
@@ -28,8 +28,8 @@ public class Clinica {
     public Clinica() {}
     public Integer getId_clinica() { return id_clinica; }
     public void setId_clinica(Integer valor) { this.id_clinica = valor; }
-    public Contato getContato() { return contato; }
-    public void setContato(Contato valor) { this.contato = valor; }
+//    public Contato getContato() { return contato; }
+//    public void setContato(Contato valor) { this.contato = valor; }
     public Endereco getEndereco() { return endereco; }
     public void setEndereco(Endereco valor) { this.endereco = valor; }
     public String getNome() { return nome; }
