@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import projeto.fisio4life.fenix.Entity.Sessao;
+import projeto.fisio4life.fenix.Enum.RegraStatusEnum;
 import projeto.fisio4life.fenix.Repository.AgendamentoRepository;
 import projeto.fisio4life.fenix.Repository.EvolucaoRepository;
 import projeto.fisio4life.fenix.Repository.ServicoRepository;
@@ -79,7 +80,7 @@ existente.setServico(entity.getServico());
         entity.setServico(servicoRepository.findById(entity.getServico().getId_servico()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Serviço não encontrado.")));
         if (entity.getAgendamento().getStatus_agendamento() != null && entity.getAgendamento().getStatus_agendamento().byteValue() == RegraStatus.AGENDAMENTO_CANCELADO)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é possível registrar sessão para agendamento cancelado.");
-        if (entity.getServico().getStatus_servico() == null || entity.getServico().getStatus_servico().byteValue() != RegraStatus.SERVICO_ATIVO)
+        if (entity.getServico().getStatus_servico() == null || entity.getServico().getStatus_servico() != RegraStatusEnum.ATIVO)
             throw new ResponseStatusException(HttpStatus.CONFLICT, "O serviço não está ativo.");
         if (entity.getData_sessao() == null || !entity.getAgendamento().getData_agendamento().equals(entity.getData_sessao().toLocalDate()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A data da sessão deve corresponder à data do agendamento.");

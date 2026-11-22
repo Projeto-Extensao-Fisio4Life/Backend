@@ -1,9 +1,8 @@
 package projeto.fisio4life.fenix.Dto.servicoDto;
 
+import projeto.fisio4life.fenix.Enum.RegraStatusEnum;
+
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public class ServicoResponseDto {
 
@@ -15,7 +14,9 @@ public class ServicoResponseDto {
 
     private String tipo;
 
-    private Integer statusServico;
+    private RegraStatusEnum statusServico;
+
+    private BigDecimal valorSessao;
 
     public ServicoResponseDto() {}
 
@@ -31,7 +32,14 @@ public class ServicoResponseDto {
     public String getTipo() { return tipo; }
     public void setTipo(String valor) { this.tipo = valor; }
 
-    public Integer getStatusServico() { return statusServico; }
-    public void setStatusServico(Integer valor) { this.statusServico = valor; }
+    public RegraStatusEnum getStatusServico() { return statusServico; }
+    public void setStatusServico(RegraStatusEnum valor) { this.statusServico = valor; }
 
+    public BigDecimal getValorSessao() {
+        return valorSessao;
+    }
+
+    public void setValorSessao(BigDecimal valorSessao) {
+        this.valorSessao = valorSessao;
+    }
 }
