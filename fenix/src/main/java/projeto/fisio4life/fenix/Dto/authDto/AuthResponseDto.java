@@ -1,6 +1,7 @@
 package projeto.fisio4life.fenix.Dto.authDto;
 
 import projeto.fisio4life.fenix.Entity.Endereco;
+import projeto.fisio4life.fenix.Enum.StatusUsuarioEnum;
 import projeto.fisio4life.fenix.Enum.TipoUsuarioEnum;
 
 import java.time.LocalDate;
@@ -18,10 +19,10 @@ public class AuthResponseDto {
     private String telefone;
     private TipoUsuarioEnum tipoUsuario;
     private LocalDateTime dataCadastro;
-    private Integer statusUsuario;
+    private StatusUsuarioEnum statusUsuario;
     private String tokenJwt;
 
-    public AuthResponseDto(Integer idUsuario, Integer idEndereco, String nome, LocalDate dataNascimento, String email, String celular, String telefone, TipoUsuarioEnum tipoUsuario, LocalDateTime dataCadastro, Integer statusUsuario, String tokenJwt) {
+    public AuthResponseDto(Integer idUsuario, Integer idEndereco, String nome, LocalDate dataNascimento, String email, String celular, String telefone, TipoUsuarioEnum tipoUsuario, LocalDateTime dataCadastro, StatusUsuarioEnum statusUsuario, String tokenJwt) {
         this.idUsuario = idUsuario;
         this.idEndereco = idEndereco;
         this.nome = nome;
@@ -107,11 +108,11 @@ public class AuthResponseDto {
         this.dataCadastro = dataCadastro;
     }
 
-    public Integer getStatusUsuario() {
+    public StatusUsuarioEnum getStatusUsuario() {
         return statusUsuario;
     }
 
-    public void setStatusUsuario(Integer statusUsuario) {
+    public void setStatusUsuario(StatusUsuarioEnum statusUsuario) {
         this.statusUsuario = statusUsuario;
     }
 

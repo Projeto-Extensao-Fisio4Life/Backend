@@ -1,5 +1,6 @@
 package projeto.fisio4life.fenix.Dto.authDto;
 
+import projeto.fisio4life.fenix.Enum.StatusUsuarioEnum;
 import projeto.fisio4life.fenix.Enum.TipoUsuarioEnum;
 
 import java.time.LocalDate;
@@ -22,7 +23,7 @@ public class AuthPacienteResponseDto extends AuthResponseDto {
             String telefone,
             TipoUsuarioEnum tipoUsuario,
             LocalDateTime dataCadastro,
-            Integer statusUsuario,
+            StatusUsuarioEnum statusUsuario,
             String tokenJwt,
             Integer idPaciente,
             String cpf,
@@ -34,7 +35,7 @@ public class AuthPacienteResponseDto extends AuthResponseDto {
         this.permiteAtendimentoGrupo = permiteAtendimentoGrupo;
     }
 
-    public AuthPacienteResponseDto(Integer idUsuario, Integer idEndereco, String nome, LocalDate dataNascimento, String email, String celular, String telefone, TipoUsuarioEnum tipoUsuario, LocalDateTime dataCadastro, Integer statusUsuario, String tokenJwt) {
+    public AuthPacienteResponseDto(Integer idUsuario, Integer idEndereco, String nome, LocalDate dataNascimento, String email, String celular, String telefone, TipoUsuarioEnum tipoUsuario, LocalDateTime dataCadastro, StatusUsuarioEnum statusUsuario, String tokenJwt) {
         super(idUsuario, idEndereco, nome, dataNascimento, email, celular, telefone, tipoUsuario, dataCadastro, statusUsuario, tokenJwt);
     }
 

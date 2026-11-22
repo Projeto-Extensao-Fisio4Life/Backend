@@ -1,5 +1,6 @@
 package projeto.fisio4life.fenix.Dto.authDto;
 
+import projeto.fisio4life.fenix.Enum.StatusUsuarioEnum;
 import projeto.fisio4life.fenix.Enum.TipoUsuarioEnum;
 
 import java.time.LocalDate;
@@ -12,7 +13,7 @@ public class AuthFisioterapeutaResponseDto extends AuthResponseDto {
     private String especialidade;
     private String cnpj;
 
-    public AuthFisioterapeutaResponseDto(Integer idUsuario, Integer idEndereco, String nome, LocalDate dataNascimento, String email, String celular, String telefone, TipoUsuarioEnum tipoUsuario, LocalDateTime dataCadastro, Integer statusUsuario, String tokenJwt, Integer idFisioterapeuta, String crefito, String especialidade, String cnpj) {
+    public AuthFisioterapeutaResponseDto(Integer idUsuario, Integer idEndereco, String nome, LocalDate dataNascimento, String email, String celular, String telefone, TipoUsuarioEnum tipoUsuario, LocalDateTime dataCadastro, StatusUsuarioEnum statusUsuario, String tokenJwt, Integer idFisioterapeuta, String crefito, String especialidade, String cnpj) {
         super(idUsuario, idEndereco, nome, dataNascimento, email, celular, telefone, tipoUsuario, dataCadastro, statusUsuario, tokenJwt);
         this.idFisioterapeuta = idFisioterapeuta;
         this.crefito = crefito;
@@ -20,7 +21,7 @@ public class AuthFisioterapeutaResponseDto extends AuthResponseDto {
         this.cnpj = cnpj;
     }
 
-    public AuthFisioterapeutaResponseDto(Integer idUsuario, Integer idEndereco, String nome, LocalDate dataNascimento, String email, String celular, String telefone, TipoUsuarioEnum tipoUsuario, LocalDateTime dataCadastro, Integer statusUsuario, String tokenJwt) {
+    public AuthFisioterapeutaResponseDto(Integer idUsuario, Integer idEndereco, String nome, LocalDate dataNascimento, String email, String celular, String telefone, TipoUsuarioEnum tipoUsuario, LocalDateTime dataCadastro, StatusUsuarioEnum statusUsuario, String tokenJwt) {
         super(idUsuario, idEndereco, nome, dataNascimento, email, celular, telefone, tipoUsuario, dataCadastro, statusUsuario, tokenJwt);
     }
 

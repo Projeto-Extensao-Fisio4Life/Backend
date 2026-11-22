@@ -3,6 +3,7 @@ package projeto.fisio4life.fenix.Dto.usuarioDto;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
+import projeto.fisio4life.fenix.Enum.StatusUsuarioEnum;
 import projeto.fisio4life.fenix.Enum.TipoUsuarioEnum;
 
 import java.time.LocalDate;
@@ -40,7 +41,7 @@ public class UsuarioRequestDto {
     private String tipoUsuario;
 
     @NotNull
-    private Integer statusUsuario;
+    private StatusUsuarioEnum statusUsuario;
 
     public UsuarioRequestDto() {}
 
@@ -108,11 +109,11 @@ public class UsuarioRequestDto {
         this.tipoUsuario = tipoUsuario;
     }
 
-    public Integer getStatusUsuario() {
+    public StatusUsuarioEnum getStatusUsuario() {
         return statusUsuario;
     }
 
-    public void setStatusUsuario(Integer statusUsuario) {
+    public void setStatusUsuario(StatusUsuarioEnum statusUsuario) {
         this.statusUsuario = statusUsuario;
     }
 }

@@ -7,6 +7,7 @@ import projeto.fisio4life.fenix.Dto.usuarioDto.UsuarioRequestDto;
 import projeto.fisio4life.fenix.Dto.usuarioDto.UsuarioResponseDto;
 import projeto.fisio4life.fenix.Entity.Endereco;
 import projeto.fisio4life.fenix.Entity.Usuario;
+import projeto.fisio4life.fenix.Enum.StatusUsuarioEnum;
 import projeto.fisio4life.fenix.Enum.TipoUsuarioEnum;
 import projeto.fisio4life.fenix.Exception.TipoUsuarioNaoEncontrado;
 
@@ -26,6 +27,9 @@ public final class UsuarioMapper {
         }
         entity.setNome(dto.getNome());
         entity.setData_nascimento(dto.getDataNascimento());
+        entity.setEmail(dto.getEmail());
+        entity.setCelular(dto.getCelular());
+        entity.setTelefone(dto.getTelefone());
         entity.setSenha(dto.getSenha());
         TipoUsuarioEnum tipoUsuario = null;
         for (TipoUsuarioEnum tipoUsuarioEnum : TipoUsuarioEnum.values()){
@@ -39,11 +43,8 @@ public final class UsuarioMapper {
         if (tipoUsuario == null) {
             throw new TipoUsuarioNaoEncontrado("Tipo de usuário não encontrado: " + dto.getTipoUsuario());
         }
-        entity.setEmail(dto.getEmail());
-        entity.setCelular(dto.getCelular());
-        entity.setTelefone(dto.getTelefone());
         entity.setTipo_usuario(tipoUsuario);
-        entity.setStatus_usuario(Integer.valueOf(dto.getStatusUsuario() == null ? null : dto.getStatusUsuario().byteValue()));
+        entity.setStatus_usuario(dto.getStatusUsuario());
 
         return entity;
     }
@@ -61,7 +62,7 @@ public final class UsuarioMapper {
         dto.setDataNascimento(entity.getData_nascimento());
         dto.setTipoUsuario(entity.getTipo_usuario());
         dto.setDataCadastro(entity.getData_cadastro());
-        dto.setStatusUsuario(entity.getStatus_usuario() == null ? null : entity.getStatus_usuario().intValue());
+        dto.setStatusUsuario(entity.getStatus_usuario());
         return dto;
     }
 
