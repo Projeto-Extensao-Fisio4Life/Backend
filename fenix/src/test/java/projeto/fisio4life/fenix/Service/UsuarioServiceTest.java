@@ -40,12 +40,6 @@ class UsuarioServiceTest {
     @BeforeEach
     void setUp() {
 
-        Endereco endereco = new Endereco();
-        endereco.setId_endereco(1);
-
-        Mockito.lenient().when(enderecoRepository.findById(1))
-                .thenReturn(Optional.of(endereco));
-
         Mockito.lenient().when(passwordEncoder.encode(Mockito.anyString()))
                 .thenReturn("senhaCriptografadaHash");
     }
@@ -54,6 +48,12 @@ class UsuarioServiceTest {
 
         Endereco endereco = new Endereco();
         endereco.setId_endereco(1);
+        endereco.setLogradouro("Rua das Flores");
+        endereco.setNumero(150);
+        endereco.setBairro("Centro");
+        endereco.setCidade("Osasco");
+        endereco.setEstado("SP");
+        endereco.setCep("06010-000");
 
         Usuario usuario = new Usuario();
         usuario.setId_usuario(1);
@@ -80,6 +80,10 @@ class UsuarioServiceTest {
 
             // Given
             Usuario usuario = criarUsuarioTeste();
+            Endereco endereco = usuario.getEndereco();
+
+            Mockito.when(enderecoRepository.save(endereco)).thenReturn(endereco);
+
             Mockito.when(usuarioRepository.save(usuario)).thenReturn(usuario);
 
             // When
@@ -89,27 +93,9 @@ class UsuarioServiceTest {
             Assertions.assertNotNull(resultado);
             Assertions.assertEquals("senhaCriptografadaHash", resultado.getSenha());
             Assertions.assertNotNull(resultado.getData_cadastro());
+            Mockito.verify(enderecoRepository, Mockito.times(1)).save(endereco);
             Mockito.verify(passwordEncoder, Mockito.times(1)).encode("senhaPura123");
             Mockito.verify(usuarioRepository, Mockito.times(1)).save(usuario);
-        }
-
-        @Test
-        @DisplayName("Deve validar quando endereço não existir")
-        void deveLancarExceptionQuandoEnderecoNaoEncontrado() {
-
-            // Given
-            Usuario usuario = criarUsuarioTeste();
-            Mockito.when(enderecoRepository.findById(1)).thenReturn(Optional.empty());
-
-            // When
-            ResponseStatusException exception = Assertions.assertThrows(
-                    ResponseStatusException.class,
-                    () -> usuarioService.salvar(usuario)
-            );
-
-            // Then
-            Assertions.assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
-            Assertions.assertEquals("Endereço não encontrado.", exception.getReason());
         }
     }
 
@@ -197,8 +183,13 @@ class UsuarioServiceTest {
             Integer id = 1;
             Usuario existente = criarUsuarioTeste();
 
-            Endereco novoEndereco = new Endereco();
-            novoEndereco.setId_endereco(2);
+            Endereco novosDadosEndereco = new Endereco();
+            novosDadosEndereco.setLogradouro("Rua das Palmeiras");
+            novosDadosEndereco.setNumero(250);
+            novosDadosEndereco.setBairro("Jardim");
+            novosDadosEndereco.setCidade("São Paulo");
+            novosDadosEndereco.setEstado("SP");
+            novosDadosEndereco.setCep("01000-000");
 
             Usuario novosDados = new Usuario();
             novosDados.setNome("Maria Oliveira");
@@ -207,12 +198,11 @@ class UsuarioServiceTest {
             novosDados.setCelular("11999998888");
             novosDados.setTelefone("1144445555");
             novosDados.setSenha("novaSenha456");
-            novosDados.setTipo_usuario(TipoUsuarioEnum.FISIOTERAPEUTA);
-            novosDados.setStatus_usuario(StatusUsuarioEnum.INATIVO);
-            novosDados.setEndereco(novoEndereco);
+            novosDados.setTipo_usuario(TipoUsuarioEnum.PACIENTE);
+            novosDados.setStatus_usuario(StatusUsuarioEnum.ATIVO);
+            novosDados.setEndereco(novosDadosEndereco);
 
             Mockito.when(usuarioRepository.findById(id)).thenReturn(Optional.of(existente));
-            Mockito.when(enderecoRepository.findById(2)).thenReturn(Optional.of(novoEndereco));
             Mockito.when(passwordEncoder.encode("novaSenha456")).thenReturn("novaSenhaHash456");
             Mockito.when(usuarioRepository.save(existente)).thenReturn(existente);
 
@@ -228,10 +218,19 @@ class UsuarioServiceTest {
                     () -> Assertions.assertEquals("11999998888", resultado.getCelular()),
                     () -> Assertions.assertEquals("1144445555", resultado.getTelefone()),
                     () -> Assertions.assertEquals("novaSenhaHash456", resultado.getSenha()),
-                    () -> Assertions.assertEquals(TipoUsuarioEnum.FISIOTERAPEUTA, resultado.getTipo_usuario()),
-                    () -> Assertions.assertEquals(StatusUsuarioEnum.INATIVO, resultado.getStatus_usuario()),
-                    () -> Assertions.assertEquals(2, resultado.getEndereco().getId_endereco())
+                    () -> Assertions.assertEquals(TipoUsuarioEnum.PACIENTE, resultado.getTipo_usuario()),
+                    () -> Assertions.assertEquals(StatusUsuarioEnum.ATIVO, resultado.getStatus_usuario()),
+                    () -> Assertions.assertEquals(1, resultado.getEndereco().getId_endereco()),
+                    () -> Assertions.assertEquals("Rua das Palmeiras", resultado.getEndereco().getLogradouro()),
+                    () -> Assertions.assertEquals(250, resultado.getEndereco().getNumero()),
+                    () -> Assertions.assertEquals("Jardim", resultado.getEndereco().getBairro()),
+                    () -> Assertions.assertEquals("São Paulo", resultado.getEndereco().getCidade()),
+                    () -> Assertions.assertEquals("SP", resultado.getEndereco().getEstado()),
+                    () -> Assertions.assertEquals("01000-000", resultado.getEndereco().getCep())
+
             );
+            Mockito.verify(enderecoRepository, Mockito.times(1)).save(existente.getEndereco());
+            Mockito.verify(usuarioRepository, Mockito.times(1)).save(existente);
         }
 
         @Test
@@ -249,6 +248,7 @@ class UsuarioServiceTest {
 
             //Then
             Assertions.assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
+            Assertions.assertEquals("Usuario não encontrado.", exception.getReason());
         }
     }
 

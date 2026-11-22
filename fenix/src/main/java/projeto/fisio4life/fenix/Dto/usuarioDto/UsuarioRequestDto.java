@@ -2,7 +2,9 @@ package projeto.fisio4life.fenix.Dto.usuarioDto;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import projeto.fisio4life.fenix.Dto.enderecoDto.EnderecoRequestDto;
 import projeto.fisio4life.fenix.Enum.StatusUsuarioEnum;
 import projeto.fisio4life.fenix.Enum.TipoUsuarioEnum;
 
@@ -10,8 +12,9 @@ import java.time.LocalDate;
 
 public class UsuarioRequestDto {
 
+    @Valid
     @NotNull
-    private Integer idEndereco;
+    private EnderecoRequestDto endereco;
 
     @NotBlank
     @Size(max = 255)
@@ -45,12 +48,12 @@ public class UsuarioRequestDto {
 
     public UsuarioRequestDto() {}
 
-    public Integer getIdEndereco() {
-        return idEndereco;
+    public EnderecoRequestDto getEndereco() {
+        return endereco;
     }
 
-    public void setIdEndereco(Integer idEndereco) {
-        this.idEndereco = idEndereco;
+    public void setEndereco(EnderecoRequestDto endereco) {
+        this.endereco = endereco;
     }
 
     public String getNome() {
