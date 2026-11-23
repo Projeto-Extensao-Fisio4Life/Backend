@@ -13,11 +13,11 @@ import projeto.fisio4life.fenix.Repository.EscalaRepository;
 public class EscalaPerguntasService {
 
     private final EscalaPerguntasRepository escalaPerguntasRepository;
-private final EscalaRepository escalaRepository;
+    private final EscalaRepository escalaRepository;
 
     public EscalaPerguntasService(EscalaPerguntasRepository escalaPerguntasRepository, EscalaRepository escalaRepository) {
         this.escalaPerguntasRepository = escalaPerguntasRepository;
-this.escalaRepository = escalaRepository;
+        this.escalaRepository = escalaRepository;
     }
 
     @Transactional
@@ -43,8 +43,8 @@ this.escalaRepository = escalaRepository;
         EscalaPerguntas existente = buscarPorId(id);
         validar(entity, id);
         existente.setTitulo_pergunta(entity.getTitulo_pergunta());
-existente.setTipo_dado(entity.getTipo_dado());
-existente.setEscala(entity.getEscala());
+        existente.setTipo_dado(entity.getTipo_dado());
+        existente.setEscala(entity.getEscala());
         return escalaPerguntasRepository.save(existente);
     }
 

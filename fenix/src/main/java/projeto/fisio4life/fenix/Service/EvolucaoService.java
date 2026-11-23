@@ -19,8 +19,8 @@ private final SessaoRepository sessaoRepository;
 
     public EvolucaoService(EvolucaoRepository evolucaoRepository, ProntuarioRepository prontuarioRepository, SessaoRepository sessaoRepository) {
         this.evolucaoRepository = evolucaoRepository;
-this.prontuarioRepository = prontuarioRepository;
-this.sessaoRepository = sessaoRepository;
+        this.prontuarioRepository = prontuarioRepository;
+        this.sessaoRepository = sessaoRepository;
     }
 
     @Transactional
@@ -46,11 +46,11 @@ this.sessaoRepository = sessaoRepository;
         Evolucao existente = buscarPorId(id);
         validar(entity, id);
         existente.setData_evolucao(entity.getData_evolucao());
-existente.setConduta(entity.getConduta());
-existente.setAvaliacao(entity.getAvaliacao());
-existente.setObservacao(entity.getObservacao());
-existente.setSessao(entity.getSessao());
-existente.setProntuario(entity.getProntuario());
+        existente.setConduta(entity.getConduta());
+        existente.setAvaliacao(entity.getAvaliacao());
+        existente.setObservacao(entity.getObservacao());
+        existente.setSessao(entity.getSessao());
+        existente.setProntuario(entity.getProntuario());
         return evolucaoRepository.save(existente);
     }
 

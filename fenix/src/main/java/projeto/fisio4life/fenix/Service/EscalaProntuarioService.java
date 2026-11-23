@@ -14,13 +14,13 @@ import projeto.fisio4life.fenix.Repository.ProntuarioRepository;
 public class EscalaProntuarioService {
 
     private final EscalaProntuarioRepository escalaProntuarioRepository;
-private final EscalaRepository escalaRepository;
-private final ProntuarioRepository prontuarioRepository;
+    private final EscalaRepository escalaRepository;
+    private final ProntuarioRepository prontuarioRepository;
 
     public EscalaProntuarioService(EscalaProntuarioRepository escalaProntuarioRepository, EscalaRepository escalaRepository, ProntuarioRepository prontuarioRepository) {
         this.escalaProntuarioRepository = escalaProntuarioRepository;
-this.escalaRepository = escalaRepository;
-this.prontuarioRepository = prontuarioRepository;
+        this.escalaRepository = escalaRepository;
+        this.prontuarioRepository = prontuarioRepository;
     }
 
     @Transactional

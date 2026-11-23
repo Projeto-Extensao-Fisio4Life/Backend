@@ -14,13 +14,13 @@ import projeto.fisio4life.fenix.Repository.EscalaRespostasRepository;
 public class EscalaRespostasService {
 
     private final EscalaRespostasRepository escalaRespostasRepository;
-private final EscalaPerguntasRepository escalaPerguntasRepository;
-private final EscalaProntuarioRepository escalaProntuarioRepository;
+    private final EscalaPerguntasRepository escalaPerguntasRepository;
+    private final EscalaProntuarioRepository escalaProntuarioRepository;
 
     public EscalaRespostasService(EscalaRespostasRepository escalaRespostasRepository, EscalaPerguntasRepository escalaPerguntasRepository, EscalaProntuarioRepository escalaProntuarioRepository) {
         this.escalaRespostasRepository = escalaRespostasRepository;
-this.escalaPerguntasRepository = escalaPerguntasRepository;
-this.escalaProntuarioRepository = escalaProntuarioRepository;
+        this.escalaPerguntasRepository = escalaPerguntasRepository;
+        this.escalaProntuarioRepository = escalaProntuarioRepository;
     }
 
     @Transactional
@@ -46,8 +46,8 @@ this.escalaProntuarioRepository = escalaProntuarioRepository;
         EscalaRespostas existente = buscarPorId(id);
         validar(entity, id);
         existente.setValor_resposta(entity.getValor_resposta());
-existente.setEscala_prontuario(entity.getEscala_prontuario());
-existente.setEscala_perguntas(entity.getEscala_perguntas());
+        existente.setEscala_prontuario(entity.getEscala_prontuario());
+        existente.setEscala_perguntas(entity.getEscala_perguntas());
         return escalaRespostasRepository.save(existente);
     }
 
