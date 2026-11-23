@@ -9,7 +9,6 @@ import java.util.Optional;
 
 public interface ServicoRepository extends JpaRepository<Servico, Integer> {
 
-    boolean existsByNomeIgnoreCase(String nome);
-
-    Optional<Servico> findByNomeIgnoreCase(String nome);
+    @Query("SELECT COUNT(s) > 0 FROM Servico s WHERE LOWER(s.nome) = LOWER(:nome) AND (:id IS NULL OR s.id_servico <> :id)")
+    boolean existeNomeEmOutroServico(@Param("nome") String nome, @Param("id") Integer id);
 }

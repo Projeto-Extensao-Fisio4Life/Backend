@@ -21,9 +21,7 @@ public class ServicoService {
 
     @Transactional
     public Servico salvar(Servico entity) {
-        if (servicoRepository.existsByNomeIgnoreCase(entity.getNome())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Já existe um serviço cadastrado com este nome.");
-        }
+        validar(entity, null);
         return servicoRepository.save(entity);
     }
 
@@ -41,12 +39,7 @@ public class ServicoService {
     @Transactional
     public Servico atualizar(Integer id, Servico entity) {
         Servico existente = buscarPorId(id);
-
-        servicoRepository.findByNomeIgnoreCase(entity.getNome())
-                .filter(s -> !s.getId_servico().equals(id))
-                .ifPresent(s -> {
-                    throw new ResponseStatusException(HttpStatus.CONFLICT, "Já existe outro serviço cadastrado com este nome.");
-                });
+        validar(entity, id);
 
         existente.setNome(entity.getNome());
         existente.setQuantidade_sessoes(entity.getQuantidade_sessoes());
@@ -74,5 +67,11 @@ public class ServicoService {
 //                    "Não é possível excluir Serviço: existem registros relacionados.", ex);
 //        }
 //    }
+
+    private void validar(Servico entity, Integer idAtual) {
+        if (servicoRepository.existeNomeEmOutroServico(entity.getNome(), idAtual)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Já existe um serviço cadastrado com este nome.");
+        }
+    }
 
 }
