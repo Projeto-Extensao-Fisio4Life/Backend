@@ -1,6 +1,9 @@
 package projeto.fisio4life.fenix.Entity;
 
 import jakarta.persistence.*;
+import projeto.fisio4life.fenix.Enum.RegraStatusEnum;
+
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "servico")
@@ -21,7 +24,11 @@ public class Servico {
     private String tipo;
 
     @Column(name = "status_servico", nullable = false, columnDefinition = "TINYINT")
-    private Byte status_servico;
+    private RegraStatusEnum status_servico;
+
+    @Column(name = "valor_sessao", nullable = false, precision = 10, scale = 2)
+    private BigDecimal valor_sessao;
+
 
     public Servico() {}
     public Integer getId_servico() { return id_servico; }
@@ -32,6 +39,14 @@ public class Servico {
     public void setQuantidade_sessoes(Integer valor) { this.quantidade_sessoes = valor; }
     public String getTipo() { return tipo; }
     public void setTipo(String valor) { this.tipo = valor; }
-    public Byte getStatus_servico() { return status_servico; }
-    public void setStatus_servico(Byte valor) { this.status_servico = valor; }
+    public RegraStatusEnum getStatus_servico() { return status_servico; }
+    public void setStatus_servico(RegraStatusEnum valor) { this.status_servico = valor; }
+
+    public BigDecimal getValor_sessao() {
+        return valor_sessao;
+    }
+
+    public void setValor_sessao(BigDecimal valor_sessao) {
+        this.valor_sessao = valor_sessao;
+    }
 }
