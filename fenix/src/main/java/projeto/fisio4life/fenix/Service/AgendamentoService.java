@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import projeto.fisio4life.fenix.Entity.Agendamento;
+import projeto.fisio4life.fenix.Enum.RegraStatusEnum;
 import projeto.fisio4life.fenix.Repository.AgendamentoRepository;
 import projeto.fisio4life.fenix.Repository.ClinicaRepository;
 import projeto.fisio4life.fenix.Repository.FisioterapeutaRepository;
@@ -64,9 +65,9 @@ public class AgendamentoService {
     public void cancelar(Integer id) {
         Agendamento existente = buscarPorId(id);
 
-        if (existente.getStatus_agendamento() == RegraStatus.AGENDAMENTO_CANCELADO) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Agendamento já está cancelado.");
+        if (existente.getStatus_agendamento().equals(RegraStatusEnum.INATIVO)) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Agendamento já está cancelado.");
 
-        existente.setStatus_agendamento(RegraStatus.AGENDAMENTO_CANCELADO);
+        existente.setStatus_agendamento(RegraStatusEnum.INATIVO);
         agendamentoRepository.save(existente);
     }
 
@@ -96,15 +97,15 @@ public class AgendamentoService {
         if (!entity.getHora_fim().isAfter(entity.getHora_inicio()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A hora final deve ser posterior à inicial.");
 
-        if (entity.getStatus_agendamento().byteValue() != RegraStatus.AGENDAMENTO_CANCELADO &&
-                agendamentoRepository.existeConflito(entity.getFisioterapeuta().getId_fisioterapeuta(), entity.getData_agendamento(), entity.getHora_inicio(), entity.getHora_fim(), RegraStatus.AGENDAMENTO_CANCELADO, idAtual))
+        if (entity.getStatus_agendamento() != RegraStatusEnum.INATIVO &&
+                agendamentoRepository.existeConflito(entity.getFisioterapeuta().getId_fisioterapeuta(), entity.getData_agendamento(), entity.getHora_inicio(), entity.getHora_fim(), RegraStatusEnum.INATIVO, idAtual))
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Existe conflito de horário para este fisioterapeuta.");
     }
 
-    private void validarTexto(String valor, String campo, int max) {
-        if (valor == null || valor.isBlank() || valor.length() > max)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    campo + " é obrigatório e deve ter até " + max + " caracteres.");
-    }
+//    private void validarTexto(String valor, String campo, int max) {
+//        if (valor == null || valor.isBlank() || valor.length() > max)
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+//                    campo + " é obrigatório e deve ter até " + max + " caracteres.");
+//    }
 
 }

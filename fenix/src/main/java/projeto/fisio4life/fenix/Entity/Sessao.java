@@ -1,6 +1,8 @@
 package projeto.fisio4life.fenix.Entity;
 
 import jakarta.persistence.*;
+import projeto.fisio4life.fenix.Enum.StatusSessaoEnum;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,6 +31,14 @@ public class Sessao {
     @Column(name = "observacao", nullable = false, length = 255)
     private String observacao;
 
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "status_sessao", nullable = false, columnDefinition = "TINYINT")
+    private StatusSessaoEnum status_sessao;
+
+    @Convert(converter = BooleanToTinyIntConverter.class)
+    @Column(name = "gera_cobranca", nullable = false, columnDefinition = "TINYINT")
+    private Boolean gera_cobranca;
+
     public Sessao() {}
     public Integer getId_sessao() { return id_sessao; }
     public void setId_sessao(Integer valor) { this.id_sessao = valor; }
@@ -42,4 +52,20 @@ public class Sessao {
     public void setDescricao(String valor) { this.descricao = valor; }
     public String getObservacao() { return observacao; }
     public void setObservacao(String valor) { this.observacao = valor; }
+
+    public StatusSessaoEnum getStatus_sessao() {
+        return status_sessao;
+    }
+
+    public void setStatus_sessao(StatusSessaoEnum status_sessao) {
+        this.status_sessao = status_sessao;
+    }
+
+    public Boolean getGera_cobranca() {
+        return gera_cobranca;
+    }
+
+    public void setGera_cobranca(Boolean gera_cobranca) {
+        this.gera_cobranca = gera_cobranca;
+    }
 }

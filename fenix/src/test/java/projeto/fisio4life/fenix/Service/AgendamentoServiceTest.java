@@ -12,6 +12,7 @@ import projeto.fisio4life.fenix.Entity.Agendamento;
 import projeto.fisio4life.fenix.Entity.Clinica;
 import projeto.fisio4life.fenix.Entity.Fisioterapeuta;
 import projeto.fisio4life.fenix.Entity.Paciente;
+import projeto.fisio4life.fenix.Enum.RegraStatusEnum;
 import projeto.fisio4life.fenix.Repository.AgendamentoRepository;
 import projeto.fisio4life.fenix.Repository.ClinicaRepository;
 import projeto.fisio4life.fenix.Repository.FisioterapeutaRepository;
@@ -85,7 +86,7 @@ class AgendamentoServiceTest {
         agendamento.setData_agendamento(LocalDate.of(2026, 11, 23));
         agendamento.setHora_inicio(LocalTime.of(10, 0));
         agendamento.setHora_fim(LocalTime.of(11, 0));
-        agendamento.setStatus_agendamento((byte) 1);
+        agendamento.setStatus_agendamento(RegraStatusEnum.ATIVO);
 
         return agendamento;
     }
@@ -182,7 +183,7 @@ class AgendamentoServiceTest {
             LocalDate data_agendamento = LocalDate.of(2026, 11, 23);
             LocalTime hora_incio = LocalTime.of(10, 0);
             LocalTime hora_fim = LocalTime.of(11, 0);
-            Byte status_agendamento = ((byte) 2);
+            RegraStatusEnum status_agendamento = (RegraStatusEnum.INATIVO);
             Integer idAtual = null;
 
             Mockito.when(agendamentoRepository.existeConflito(id_fisioterapeuta, data_agendamento, hora_incio, hora_fim, status_agendamento, idAtual))
@@ -223,7 +224,7 @@ class AgendamentoServiceTest {
             Assertions.assertEquals(LocalDate.of(2026, 11, 23), resultado.getData_agendamento());
             Assertions.assertEquals(LocalTime.of(10, 0), resultado.getHora_inicio());
             Assertions.assertEquals(LocalTime.of(11, 0), resultado.getHora_fim());
-            Assertions.assertEquals((byte) 1, resultado.getStatus_agendamento());
+            Assertions.assertEquals(RegraStatusEnum.ATIVO, resultado.getStatus_agendamento());
 
         }
     }
@@ -255,7 +256,7 @@ class AgendamentoServiceTest {
             Assertions.assertEquals(LocalDate.of(2026, 11, 23), resultado.getData_agendamento());
             Assertions.assertEquals(LocalTime.of(10, 0), resultado.getHora_inicio());
             Assertions.assertEquals(LocalTime.of(11, 0), resultado.getHora_fim());
-            Assertions.assertEquals((byte) 1, resultado.getStatus_agendamento());
+            Assertions.assertEquals(RegraStatusEnum.ATIVO, resultado.getStatus_agendamento());
         }
 
         @Test
@@ -349,7 +350,7 @@ class AgendamentoServiceTest {
             entity.setData_agendamento(LocalDate.of(2026, 12, 10));
             entity.setHora_inicio(LocalTime.of(14, 0));
             entity.setHora_fim(LocalTime.of(15, 0));
-            entity.setStatus_agendamento((byte) 2);
+            entity.setStatus_agendamento(RegraStatusEnum.INATIVO);
             entity.setObservacao("Observação atualizada");
 
             Mockito.when(agendamentoRepository.findById(id)).thenReturn(Optional.of(existente));
@@ -368,7 +369,7 @@ class AgendamentoServiceTest {
                     () -> Assertions.assertEquals(LocalDate.of(2026, 12, 10), resultado.getData_agendamento()),
                     () -> Assertions.assertEquals(LocalTime.of(14, 0), resultado.getHora_inicio()),
                     () -> Assertions.assertEquals(LocalTime.of(15, 0), resultado.getHora_fim()),
-                    () -> Assertions.assertEquals((byte) 2, resultado.getStatus_agendamento()),
+                    () -> Assertions.assertEquals(RegraStatusEnum.INATIVO, resultado.getStatus_agendamento()),
                     () -> Assertions.assertEquals("Observação atualizada", resultado.getObservacao())
             );
         }
@@ -412,7 +413,7 @@ class AgendamentoServiceTest {
                     Mockito.eq(novosDados.getData_agendamento()),
                     Mockito.eq(novosDados.getHora_inicio()),
                     Mockito.eq(novosDados.getHora_fim()),
-                    Mockito.eq(RegraStatus.AGENDAMENTO_CANCELADO),
+                    Mockito.eq(RegraStatusEnum.INATIVO),
                     Mockito.eq(id)
             )).thenReturn(true);
 
@@ -447,7 +448,7 @@ class AgendamentoServiceTest {
             agendamentoService.cancelar(id);
 
             // Then
-            Assertions.assertEquals(RegraStatus.AGENDAMENTO_CANCELADO, existente.getStatus_agendamento());
+            Assertions.assertEquals(RegraStatusEnum.INATIVO, existente.getStatus_agendamento());
             Mockito.verify(agendamentoRepository, Mockito.times(1)).save(existente);
         }
 
@@ -476,7 +477,7 @@ class AgendamentoServiceTest {
 
             // Given
             Agendamento agendamento = criarAgendamentoTeste();
-            agendamento.setStatus_agendamento((byte) 2);
+            agendamento.setStatus_agendamento(RegraStatusEnum.INATIVO);
             Integer id = 1;
 
             Optional<Agendamento> agendamentoOptional = Optional.of(agendamento);

@@ -1,5 +1,8 @@
 package projeto.fisio4life.fenix.Dto.agendamentoDto;
 
+import projeto.fisio4life.fenix.Enum.RegraStatusEnum;
+import projeto.fisio4life.fenix.Enum.StatusSessaoEnum;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,7 +24,7 @@ public class AgendamentoResponseDto {
 
     private LocalTime horaFim;
 
-    private Integer statusAgendamento;
+    private RegraStatusEnum statusAgendamento;
 
     private String observacao;
 
@@ -48,8 +51,8 @@ public class AgendamentoResponseDto {
     public LocalTime getHoraFim() { return horaFim; }
     public void setHoraFim(LocalTime valor) { this.horaFim = valor; }
 
-    public Integer getStatusAgendamento() { return statusAgendamento; }
-    public void setStatusAgendamento(Integer valor) { this.statusAgendamento = valor; }
+    public RegraStatusEnum getStatusAgendamento() { return statusAgendamento; }
+    public void setStatusAgendamento(RegraStatusEnum valor) { this.statusAgendamento = valor; }
 
     public String getObservacao() { return observacao; }
     public void setObservacao(String valor) { this.observacao = valor; }
