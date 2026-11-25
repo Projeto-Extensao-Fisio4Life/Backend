@@ -102,10 +102,10 @@ public class AgendamentoService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Existe conflito de horário para este fisioterapeuta.");
     }
 
-    private void validarTexto(String valor, String campo, int max) {
-        if (valor == null || valor.isBlank() || valor.length() > max)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    campo + " é obrigatório e deve ter até " + max + " caracteres.");
-    }
+//    private void validarTexto(String valor, String campo, int max) {
+//        if (valor == null || valor.isBlank() || valor.length() > max)
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+//                    campo + " é obrigatório e deve ter até " + max + " caracteres.");
+//    }
 
 }

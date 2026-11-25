@@ -224,7 +224,7 @@ class AgendamentoServiceTest {
             Assertions.assertEquals(LocalDate.of(2026, 11, 23), resultado.getData_agendamento());
             Assertions.assertEquals(LocalTime.of(10, 0), resultado.getHora_inicio());
             Assertions.assertEquals(LocalTime.of(11, 0), resultado.getHora_fim());
-            Assertions.assertEquals((byte) 1, resultado.getStatus_agendamento());
+            Assertions.assertEquals(RegraStatusEnum.ATIVO, resultado.getStatus_agendamento());
 
         }
     }
@@ -256,7 +256,7 @@ class AgendamentoServiceTest {
             Assertions.assertEquals(LocalDate.of(2026, 11, 23), resultado.getData_agendamento());
             Assertions.assertEquals(LocalTime.of(10, 0), resultado.getHora_inicio());
             Assertions.assertEquals(LocalTime.of(11, 0), resultado.getHora_fim());
-            Assertions.assertEquals((byte) 1, resultado.getStatus_agendamento());
+            Assertions.assertEquals(RegraStatusEnum.ATIVO, resultado.getStatus_agendamento());
         }
 
         @Test
@@ -448,7 +448,7 @@ class AgendamentoServiceTest {
             agendamentoService.cancelar(id);
 
             // Then
-            Assertions.assertEquals(RegraStatus.AGENDAMENTO_CANCELADO, existente.getStatus_agendamento());
+            Assertions.assertEquals(RegraStatusEnum.INATIVO, existente.getStatus_agendamento());
             Mockito.verify(agendamentoRepository, Mockito.times(1)).save(existente);
         }
 
