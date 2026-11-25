@@ -48,7 +48,7 @@ class ServicoServiceTest {
         void deveSalvarServicoComSucesso() {
             // Given
             Servico servico = criarServicoTeste();
-            Mockito.when(servicoRepository.existsByNomeIgnoreCase("Pacote 10 Sessões")).thenReturn(false);
+            Mockito.when(servicoRepository.existeNomeEmOutroServico("Pacote 10 Sessões", null)).thenReturn(false);
             Mockito.when(servicoRepository.save(servico)).thenReturn(servico);
 
             // When
@@ -66,7 +66,7 @@ class ServicoServiceTest {
         void deveLancarConflictQuandoNomeJaExistir() {
             // Given
             Servico servico = criarServicoTeste();
-            Mockito.when(servicoRepository.existsByNomeIgnoreCase("Pacote 10 Sessões")).thenReturn(true);
+            Mockito.when(servicoRepository.existeNomeEmOutroServico("Pacote 10 Sessões", null)).thenReturn(true);
 
             // When & Then
             ResponseStatusException exception = Assertions.assertThrows(
@@ -166,7 +166,7 @@ class ServicoServiceTest {
             novosDados.setValor_sessao(new BigDecimal("280.00"));
 
             Mockito.when(servicoRepository.findById(id)).thenReturn(Optional.of(existente));
-            Mockito.when(servicoRepository.findByNomeIgnoreCase("Pacote 10 Sessões")).thenReturn(Optional.of(existente));
+            Mockito.when(servicoRepository.existeNomeEmOutroServico("Pacote 10 Sessões",id)).thenReturn(false);
             Mockito.when(servicoRepository.save(existente)).thenReturn(existente);
 
             // When
@@ -215,7 +215,7 @@ class ServicoServiceTest {
             novosDados.setNome("Sessão Avulsa");
 
             Mockito.when(servicoRepository.findById(id)).thenReturn(Optional.of(existente));
-            Mockito.when(servicoRepository.findByNomeIgnoreCase("Sessão Avulsa")).thenReturn(Optional.of(outroServico));
+            Mockito.when(servicoRepository.existeNomeEmOutroServico("Sessão Avulsa",id)).thenReturn(true);
 
             // When & Then
             ResponseStatusException exception = Assertions.assertThrows(
@@ -224,7 +224,7 @@ class ServicoServiceTest {
             );
 
             Assertions.assertEquals(HttpStatus.CONFLICT, exception.getStatusCode());
-            Assertions.assertEquals("Já existe outro serviço cadastrado com este nome.", exception.getReason());
+            Assertions.assertEquals("Já existe um serviço cadastrado com este nome.", exception.getReason());
             Mockito.verify(servicoRepository, Mockito.never()).save(Mockito.any());
         }
     }

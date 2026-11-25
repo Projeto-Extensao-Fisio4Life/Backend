@@ -2,6 +2,7 @@ package projeto.fisio4life.fenix.Dto.agendamentoDto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import projeto.fisio4life.fenix.Enum.RegraStatusEnum;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -26,7 +27,7 @@ public class AgendamentoRequestDto {
     private LocalTime horaFim;
 
     @NotNull
-    private Integer statusAgendamento;
+    private RegraStatusEnum statusAgendamento;
 
     @Size(max = 255)
     private String observacao;
@@ -51,8 +52,13 @@ public class AgendamentoRequestDto {
     public LocalTime getHoraFim() { return horaFim; }
     public void setHoraFim(LocalTime valor) { this.horaFim = valor; }
 
-    public Integer getStatusAgendamento() { return statusAgendamento; }
-    public void setStatusAgendamento(Integer valor) { this.statusAgendamento = valor; }
+    public RegraStatusEnum getStatusAgendamento() {
+        return statusAgendamento;
+    }
+
+    public void setStatusAgendamento(RegraStatusEnum statusAgendamento) {
+        this.statusAgendamento = statusAgendamento;
+    }
 
     public String getObservacao() { return observacao; }
     public void setObservacao(String valor) { this.observacao = valor; }

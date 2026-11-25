@@ -4,6 +4,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import projeto.fisio4life.fenix.Entity.Agendamento;
+import projeto.fisio4life.fenix.Enum.RegraStatusEnum;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public interface AgendamentoRepository extends JpaRepository<Agendamento, Integer> {
     @Query("""
@@ -17,9 +21,9 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Intege
           AND (:idAtual IS NULL OR a.id_agendamento <> :idAtual)
         """)
     boolean existeConflito(@Param("idFisioterapeuta") Integer idFisioterapeuta,
-                           @Param("data") java.time.LocalDate data,
-                           @Param("horaInicio") java.time.LocalTime horaInicio,
-                           @Param("horaFim") java.time.LocalTime horaFim,
-                           @Param("statusCancelado") Byte statusCancelado,
+                           @Param("data") LocalDate data,
+                           @Param("horaInicio") LocalTime horaInicio,
+                           @Param("horaFim") LocalTime horaFim,
+                           @Param("statusCancelado") RegraStatusEnum statusCancelado,
                            @Param("idAtual") Integer idAtual);
 }
