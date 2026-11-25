@@ -17,19 +17,19 @@ public final class SessaoMapper {
 
         Sessao entity = new Sessao();
 
-        if (dto.getIdAgendamento() != null) {
-            Agendamento ref = new Agendamento();
-            ref.setId_agendamento(dto.getIdAgendamento());
-            entity.setAgendamento(ref);
-        }
-        if (dto.getIdServico() != null) {
-            Servico ref = new Servico();
-            ref.setId_servico(dto.getIdServico());
-            entity.setServico(ref);
-        }
+        Agendamento agendamento = new Agendamento();
+        agendamento.setId_agendamento(dto.getIdAgendamento());
+
+        Servico servico = new Servico();
+        servico.setId_servico(dto.getIdServico());
+
+        entity.setAgendamento(agendamento);
+        entity.setServico(servico);
         entity.setData_sessao(dto.getDataSessao());
         entity.setDescricao(dto.getDescricao());
         entity.setObservacao(dto.getObservacao());
+        entity.setStatus_sessao(dto.getStatus_sessao());
+        entity.setGera_cobranca(dto.getGera_cobranca());
 
         return entity;
     }
@@ -39,11 +39,14 @@ public final class SessaoMapper {
 
         SessaoResponseDto dto = new SessaoResponseDto();
         dto.setIdSessao(entity.getId_sessao());
-        if (entity.getAgendamento() != null) dto.setIdAgendamento(entity.getAgendamento().getId_agendamento());
-        if (entity.getServico() != null) dto.setIdServico(entity.getServico().getId_servico());
+        dto.setAgendamento(AgendamentoMapper.toResponseDto(entity.getAgendamento()));
+        dto.setServico(ServicoMapper.toResponseDto(entity.getServico()));
         dto.setDataSessao(entity.getData_sessao());
         dto.setDescricao(entity.getDescricao());
         dto.setObservacao(entity.getObservacao());
+        dto.setStatus_sessao(entity.getStatus_sessao());
+        dto.setGera_cobranca(entity.getGera_cobranca());
+
 
         return dto;
     }
