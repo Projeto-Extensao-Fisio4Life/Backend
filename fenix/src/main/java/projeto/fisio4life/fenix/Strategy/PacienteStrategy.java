@@ -34,14 +34,12 @@ public class PacienteStrategy implements LoginStrategy {
         String email = dto.getEmail();
         String senha = dto.getSenha();
         Usuario usuarioCadastrado = usuarioRepository.findByEmail(email);
-        System.out.println("Usuario encontrado: " + usuarioCadastrado.toString());
 
         if (usuarioCadastrado == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não autorizado");
         }
 
         boolean senhaCorreta = passwordEncoder.matches(senha, usuarioCadastrado.getSenha());
-        System.out.println("Senha correta: " + senhaCorreta);
 
         if (!senhaCorreta) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não autorizado");

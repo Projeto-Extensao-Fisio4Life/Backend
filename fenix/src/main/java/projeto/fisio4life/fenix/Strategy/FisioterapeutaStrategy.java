@@ -36,7 +36,6 @@ public class FisioterapeutaStrategy implements LoginStrategy {
         String senha = dto.getSenha();
         Usuario usuarioCadastrado = usuarioRepository.findByEmail(email);
 
-        System.out.println("Usuario encontrado: " + usuarioCadastrado.toString());
 
         if (usuarioCadastrado == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não autorizado");
@@ -44,7 +43,6 @@ public class FisioterapeutaStrategy implements LoginStrategy {
 
         boolean senhaCorreta = passwordEncoder.matches(senha, usuarioCadastrado.getSenha());
 
-        System.out.println("Senha correta: " + senhaCorreta);
 
         if (!senhaCorreta) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não autorizado");

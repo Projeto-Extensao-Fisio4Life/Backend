@@ -43,9 +43,9 @@ this.usuarioRepository = usuarioRepository;
         Fisioterapeuta existente = buscarPorId(id);
         validar(entity, id);
         existente.setCrefito(entity.getCrefito());
-existente.setEspecialidade(entity.getEspecialidade());
-existente.setCnpj(entity.getCnpj());
-existente.setUsuario(entity.getUsuario());
+        existente.setEspecialidade(entity.getEspecialidade());
+        existente.setCnpj(entity.getCnpj());
+        existente.setUsuario(entity.getUsuario());
         return fisioterapeutaRepository.save(existente);
     }
 

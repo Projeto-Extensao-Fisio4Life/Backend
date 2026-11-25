@@ -40,11 +40,11 @@ public class EnderecoService {
         Endereco existente = buscarPorId(id);
         validar(entity, id);
         existente.setLogradouro(entity.getLogradouro());
-existente.setNumero(entity.getNumero());
-existente.setBairro(entity.getBairro());
-existente.setCidade(entity.getCidade());
-existente.setEstado(entity.getEstado());
-existente.setCep(entity.getCep());
+        existente.setNumero(entity.getNumero());
+        existente.setBairro(entity.getBairro());
+        existente.setCidade(entity.getCidade());
+        existente.setEstado(entity.getEstado());
+        existente.setCep(entity.getCep());
         return enderecoRepository.save(existente);
     }
 
@@ -61,14 +61,17 @@ existente.setCep(entity.getCep());
     }
 
     private void validar(Endereco entity, Integer idAtual) {
-        if (entity == null)
+        if (entity == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Endereco não pode ser nulo.");
+        }
         validarTexto(entity.getLogradouro(), "Logradouro", 45);
         validarTexto(entity.getBairro(), "Bairro", 45);
         validarTexto(entity.getCidade(), "Cidade", 45);
         validarTexto(entity.getEstado(), "Estado", 2);
         validarTexto(entity.getCep(), "CEP", 45);
-        if (entity.getNumero() == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Número é obrigatório.");
+        if (entity.getNumero() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Número é obrigatório.");
+        };
     }
 
     private void validarTexto(String valor, String campo, int max) {
