@@ -36,7 +36,7 @@ public final class AgendamentoMapper {
         entity.setData_agendamento(dto.getDataAgendamento());
         entity.setHora_inicio(dto.getHoraInicio());
         entity.setHora_fim(dto.getHoraFim());
-        entity.setStatus_agendamento(dto.getStatusAgendamento() == null ? null : dto.getStatusAgendamento().byteValue());
+        entity.setStatus_agendamento(dto.getStatusAgendamento());
         entity.setObservacao(dto.getObservacao());
 
         return entity;
@@ -53,7 +53,7 @@ public final class AgendamentoMapper {
         dto.setDataAgendamento(entity.getData_agendamento());
         dto.setHoraInicio(entity.getHora_inicio());
         dto.setHoraFim(entity.getHora_fim());
-        dto.setStatusAgendamento(entity.getStatus_agendamento() == null ? null : entity.getStatus_agendamento().intValue());
+        dto.setStatusAgendamento(entity.getStatus_agendamento());
         dto.setObservacao(entity.getObservacao());
 
         return dto;
